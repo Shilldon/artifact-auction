@@ -27,5 +27,5 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^artifacts/', include(urls_artifacts)),
     url(r'^search/', include(urls_search)),    
-    url(r'^index/', index, name="index"),
+    url(r'^$', index, name="index"),
 ]
