@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% load bootstrap_tags %}
+
+{% block content %}
+
+<h1>Registration</h1>
+<form method="POST">
+    {% csrf_token %}
+    {{ registration_form | as_bootstrap}}
+    <button type="submit">Register</button> 
+</form>
+
+{% for message in messages %}
+<p>{{ message }}</p>
+{% endfor %}
+
+{% endblock %}
