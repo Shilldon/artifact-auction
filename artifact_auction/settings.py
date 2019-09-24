@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'accounts',
     'artifacts',
     'home',
-    'search'
+    'search',
 ]
 
 MIDDLEWARE = [
