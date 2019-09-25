@@ -1,7 +1,9 @@
-from django.shortcuts import render, redirect, reverse
+from django.shortcuts import render, HttpResponse, redirect, reverse, get_object_or_404
 from django.contrib import auth, messages
 from django.contrib.auth.decorators import login_required
-from accounts.forms import UserRegistrationForm, UserLoginForm
+from django.contrib.auth.models import User
+from django.contrib.auth.forms import UserChangeForm
+from accounts.forms import UserRegistrationForm, UserLoginForm, UserEditProfileForm
 
 """ render user registration page """
 def register(request):
@@ -19,7 +21,8 @@ def register(request):
                                  "You have successfully created an account")
                 return redirect(reverse('login'))
             else:
-                messages.error(request, "An error occurred, please try again later")
+                messages.error(request, 
+                               "An error occurred, please try again later")
             
     else:
         registration_form = UserRegistrationForm()
@@ -57,14 +60,34 @@ def login(request):
 
 """ Log out """
 """ Ensure user is logged in then provide log out options """
-@login_required
+@login_required()
 def logout(request):
+    """Clears collection on logging out"""
+    request.session['collection'] = {}
     auth.logout(request)
     messages.success(request, "You have logged out")
     return redirect(reverse('index'))
     
 """ Profile Page """
 """ Render profile page if the user is logged in """
-@login_required
-def profile(request):
+@login_required()
+def view_profile(request):
     return render(request, "profile.html")
+
+""" Render a form to edit the user's profile """
+""" Log in check should not be required as link to edit profile is through
+    profile page which is not displayed unless logged in"""
+@login_required()
+def edit_profile(request):
+    user = request.user
+    
+    if request.method == "POST":
+        profile_form = UserEditProfileForm(request.POST, instance=user)
+
+        if profile_form.is_valid():
+            profile_form.save()
+            return redirect('view_profile')
+    else:
+        profile_form = UserEditProfileForm(instance=user)
+    
+    return render(request,"edit_profile.html", {"profile_form" : profile_form})

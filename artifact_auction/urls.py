@@ -19,6 +19,8 @@ from home.views import index
 
 from accounts import urls as urls_accounts
 from artifacts import urls as urls_artifacts
+from collection import urls as urls_collection
+from checkout import urls as urls_checkout
 from search import urls as urls_search
 
 
@@ -26,6 +28,8 @@ urlpatterns = [
     url(r'^accounts/', include(urls_accounts)),
     url(r'^admin/', admin.site.urls),
     url(r'^artifacts/', include(urls_artifacts)),
+    url(r'^collection/', include(urls_collection)),
+    url(r'^checkout/', include(urls_checkout)),
     url(r'^search/', include(urls_search)),    
     url(r'^$', index, name="index"),
 ]

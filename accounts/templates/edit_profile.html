@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% load bootstrap_tags %}
+
+{% block content %}
+    <h2>{{ user.username }}</h2>
+
+<form method="POST">
+    {% csrf_token %}
+    {{ profile_form | as_bootstrap }}
+    <button type="submit">Update</button>
+</form> 
+
+{% endblock %}

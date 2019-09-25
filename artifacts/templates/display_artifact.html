@@ -2,5 +2,7 @@
 
 {% block content %}
 <h2>{{ artifact.name }}</h2>
+<h3>{{ artifact.description }}</h3>
 
+<button><a href="{% url 'add_to_collection' artifact.id %}">Buy Now</a></button>
 {% endblock %}

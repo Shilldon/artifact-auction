@@ -4,13 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>Artifact Auction</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" type="text/css" />
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    {% block head_js %}
+    {% endblock %}
 </head>
 <body>
     <h1>Artifact Auction</h1>
 {% if user.is_authenticated %}
-<a href="{% url 'profile' %}">View {{ user }}'s Profile</a>
+<a href="{% url 'view_profile' %}">View {{ user }}'s Profile</a>
 <a href="{% url 'logout' %}">Logout {{ user }}</a>
+<a href="{% url 'view_collection' %}">View Collection</a>
+<a href="{% url 'checkout' %}">Checkout</a>
 {% else %}
 <a href="{% url 'register' %}">Register</a>
 <a href="{% url 'login' %}">Log In</a>

@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.core.exceptions import ValidationError
 
 class UserLoginForm(forms.Form):
@@ -35,7 +35,15 @@ class UserRegistrationForm(UserCreationForm):
     
     class Meta:
         model = User
-        fields = ['first_name', 'last_name', 'username', 'email', 'password1', 'password2', 'profile_picture']
+        fields = (
+            'first_name', 
+            'last_name', 
+            'username', 
+            'email', 
+            'password1', 
+            'password2', 
+            'profile_picture'
+        )
 
     def clean_email(self):
         email = self.cleaned_data.get('email')
@@ -49,6 +57,8 @@ class UserRegistrationForm(UserCreationForm):
 
     def clean_username(self):
         username = self.cleaned_data.get('username')
+        if not username:
+            raise forms.ValidationError(u'Please enter a username')
         if User.objects.filter(username=username):
             raise forms.ValidationError(u'That username is already taken')
     
@@ -69,4 +79,15 @@ class UserRegistrationForm(UserCreationForm):
             raise ValidationError(u'Passwords do not match')
     
         return password2
+
+class UserEditProfileForm(UserChangeForm):
     
+    class Meta:
+        model = User
+        fields = (
+            'username', 
+            'first_name', 
+            'last_name', 
+            'email',
+            'password'
+        )
