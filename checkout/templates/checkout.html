@@ -16,12 +16,10 @@
 
 {% block content %}
 <h1>Checkout</h1>
-{% for item in collection_items %}
+<h2>Purchase={{purchase}}</h2>
+<h1>Artifact Name={{ purchase.artifact.name }}</h1>
+<h2>Price={{ purchase.artifact.price }}</h2>
 
-<h1>Artifact Name={{ item.artifact.name }}</h1>
-<h2>Price={{ item.artifact.price }}</h2>
-
-{% endfor %}
 <h2>Total={{ total }}</h2>
 
 <form role="form" method="post" id="payment-form" action="{% url 'checkout' %}">

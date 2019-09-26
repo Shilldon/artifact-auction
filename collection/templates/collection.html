@@ -3,12 +3,10 @@
 
 {% block content %}
 <h2>Artifacts in collection</h2>
-{% for item in collection_items %}
 
-<h1>Artifact Name={{ item.artifact.name }}</h1>
-<h2>Price={{ item.artifact.price }}</h2>
+<h1>Artifact Name={{ purchase.artifact.name }}</h1>
+<h2>Price={{ purchase.artifact.price }}</h2>
 
-{% endfor %}
 <h2>Total={{ total }}</h2>
 
 {% endblock %}

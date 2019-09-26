@@ -4,5 +4,7 @@
 <h2>{{ artifact.name }}</h2>
 <h3>{{ artifact.description }}</h3>
 
-<button><a href="{% url 'add_to_collection' artifact.id %}">Buy Now</a></button>
+{% if artifact.sold is False %}
+<button><a href="{% url 'add_to_collection' artifact.id True %}">Buy Now</a></button>
+{% endif %}
 {% endblock %}

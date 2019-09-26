@@ -4,6 +4,9 @@
 {% for artifact in artifacts_list %}
 <h1>{{artifact.name}}</h1>
 <h2>{{artifact.id}}</h2>
+{% if artifact.sold is True %}
+<h3>SOLD</h3>
+{% endif %}
 <h1><a href="{% url 'display_artifact' id=artifact.id %}">{{ artifact.name }}</a></h1>
 
 {% endfor %}
