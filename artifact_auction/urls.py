@@ -15,6 +15,7 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
+from django.views import static
 from home.views import index
 
 from accounts import urls as urls_accounts
@@ -22,7 +23,7 @@ from artifacts import urls as urls_artifacts
 from collection import urls as urls_collection
 from checkout import urls as urls_checkout
 from search import urls as urls_search
-
+from .settings import MEDIA_ROOT
 
 urlpatterns = [
     url(r'^accounts/', include(urls_accounts)),
@@ -32,4 +33,5 @@ urlpatterns = [
     url(r'^checkout/', include(urls_checkout)),
     url(r'^search/', include(urls_search)),    
     url(r'^$', index, name="index"),
+    url(r'^media/(?P<path>.*)$', static.serve, {'document_root': MEDIA_ROOT}),
 ]

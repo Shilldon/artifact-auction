@@ -1,14 +1,24 @@
 {% extends 'base.html' %}
 {% block content %}
 
+
 {% for artifact in artifacts_list %}
 <h1>{{artifact.name}}</h1>
 <h2>{{artifact.id}}</h2>
 {% if artifact.sold is True %}
 <h3>SOLD</h3>
 {% endif %}
+<div class="row">
+    <div class="col-6">
 <h1><a href="{% url 'display_artifact' id=artifact.id %}">{{ artifact.name }}</a></h1>
-
+        
+    </div>
+<div class="col-6 artifact" style="background-image: url('{{ MEDIA_URL}}{{ artifact.image }}'); ">
+    {% if artifact.sold is True %}
+<img class="artifact mx-auto" src="{{ MEDIA_URL }}images/sold.jpg"></img>
+    {% endif %}
+    </div>
+</div>
 {% endfor %}
 
 

@@ -6,5 +6,6 @@
 
 {% if artifact.sold is False %}
 <button><a href="{% url 'add_to_collection' artifact.id True %}">Buy Now</a></button>
+<button><a href="#" >Place Bid</a></button>
 {% endif %}
 {% endblock %}

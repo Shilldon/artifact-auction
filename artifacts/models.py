@@ -1,7 +1,7 @@
 from django.db import models
 from datetime import datetime
 from django.contrib.postgres.fields import ArrayField
-
+from django.contrib.auth.models import User
 # Create your models here.
 class Category(models.Model):
     name = models.CharField(max_length=50, default='')
@@ -24,6 +24,7 @@ class Artifact(models.Model):
     reserve_price = models.DecimalField(max_digits=11, decimal_places=2, default=0)
     price = models.DecimalField(max_digits=11, decimal_places=2, default=0)
     sold = models.BooleanField(default=False)
+    current_bidder = models.ForeignKey(User, null=True, blank=True)
     # listed_date = models.DateTimeField()
     # purchase_date = models.DateTimeField(null=True, blank=True)
 
