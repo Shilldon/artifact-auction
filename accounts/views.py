@@ -3,19 +3,24 @@ from django.contrib import auth, messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserChangeForm
-from accounts.forms import UserRegistrationForm, UserLoginForm, UserEditProfileForm
+from accounts.forms import UserRegistrationForm, UserLoginForm, UserEditProfileForm, ProfileForm
+#from accounts.models import Profile
 
 """ render user registration page """
 def register(request):
     if request.method == "POST":
         registration_form = UserRegistrationForm(request.POST)
+        profile_form = ProfileForm(request.POST)
         if registration_form.is_valid():
             registration_form.save()
             entered_username = registration_form.cleaned_data.get('username')
             entered_password = registration_form.cleaned_data.get('password2')
+            remain_anonymous = profile_form['remain_anonymous'].value()
             user = auth.authenticate(username=entered_username, 
                                      password=entered_password)
-    
+            profile_form = ProfileForm(request.POST, instance=user.profile)
+            profile_form.save()
+
             if user:
                 messages.success(request, 
                                  "You have successfully created an account")
@@ -26,9 +31,10 @@ def register(request):
             
     else:
         registration_form = UserRegistrationForm()
+        profile_form = ProfileForm()
     
     return render(request, "register.html", { 
-                  "registration_form" : registration_form })
+                  'registration_form' : registration_form, 'profile_form' : profile_form })
 
 """ check user is logged in or render log in page """
 def login(request):
@@ -82,12 +88,15 @@ def edit_profile(request):
     user = request.user
     
     if request.method == "POST":
-        profile_form = UserEditProfileForm(request.POST, instance=user)
+        edit_user_form = UserEditProfileForm(request.POST, instance=user)
+        edit_profile_form = ProfileForm(request.POST, instance=user.profile)
 
-        if profile_form.is_valid():
-            profile_form.save()
+        if edit_user_form.is_valid() and edit_profile_form.is_valid():
+            edit_user_form.save()
+            edit_profile_form.save()
             return redirect('view_profile')
     else:
-        profile_form = UserEditProfileForm(instance=user)
+        edit_user_form = UserEditProfileForm(instance=user)
+        edit_profile_form = ProfileForm(instance=user.profile)
     
-    return render(request,"edit_profile.html", {"profile_form" : profile_form})
+    return render(request,"edit_profile.html", {"edit_user_form" : edit_user_form, "edit_profile_form" : edit_profile_form})

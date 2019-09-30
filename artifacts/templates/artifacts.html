@@ -23,6 +23,17 @@
     {% endif %}
     </div>
 </div>
+<div class="row">
+    <div class="col-6">
+    {% if artifact.current_bidder == user %}
+    <h3>You are the current highest bidder</h3>
+    {% elif artifact.current_bidder.profile.remain_anonymous %}
+    <h3>Current highest bidder=Anonymous</h3>
+    {% else %}
+    <h3>Current highest bidder={{ artifact.current_bidder }}</h3>
+    {% endif %}
+    </div>
+</div>
 {% endfor %}
 
 

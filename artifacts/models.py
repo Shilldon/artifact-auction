@@ -24,7 +24,8 @@ class Artifact(models.Model):
     reserve_price = models.DecimalField(max_digits=11, decimal_places=2, default=0)
     price = models.DecimalField(max_digits=11, decimal_places=2, default=0)
     sold = models.BooleanField(default=False)
-    current_bidder = models.ForeignKey(User, null=True, blank=True)
+    current_bidder = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE, related_name="artifact_bidder")
+    owner = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE, related_name="artifact_owner")
     # listed_date = models.DateTimeField()
     # purchase_date = models.DateTimeField(null=True, blank=True)
 

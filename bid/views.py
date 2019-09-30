@@ -1,6 +1,5 @@
 from django.shortcuts import render, get_object_or_404, reverse, redirect
 from django.contrib import messages
-#from django.shortcuts import render, HttpResponse, redirect, reverse, get_object_or_404
 from .forms import BiddingForm
 from artifacts.models import Artifact
 from decimal import Decimal
@@ -21,6 +20,7 @@ def check_bid(request, bid_form, artifact):
         current_bid = Decimal(artifact.bid)
         if new_bid > current_bid:
             artifact.bid = new_bid
+            artifact.current_bidder = request.user
             artifact.save()
             messages.success(request, 
                              "You have successfully placed your bid on %s" %artifact.name)

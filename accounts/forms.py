@@ -2,6 +2,7 @@ from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.core.exceptions import ValidationError
+from .models import Profile
 
 class UserLoginForm(forms.Form):
     """Login form for existing users"""
@@ -30,7 +31,6 @@ class UserRegistrationForm(UserCreationForm):
         label="Last Name",
         max_length=50)
 
-    
     profile_picture = forms.ImageField(required=False)
     
     class Meta:
@@ -42,7 +42,7 @@ class UserRegistrationForm(UserCreationForm):
             'email', 
             'password1', 
             'password2', 
-            'profile_picture'
+            'profile_picture',
         )
 
     def clean_email(self):
@@ -79,6 +79,12 @@ class UserRegistrationForm(UserCreationForm):
             raise ValidationError(u'Passwords do not match')
     
         return password2
+
+class ProfileForm(forms.ModelForm):
+
+    class Meta:
+        model = Profile
+        fields = ('remain_anonymous',)
 
 class UserEditProfileForm(UserChangeForm):
     

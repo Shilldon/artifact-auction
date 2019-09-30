@@ -5,6 +5,7 @@
 <h3>{{ user }}'s profile</h3>
 <h4>Email address: {{ user.email }}</h4>
 <h4>Name: {{ user.first_name }} {{ user.last_name }}</h4>
+<h4>Remain anonymous: {{ user.profile.remain_anonymous }}</h4>
 <form method="GET" action="/accounts/edit_profile/"><input type="submit" value="Edit"></form>
 <img src="{{ user.profile_picture }}">
 <a href="{% url 'logout' %}">Logout</a>
