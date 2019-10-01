@@ -32,15 +32,21 @@ class Artifact(models.Model):
     sold = models.BooleanField(default=False)
     current_bidder = models.ForeignKey(User, null=True, blank=True, on_delete=models.PROTECT, related_name="artifact_bidder")
     owner = models.ForeignKey(User, null=True, blank=True, on_delete=models.SET_NULL, related_name="artifact_owner")
-    listed_date = models.DateTimeField(default=timezone.now)
+    listed_date = models.DateTimeField(default=timezone.now, null=True)
     auction_end_date = models.DateTimeField(null=True)
     # purchase_date = models.DateTimeField(null=True, blank=True)
     
     def date_listed(self):
-        return self.listed_date.strftime('%b %d, %Y %H:%M:%S')
+        try:
+            return self.listed_date.strftime('%b %d, %Y %H:%M:%S')
+        except:
+            return None
     
     def date_auction_end(self):
-        return self.auction_end_date.strftime('%b %d, %Y %H:%M:%S')
+        try:
+            return self.auction_end_date.strftime('%b %d, %Y %H:%M:%S')
+        except:
+            return None
    
     def __str__(self):
         return self.name

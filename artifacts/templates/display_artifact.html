@@ -9,10 +9,13 @@
 {% block content %}
 <h2>{{ artifact.name }}</h2>
 <h3>{{ artifact.description }}</h3>
-<input type="hidden" id="startTime" value="{{ artifact.date_listed }}">
-<input type="hidden" id="endTime" value="{{ artifact.date_auction_end }}">
-<div id="timer-container" style="display:none">
-<h4 id="timer"></h4>
+<div class="row artifact-timer" >
+    <input type="hidden" class="startTime" value="{{ artifact.date_listed }}">
+    <input type="hidden" class="endTime" value="{{ artifact.date_auction_end }}">
+    <div class="col-4">
+        <h4 class="auction-status"></h4>
+        <h5 class="timer" style="display:none"></h5>
+    </div>
 </div>
 <div class="row">
     <div class="col-6 offset-6 artifact" style="background-image: url('{{ MEDIA_URL}}{{ artifact.image }}'); ">
