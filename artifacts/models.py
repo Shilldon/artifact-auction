@@ -1,5 +1,6 @@
 from django.db import models
 from datetime import datetime
+from django.utils import timezone
 from django.contrib.postgres.fields import ArrayField
 from django.contrib.auth.models import User
 from django.dispatch import receiver
@@ -31,9 +32,16 @@ class Artifact(models.Model):
     sold = models.BooleanField(default=False)
     current_bidder = models.ForeignKey(User, null=True, blank=True, on_delete=models.PROTECT, related_name="artifact_bidder")
     owner = models.ForeignKey(User, null=True, blank=True, on_delete=models.SET_NULL, related_name="artifact_owner")
-    # listed_date = models.DateTimeField()
+    listed_date = models.DateTimeField(default=timezone.now)
+    auction_end_date = models.DateTimeField(null=True)
     # purchase_date = models.DateTimeField(null=True, blank=True)
     
+    def date_listed(self):
+        return self.listed_date.strftime('%b %d, %Y %H:%M:%S')
+    
+    def date_auction_end(self):
+        return self.auction_end_date.strftime('%b %d, %Y %H:%M:%S')
+   
     def __str__(self):
         return self.name
 
