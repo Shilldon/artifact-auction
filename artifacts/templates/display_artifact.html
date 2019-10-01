@@ -1,18 +1,48 @@
-{% extends 'base.html' %} {% load bootstrap_tags %} {% block content %}
+{% extends 'base.html' %} 
+{% load bootstrap_tags %} 
+{% block content %}
 <h2>{{ artifact.name }}</h2>
 <h3>{{ artifact.description }}</h3>
-
+<div class="row">
+    <div class="col-6 offset-6 artifact" style="background-image: url('{{ MEDIA_URL}}{{ artifact.image }}'); ">
+        {% if artifact.sold is True %}
+        <div class="text-center">
+        <img class="artifact img-fluid" src="{{ MEDIA_URL }}images/sold.png"></img>
+            </div>
+        {% endif %}
+    </div>
+</div>
 {% if artifact.sold is False and user.is_authenticated %}
-{% if artifact.current_bidder %}
-<h4>Current bid={{ artifact.bid }} by {{ bidder_name }}</h4>
-{% else %}
-<h4>No bids</h4>
-{% endif %}
-<button><a href="{% url 'add_to_collection' artifact.id True %}">Buy Now</a></button>
+    {% if artifact.current_bidder %}
+        {% if artifact.current_bidder == user %}
+        <h4>You are the highest bidder with {{ artifact.bid }}</h4>
+        {% else %}
+        <h4>Current bid={{ artifact.bid }} by {{ bidder_name }}</h4>
+        {% endif %}
+    {% else %}
+        <h4>No bids</h4>
+    {% endif %}
+    <button><a href="{% url 'add_to_collection' artifact.id 1 %}">Buy Now</a></button>
 
-<form method="POST">
-    {% csrf_token %} {{ bid_form | as_bootstrap }}
-    <button type="submit">Place Bid</button>
-</form>
-
-{% endif %} {% endblock %}
+    {% if artifact.current_bidder != user %}
+    <form method="POST">
+        {% csrf_token %} {{ bid_form | as_bootstrap }}
+        <button type="submit">Place Bid</button>
+    </form>
+    {% endif %}
+{% elif artifact.sold is True %}
+{% if artifact.owner != None %}
+<div class="row">
+    <div class="col-6">
+        {% if artifact.owner == user %}
+        <h3>You own this artifact</h3>
+        {% elif artifact.owner.profile.remain_anonymous %}
+        <h3>The owner wishes to remain anonymous</h3>
+        {% else %}
+        <h3>Owned by {{ artifact.owner }}</h3>
+        {% endif %}
+    </div>
+</div>
+{% endif %} 
+{% endif %} 
+{% endblock %}

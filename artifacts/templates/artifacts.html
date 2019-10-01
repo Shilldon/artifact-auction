@@ -4,36 +4,51 @@
 
 {% for artifact in artifacts_list %}
 <h1>{{artifact.name}}</h1>
-{% if artifact.sold is True %}
-<h3>SOLD</h3>
-{% endif %}
 <div class="row">
     <div class="col-3">
-<h1><a href="{% url 'display_artifact' id=artifact.id %}">{{ artifact.name }}</a></h1>
-</div> 
-<div class="col-3">
-<h3>Current bid = {{ artifact.bid }}</h3>        
+        <h1><a href="{% url 'display_artifact' id=artifact.id %}">{{ artifact.name }}</a></h1>
+    </div> 
+    <div class="col-3">
+        <h3>Current bid = {{ artifact.bid }}</h3>        
     </div>
-  <div class="col-3">
-<h3>Reserve = {{ artifact.reserve_price }}</h3>        
+      <div class="col-3">
+        <h3>Reserve = {{ artifact.reserve_price }}</h3>        
     </div>     
-<div class="col-3 artifact" style="background-image: url('{{ MEDIA_URL}}{{ artifact.image }}'); ">
-    {% if artifact.sold is True %}
-<img class="artifact mx-auto" src="{{ MEDIA_URL }}images/sold.jpg"></img>
-    {% endif %}
+    <div class="col-3 artifact" style="background-image: url('{{ MEDIA_URL}}{{ artifact.image }}'); ">
+        {% if artifact.sold is True %}
+        <div class="text-center">
+        <img class="artifact img-fluid" src="{{ MEDIA_URL }}images/sold.png"></img>
+            </div>
+        {% endif %}
     </div>
 </div>
+{% if artifact.sold is True %}
+{% if artifact.owner != None %}
 <div class="row">
     <div class="col-6">
-    {% if artifact.current_bidder == user %}
-    <h3>You are the current highest bidder</h3>
-    {% elif artifact.current_bidder.profile.remain_anonymous %}
-    <h3>Current highest bidder=Anonymous</h3>
-    {% else %}
-    <h3>Current highest bidder={{ artifact.current_bidder }}</h3>
-    {% endif %}
+        {% if artifact.owner == user %}
+        <h3>You own this artifact</h3>
+        {% elif artifact.owner.profile.remain_anonymous %}
+        <h3>The owner wishes to remain anonymous</h3>
+        {% else %}
+        <h3>Owned by {{ artifact.owner }}</h3>
+        {% endif %}
     </div>
 </div>
+{% endif %}
+{% else %}
+<div class="row">
+    <div class="col-6">
+        {% if artifact.current_bidder == user %}
+        <h3>You are the current highest bidder</h3>
+        {% elif artifact.current_bidder.profile.remain_anonymous %}
+        <h3>The bidder wishes to remain anonymous</h3>
+        {% else %}
+        <h3>Current highest bidder={{ artifact.current_bidder }}</h3>
+        {% endif %}
+    </div>
+</div>
+{% endif %}
 {% endfor %}
 
 

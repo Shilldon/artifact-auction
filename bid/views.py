@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404, reverse, redirect
 from django.contrib import messages
 from .forms import BiddingForm
 from artifacts.models import Artifact
+from .models import Bids
 from decimal import Decimal
 
 """ Take a bid from the user and check if higher than current bid """
@@ -22,6 +23,16 @@ def check_bid(request, bid_form, artifact):
             artifact.bid = new_bid
             artifact.current_bidder = request.user
             artifact.save()
+            queryset = Bids.objects.filter(artifact=artifact)
+            
+            try:
+                existing_bid = get_object_or_404(queryset, bidder=request.user)
+                existing_bid.bid_amount=new_bid
+                existing_bid.save()
+            except:
+                bid = Bids(bid_amount=new_bid, bidder=request.user, artifact=artifact)
+                bid.save()
+
             messages.success(request, 
                              "You have successfully placed your bid on %s" %artifact.name)
             successful_bid = True

@@ -10,15 +10,16 @@ def view_collection(request):
 def add_to_collection(request, id, buy_now):
     collection = request.session.get('collection', {})
     artifact = get_object_or_404(Artifact, pk=id)
-    """
-    if id in collection:
-        #return error
-        collection = collection
-    else:
+
+    print(buy_now)
+    if int(buy_now)==1:
+        print("buy now")
         artifact.price = artifact.reserve_price
-        artifact.save()
-        collection[id] = collection.get(id, True)
-    """
+    else:
+        artifact.price = artifact.current_bid
+    
+    artifact.save()
+    
     collection["purchase"] = id
         
     request.session['collection'] = collection

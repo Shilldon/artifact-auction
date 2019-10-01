@@ -2,12 +2,14 @@ from django.shortcuts import render, get_object_or_404, redirect
 from .models import Artifact
 from bid.forms import BiddingForm
 from bid.views import place_bid, check_bid
+from bid.models import Bids
 
 # Create your views here.
 """ Display list of all artifacts """
 def artifacts_list(request):
     artifacts = Artifact.objects.all()
-    return render(request, "artifacts.html", {"artifacts_list": artifacts})
+    bids = Bids.objects.all()
+    return render(request, "artifacts.html", {"artifacts_list": artifacts, "bids" : bids})
 
 """ Display a single artifact """
 def display_artifact(request, id):
