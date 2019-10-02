@@ -1,35 +1,44 @@
 $(document).ready(function() {
-    $(".artifact-timer").each(function() {
+    $(".artifact-information").each(function() {
 
         var startTime = Date.parse($(".startTime", this).val());
         var endTime = Date.parse($(".endTime", this).val());
         var currentTime = new Date().getTime();
         var auctionText;
         if (startTime && endTime) {
-            if (currentTime > startTime) {
+            if (currentTime > startTime && currentTime < endTime) {
                 auctionText = "Auction time remaining:";
                 displayTimer($(this), endTime, auctionText, true)
+                $(".auction-button-buynow-container", this).hide();
             }
             else if (currentTime < startTime) {
                 auctionText = "Time to start of auction:";
-                displayTimer($(this), startTime, auctionText, false)
+                displayTimer($(this), startTime, auctionText, false);
+                $(".auction-button-bid-container", this).hide();
+            }
+            else {
+                auctionText="Auction finished.";
+                $(".auction-button-bid-container", this).hide();
             }
         }
         else {
-            $(".auction-status", this).text("Not yet listed for auction.");
+            auctionText="Not yet listed for auction.";
+            $(".auction-button-bid-container", this).hide();
         }
+        $(".auction-status", this).text(auctionText);
     })
 
 })
 
-function displayTimer(artifactTimer, referenceTime, auctionText, showBidder) {
+function displayTimer(artifactContainer, referenceTime, auctionText, showBidder) {
     var timer = setInterval(function() {
         if(showBidder==true) {
-            $(".artifact-bid-status", artifactTimer).show()
+            $(".auction-bid-status", artifactContainer).show()
         }
+        $(".auction-timer-container", artifactContainer).show();
+        $(".auction-button-bid-container", this).show();
         var currentTime = new Date().getTime();
-        $(".timer ", artifactTimer).show();
-        $(".auction-status", artifactTimer).text(auctionText);
+        
         var timeLeft = referenceTime - currentTime;
 
         var days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
@@ -57,11 +66,12 @@ function displayTimer(artifactTimer, referenceTime, auctionText, showBidder) {
             secondString = "" }
         else if (seconds == 1) {  secondString = " second" }
         
-        $(".timer", artifactTimer).text(days + dayString + hours + hourString + minutes + minuteString + seconds + secondString);
+        $(".auction-timer", artifactContainer).text(days + dayString + hours + hourString + minutes + minuteString + seconds + secondString);
 
         if (timeLeft <= 0) {
             clearInterval(timer);
-            $(".timer h5", artifactTimer).text("Auction over");
+            $(".auction-timer", artifactContainer).text("Auction finished - no more bids accepted");
+            $(".auction-bid-status", artifactContainer).show()
         }
 
     }, 1000);

@@ -8,70 +8,94 @@
 {% endblock %}
 
 {% for artifact in artifacts_list %}
-<h1>{{artifact.name}}</h1>
-<div class="row">
-    <div class="col-3">
-        <h1><a href="{% url 'display_artifact' id=artifact.id %}">{{ artifact.name }}</a></h1>
-    </div> 
-    <div class="col-3">
-        <h3>Current bid = {{ artifact.bid }}</h3>        
+<div class="artifact-information container-fluid">
+    <div class="row">
+        <div class="col-3">
+            <h1><a href="{% url 'display_artifact' id=artifact.id %}">{{ artifact.name }}</a></h1>
+        </div> 
+    
+        
+        <div class="col-3">
+            {% if artifact.sold is False %}
+            <h3>Reserve = {{ artifact.reserve_price }}</h3> 
+            {% endif %}
+        </div>     
+        
+        <div class="col-3 artifact" style="background-image: url('{{ MEDIA_URL}}{{ artifact.image }}'); ">
+            {% if artifact.sold is True %}
+            <div class="text-center">
+            <img class="artifact img-fluid" src="{{ MEDIA_URL }}images/sold.png"></img>
+                </div>
+            {% endif %}
+        </div>
     </div>
-    <div class="col-3">
-        <h3>Reserve = {{ artifact.reserve_price }}</h3>        
-    </div>     
-    <div class="col-3 artifact" style="background-image: url('{{ MEDIA_URL}}{{ artifact.image }}'); ">
-        {% if artifact.sold is True %}
-        <div class="text-center">
-        <img class="artifact img-fluid" src="{{ MEDIA_URL }}images/sold.png"></img>
-            </div>
+
+    {% if artifact.sold is False %}
+    <div class="row">
+        <div class="col-12">
+            <h4 class="auction-status"></h4>            
+        </div>
+    </div>
+    {% endif %}
+
+    <div class="row auction-timer-container" style="display:none">
+        <input type="hidden" class="startTime" value="{{ artifact.date_listed }}">
+        <input type="hidden" class="endTime" value="{{ artifact.date_auction_end }}">
+        <div class="col-12">
+            <h5 class="auction-timer"></h5>
+        </div>
+    </div>
+    
+    {% if artifact.sold is False %}
+    <div class="row auction-bid-status" style="display:none">
+        <div class="col-6">
+            {% if artifact.current_bidder is None %}
+            <h3>No bids</h3>
+            {% else %}
+            <h3>Current bid: {{ artifact.bid }}</h3>
+                {% if artifact.current_bidder == user %}
+                <h3>You are the current highest bidder</h3>
+                {% elif artifact.current_bidder.profile.remain_anonymous %}
+                <h3>The bidder wishes to remain anonymous</h3>
+                {% else %}
+                <h3>Current highest bidder={{ artifact.current_bidder }}</h3>
+                {% endif %}
+            {% endif %}
+        </div>
+    </div>
+    {% endif %}
+    
+    <div class="row auction-button-buynow-container">
+        {% if artifact.sold is False and user.is_authenticated%}
+        <div class="col-3">
+            <button><a href="{% url 'add_to_collection' artifact.id 1 %}">Buy Now</a></button>
+        </div>
         {% endif %}
     </div>
-</div>
-<div class="artifact-timer">
-<div class="row" >
-    <input type="hidden" class="startTime" value="{{ artifact.date_listed }}">
-    <input type="hidden" class="endTime" value="{{ artifact.date_auction_end }}">
-    <div class="col-4">
-        <h4 class="auction-status"></h4>
-        <h5 class="timer" style="display:none"></h5>
+    {% if artifact.owner != None %}
+    <div class="row">
+        <div class="col-6">
+            {% if artifact.owner == user %}
+            <h3>You own this artifact</h3>
+            {% elif artifact.owner.profile.remain_anonymous %}
+            <h3>The owner wishes to remain anonymous</h3>
+            {% else %}
+            <h3>Owned by {{ artifact.owner }}</h3>
+            {% endif %}
+        </div>
     </div>
-</div>
-<div class="row artifact-bid-status" style="display:none">
-    <div class="col-6">
-        {% if artifact.current_bidder == user %}
-        <h3>You are the current highest bidder</h3>
-        {% elif artifact.current_bidder.profile.remain_anonymous %}
-        <h3>The bidder wishes to remain anonymous</h3>
-        {% elif artifact.current_bidder is None %}
-        <h3>No bids</h3>
-        {% else %}
-        <h3>Current highest bidder={{ artifact.current_bidder }}</h3>
-        {% endif %}
-    </div>
-</div>
+    {% endif %}    
 </div>
 
-{% if artifact.owner != None %}
-<div class="row">
-    <div class="col-6">
-        {% if artifact.owner == user %}
-        <h3>You own this artifact</h3>
-        {% elif artifact.owner.profile.remain_anonymous %}
-        <h3>The owner wishes to remain anonymous</h3>
-        {% else %}
-        <h3>Owned by {{ artifact.owner }}</h3>
-        {% endif %}
-    </div>
-</div>
-{% endif %}
+
 
 {% endfor %}
 
-
+<div>
 <form method="GET" action="{% url 'search'%}">
     {% csrf_token %}
     <input type="text" name="search">
     <button type="submit">Search</button>
 </form>
-
+</div>
 {% endblock %}

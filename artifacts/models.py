@@ -5,6 +5,7 @@ from django.contrib.postgres.fields import ArrayField
 from django.contrib.auth.models import User
 from django.dispatch import receiver
 from django.db.models.signals import post_delete
+from django.core.validators import MinValueValidator
 
 class Category(models.Model):
     name = models.CharField(max_length=50, default='')
@@ -27,7 +28,7 @@ class Artifact(models.Model):
     description = models.CharField(max_length=500, default='An artifact')
     image = models.ImageField(upload_to='images', null=True, blank=True)
     bid = models.DecimalField(max_digits=11, decimal_places=2, default=0)
-    reserve_price = models.DecimalField(max_digits=11, decimal_places=2, default=0)
+    reserve_price = models.DecimalField(max_digits=11, decimal_places=2, default=1, validators=[MinValueValidator(1)])
     price = models.DecimalField(max_digits=11, decimal_places=2, default=0) #the buy now price or maximum bid price
     sold = models.BooleanField(default=False)
     current_bidder = models.ForeignKey(User, null=True, blank=True, on_delete=models.PROTECT, related_name="artifact_bidder")

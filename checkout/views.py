@@ -49,6 +49,8 @@ def checkout(request):
                     messages.error(request, "You have successfully paid")
                     artifact.sold = True
                     artifact.owner = request.user
+                    artifact.listed_date = None
+                    artifact.auction_end_date = None
                     artifact.save()
                     request.session['collection'] = {}
                     return redirect(reverse('artifacts_list'))
