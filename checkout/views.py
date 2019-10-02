@@ -54,6 +54,7 @@ def checkout(request):
                     artifact.auction_end_date = None
                     artifact.bid = 0
                     artifact.current_bidder = None
+                    artifact.reserved = False
                     artifact.save()
                     request.session['collection'] = {}
                     

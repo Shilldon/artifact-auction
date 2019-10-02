@@ -7,23 +7,23 @@ $(document).ready(function() {
         var auctionText;
         if (startTime && endTime) {
             if (currentTime > startTime && currentTime < endTime) {
+                $(".auction-button-buynow-container", this).hide();
                 auctionText = "Auction time remaining:";
                 displayTimer($(this), endTime, auctionText, true)
-                $(".auction-button-buynow-container", this).hide();
             }
             else if (currentTime < startTime) {
+                $(".auction-button-bid-container", this).hide();
                 auctionText = "Time to start of auction:";
                 displayTimer($(this), startTime, auctionText, false);
-                $(".auction-button-bid-container", this).hide();
             }
             else {
-                auctionText="Auction finished.";
                 $(".auction-button-bid-container", this).hide();
+                auctionText="Auction finished.";
             }
         }
         else {
-            auctionText="Not yet listed for auction.";
             $(".auction-button-bid-container", this).hide();
+            auctionText="Not yet listed for auction.";
         }
         $(".auction-status", this).text(auctionText);
     })
@@ -67,15 +67,12 @@ function displayTimer(artifactContainer, referenceTime, auctionText, showBidder)
         else if (seconds == 1) {  secondString = " second" }
         
         $(".auction-timer", artifactContainer).text(days + dayString + hours + hourString + minutes + minuteString + seconds + secondString);
-
+        $(".auction-current-bid", artifactContainer).load(location.href + " .auction-current-bid");
         if (timeLeft <= 0) {
             clearInterval(timer);
             $(".auction-button-bid-container", this).hide();
             $(".auction-timer", artifactContainer).hide();
             location.reload();
-
-            //$(".auction-timer", artifactContainer).text("Auction finished - no more bids accepted");
-            //$(".auction-bid-status", artifactContainer).show()
         }
 
     }, 1000);

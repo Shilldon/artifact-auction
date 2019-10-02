@@ -37,7 +37,7 @@
     <div class="row auction-timer-container" style="display:none">
         <input type="hidden" class="startTime" value="{{ artifact.date_listed }}">
         <input type="hidden" class="endTime" value="{{ artifact.date_auction_end }}">
-        <div class="col-12">
+       <div class="col-12">
             <h5 class="auction-timer"></h5>
         </div>
     </div>
@@ -47,33 +47,21 @@
             {% if artifact.current_bidder is None %}
             <h3>No bids</h3>
             {% else %}
-            <h3>Current bid: {{ artifact.bid }}</h3>
+            <div class="auction-current-bid">
+                <h3 >Current bid: {{ artifact.bid }}</h3>
                 {% if artifact.current_bidder == user %}
                 <h3>You are the current highest bidder</h3>
                 {% elif artifact.current_bidder.profile.remain_anonymous %}
                 <h3>The bidder wishes to remain anonymous</h3>
                 {% else %}
-                <h3>Current highest bidder={{ artifact.current_bidder }}</h3>
+                <h3>Current highest bidder: {{ artifact.current_bidder }}</h3>
                 {% endif %}
+            </div>    
             {% endif %}
         </div>
     </div>    
     
    {% if artifact.sold is False %}
-        <div class="row artifact-bid-status" style="display:none">
-            <div class="col-12">
-                {% if artifact.current_bidder %} 
-                    {% if artifact.current_bidder == user %}
-                    <h4>You are the highest bidder with {{ artifact.bid }}</h4>
-                    {% else %}
-                    <h4>Current bid={{ artifact.bid }} by {{ bidder_name }}</h4>
-                    {% endif %} 
-                {% else %}
-                <h5>No bids</h5>
-                {% endif %} 
-            </div>
-        </div>
-        
         {% if user.is_authenticated %}             
         <div class="row">
             {% if artifact.bid < artifact.reserve_price %}
@@ -91,21 +79,8 @@
             {% endif %}         
         </div>
         {% endif %}
- 
     {% else %} 
     <div class="row">
-        {% if artifact.current_bidder is not None %}
-        <div class="col-6">
-            {% if artifact.current_bidder == user %}
-            <h3>You won this artifact</h3>
-            <button><a href="{% url 'add_to_collection' artifact.id 1 %}">Pay Now</a></button>
-            {% elif artifact.current_bidder.profile.remain_anonymous %}
-            <h3>This artifact has been won but not, yet, paid for.</h3>
-            {% else %}
-            <h3>Won by {{ artifact.current_bidder }}, awaiting payment.</h3>
-            {% endif %}
-        </div>
-        {% else %}
         <div class="col-6">
             {% if artifact.owner == None %}
             <h3>Sold</h3>
@@ -117,7 +92,6 @@
             <h3>Owned by {{ artifact.owner }}</h3>
             {% endif %}
         </div>
-        {% endif %}
     </div>
     {% endif %}
 </div>

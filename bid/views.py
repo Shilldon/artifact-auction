@@ -23,7 +23,7 @@ def check_bid(request, bid_form, artifact):
         if new_bid > current_bid:
             
             email_title = 'Artifact Auctions - '+artifact.name
-            email_message_bid = 'You are the highest bidder for '+artifact.name+'.'
+            email_message_bid = 'You are the highest bidder for '+artifact.name+'. You will be notified if a higher bid is entered.'
             email_message_outbid = 'You have been outbid on '+artifact.name+'. The current bid is now £'+str(new_bid)+'.'
             if artifact.current_bidder:
                 send_mail(
@@ -35,6 +35,7 @@ def check_bid(request, bid_form, artifact):
                 
             artifact.bid = new_bid
             artifact.current_bidder = request.user
+            artifact.reserved = True
             artifact.save()
             queryset = Bids.objects.filter(artifact=artifact)
             
