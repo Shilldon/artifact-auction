@@ -11,9 +11,7 @@ def add_to_collection(request, id, buy_now):
     collection = request.session.get('collection', {})
     artifact = get_object_or_404(Artifact, pk=id)
 
-    print(buy_now)
     if int(buy_now)==1:
-        print("buy now")
         artifact.price = artifact.reserve_price
     else:
         artifact.price = artifact.current_bid

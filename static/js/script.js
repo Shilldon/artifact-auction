@@ -70,8 +70,12 @@ function displayTimer(artifactContainer, referenceTime, auctionText, showBidder)
 
         if (timeLeft <= 0) {
             clearInterval(timer);
-            $(".auction-timer", artifactContainer).text("Auction finished - no more bids accepted");
-            $(".auction-bid-status", artifactContainer).show()
+            $(".auction-button-bid-container", this).hide();
+            $(".auction-timer", artifactContainer).hide();
+            location.reload();
+
+            //$(".auction-timer", artifactContainer).text("Auction finished - no more bids accepted");
+            //$(".auction-bid-status", artifactContainer).show()
         }
 
     }, 1000);

@@ -76,9 +76,11 @@
         
         {% if user.is_authenticated %}             
         <div class="row">
+            {% if artifact.bid < artifact.reserve_price %}
             <div class="col-3 auction-button-buynow-container">
                 <button><a href="{% url 'add_to_collection' artifact.id 1 %}">Buy Now</a></button>
             </div>
+            {% endif %}
             {% if artifact.current_bidder != user %}
             <div class="col-3 auction-button-bid-container">
                  <form method="POST" class="button-bid">
@@ -92,6 +94,18 @@
  
     {% else %} 
     <div class="row">
+        {% if artifact.current_bidder is not None %}
+        <div class="col-6">
+            {% if artifact.current_bidder == user %}
+            <h3>You won this artifact</h3>
+            <button><a href="{% url 'add_to_collection' artifact.id 1 %}">Pay Now</a></button>
+            {% elif artifact.current_bidder.profile.remain_anonymous %}
+            <h3>This artifact has been won but not, yet, paid for.</h3>
+            {% else %}
+            <h3>Won by {{ artifact.current_bidder }}, awaiting payment.</h3>
+            {% endif %}
+        </div>
+        {% else %}
         <div class="col-6">
             {% if artifact.owner == None %}
             <h3>Sold</h3>
@@ -103,6 +117,7 @@
             <h3>Owned by {{ artifact.owner }}</h3>
             {% endif %}
         </div>
+        {% endif %}
     </div>
     {% endif %}
 </div>
