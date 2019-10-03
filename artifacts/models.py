@@ -86,3 +86,4 @@ class Artifact(models.Model):
 @receiver(post_delete, sender=User)
 def delete_bids(sender, instance, **kwargs):
     print("user deleted")
+

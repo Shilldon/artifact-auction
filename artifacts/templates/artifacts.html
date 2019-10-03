@@ -14,7 +14,6 @@
             <h1><a href="{% url 'display_artifact' id=artifact.id %}">{{ artifact.name }}</a></h1>
         </div> 
     
-        
         <div class="col-3">
             {% if artifact.sold is False %}
             <h3>Reserve = {{ artifact.reserve_price }}</h3> 
@@ -39,26 +38,14 @@
     {% endif %}
 
     <div class="row auction-timer-container" style="display:none">
-        <input type="hidden" class="startTime" value="{{ artifact.date_listed }}">
-        <input type="hidden" class="endTime" value="{{ artifact.date_auction_end }}">
-         <input type="hidden" class="artifactId" value="{{ artifact.id }}">
-       <div class="col-12">
+        <div class="auction-starttime" data-starttime="{{ artifact.date_listed }}"></div>
+        <div class="auction-endtime" data-endtime="{{ artifact.date_auction_end }}">  </div>
+        <div class="auction-artifactid" data-artifactid="{{ artifact.id }}">  </div>
+        <div class="col-12">
             <h5 class="auction-timer"></h5>
         </div>
-    </div>
-    
-            <div >
-                <h3 class="auction-current-bid">Current bid: {{ artifact.bid }}</h3>
-                {% if artifact.current_bidder == user %}
-                <h3>You are the current highest bidder</h3>
-                {% elif artifact.current_bidder.profile.remain_anonymous %}
-                <h3>The bidder wishes to remain anonymous</h3>
-                {% else %}
-                <h3>Current highest bidder: {{ artifact.current_bidder }}</h3>
-                {% endif %}
-            </div>    
-    
-    
+    </div>  
+
     {% if artifact.sold is False %}
     <div class="row auction-button-buynow-container">
         {% if artifact.sold is False and user.is_authenticated%}

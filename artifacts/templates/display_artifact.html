@@ -33,22 +33,22 @@
         </div>
     </div>
     {% endif %}
-
     <div class="row auction-timer-container" style="display:none">
-        <input type="hidden" class="startTime" value="{{ artifact.date_listed }}">
-        <input type="hidden" class="endTime" value="{{ artifact.date_auction_end }}">
        <div class="col-12">
             <h5 class="auction-timer"></h5>
         </div>
     </div>
     
     <div class="row auction-bid-status" style="display:none">
+        <div class="auction-starttime" data-starttime="{{ artifact.date_listed }}"></div>
+        <div class="auction-endtime" data-endtime="{{ artifact.date_auction_end }}">  </div>
+        <div class="auction-artifactid" data-artifactid="{{ artifact.id }}">  </div>
         <div class="col-6">
             {% if artifact.current_bidder is None %}
             <h3>No bids</h3>
             {% else %}
-            <div class="auction-current-bid">
-                <h3 >Current bid: {{ artifact.bid }}</h3>
+            <div>
+                <h3 class="auction-current-bid">Current bid: £{{ artifact.bid }}</h3>
                 {% if artifact.current_bidder == user %}
                 <h3>You are the current highest bidder</h3>
                 {% elif artifact.current_bidder.profile.remain_anonymous %}
@@ -72,7 +72,8 @@
             {% if artifact.current_bidder != user %}
             <div class="col-3 auction-button-bid-container">
                  <form method="POST" class="button-bid">
-                    {% csrf_token %} {{ bid_form | as_bootstrap }}
+                    {% csrf_token %}
+                    {{ bid_form | as_bootstrap }}
                     <button type="submit">Place Bid</button>
                 </form>           
             </div>
