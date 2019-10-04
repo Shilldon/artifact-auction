@@ -1,8 +1,10 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
 from .models import Artifact
+from auctions.models import Auction
+from auctions.views import get_bidder
 from bid.forms import BiddingForm
-from bid.views import place_bid, check_bid
+from bid.views import check_bid
 from bid.models import Bids
 
 # Create your views here.
@@ -15,38 +17,26 @@ def artifacts_list(request):
 """ Display a single artifact """
 def display_artifact(request, id):
     artifact = get_object_or_404(Artifact, pk=id)
-
-    current_bidder = artifact.current_bidder
-    if current_bidder:
-        bidder_name = current_bidder
-        if current_bidder != request.user:
-            if current_bidder.profile.remain_anonymous is True:
-                bidder_name = "Anonymous"
-    else:
-        bidder_name = None
-
-
+    auction = get_object_or_404(Auction, artifact=artifact)
+    """Check if the artifact is in a current auction and return the name of the bidder"""
+    bidder_name = get_bidder(request, auction)
+    
     if request.method == "POST":
-        bid_form = place_bid(request)
-        """ Get the user who is currently the highest bidder, to display name as the
-        highest bidder for the artifact"""
-        successful_bid = check_bid(request, bid_form, artifact)
-        if successful_bid:
-            return redirect('artifacts_list')
-        else:    
-            return render(request,"display_artifact.html", {'artifact' : artifact, 'bid_form' : bid_form, 'bidder_name' : bidder_name})
+        #bid_form = place_bid(request)
+        bid_form = BiddingForm(request.POST)
+        check_bid(request, bid_form, artifact)
     else:
         bid_form = BiddingForm()
-        return render(request,"display_artifact.html", {'artifact' : artifact, 'bid_form' : bid_form, 'bidder_name' : bidder_name})
+    
+    return render(request,"display_artifact.html", {'artifact' : artifact, 'auction' : auction, 'bid_form' : bid_form, 'bidder_name' : bidder_name})
             
 """return current bid value on artifact"""
 def get_bid(request):
-    print("request")
     if request.method == "GET":
         id = request.GET["artifact_id"]
         artifact = get_object_or_404(Artifact, pk=id)
-        print(artifact)
-        print(artifact.bid)
-        return HttpResponse(artifact.bid)
+        auction = get_object_or_404(Auction, artifact=artifact)
+        
+        return HttpResponse(auction.current_bid)
     else:
         return HttpResponse("unsucessful")

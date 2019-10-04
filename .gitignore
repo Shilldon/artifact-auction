@@ -7,3 +7,4 @@ env.py
 *migrations*
 *.~c9*
 .sass-cache
+artifacts/migrations/0001_initial.py

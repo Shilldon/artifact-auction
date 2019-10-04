@@ -12,10 +12,8 @@ def add_to_collection(request, id, buy_now):
     artifact = get_object_or_404(Artifact, pk=id)
 
     if int(buy_now)==1:
-        artifact.price = artifact.reserve_price
-    else:
-        artifact.price = artifact.current_bid
-    
+        artifact.price = artifact.buy_now_price
+
     artifact.save()
     
     collection["purchase"] = id

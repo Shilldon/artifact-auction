@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django_forms_bootstrap',
     'accounts',
     'artifacts',
+    'auctions',
     'bid',
     'collection',
     'checkout',
