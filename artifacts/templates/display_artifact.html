@@ -43,6 +43,7 @@
     <div class="row auction-bid-status" style="display:none">
         <div class="auction-artifactid" data-artifactid="{{ artifact.id }}">  </div>
         <div class="auction-starttime" data-starttime="{{ auction.reformatted_start_date }}"></div>
+        <div class="auction-reserve" data-starttime="{{ auction.reserve_price }}"></div>
         <div class="auction-endtime" data-endtime="{{ auction.reformatted_end_date }}">  </div>
         <div class="col-6">
             {% if auction.current_bidder is None %}
@@ -80,7 +81,7 @@
     </div>    
     {% endif %}   
     
-    <div class="row auction-sold-status">
+    <div class="row auction-sold-status" style="display:none">
         <div class="col-6">
         {% if artifact.sold is False %}
             {% if auction.current_bidder == user %}

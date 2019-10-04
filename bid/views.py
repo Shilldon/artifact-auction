@@ -36,18 +36,21 @@ def check_bid(request, bid_form, artifact):
             
             auction.current_bid = new_bid    
             auction.current_bidder = request.user
-            auction.save()
 
             if new_bid > auction.reserve_price:
-                artifact.reserve_price = Decimal(new_bid) * Decimal(1.2)
-                artifact.save()
+                auction.reserve_price = Decimal(new_bid) * Decimal(1.2)
+
+            auction.save()
+
 
             messages.success(request, 
                              "You have successfully placed your bid on %s" %artifact.name)
+            return True
             
         else:
             messages.error(request,
                            "Your offer needs to be higher than the current bid")
+            return False
 
 def bid_email(request, artifact, new_bid):
     auction = get_object_or_404(Auction, artifact=artifact)
