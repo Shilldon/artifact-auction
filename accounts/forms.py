@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.core.exceptions import ValidationError
 from .models import Profile
-from django.contrib.postgres.forms import SimpleArrayField
+#from django.contrib.postgres.forms import SimpleArrayField
 
 class UserLoginForm(forms.Form):
     """Login form for existing users"""
