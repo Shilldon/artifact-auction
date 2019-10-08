@@ -12,15 +12,19 @@ from bid.models import Bids
 """ Display list of all artifacts """
 def artifacts_list(request):
     artifacts = Artifact.objects.all()
-    bids = Bids.objects.all()
-    return render(request, "artifacts.html", {"artifacts_list": artifacts, "bids" : bids})
+    auctions = Auction.objects.all()
+    return render(request, "artifacts.html", {"artifacts_list": artifacts, "auctions" : auctions})
 
 """ Display a single artifact """
 def display_artifact(request, id):
     artifact = get_object_or_404(Artifact, pk=id)
-    auction = get_object_or_404(Auction, artifact=artifact)
-    """Check if the artifact is in a current auction and return the name of the bidder"""
-    bidder_name = get_bidder(request, auction)
+    try:
+        auction = get_object_or_404(Auction, artifact=artifact)
+        """Check if the artifact is in a current auction and return the name of the bidder"""
+        bidder_name = get_bidder(request, auction)
+    except:
+        auction = None
+        bidder_name = ""
     
     if request.method == "POST":
         bid_form = BiddingForm(request.POST)
@@ -36,17 +40,18 @@ def display_artifact(request, id):
             
 """return current bid value on artifact"""
 def get_bid(request):
+    print(request)
     if request.method == "GET":
         id = request.GET["artifact_id"]
+        print(id)
         artifact = get_object_or_404(Artifact, pk=id)
-        auction = get_object_or_404(Auction, artifact=artifact)
-        
-        response_data = {}
-        response_data['reserve_price'] = float(auction.reserve_price)
-        response_data['current_bid'] = float(auction.current_bid)
-        response_data['start_time'] = str(auction.start_date)
-        response_data['end_time'] = str(auction.end_date)
-        print(response_data)
-        return HttpResponse(json.dumps(response_data), content_type="application/json")
-    else:
-        return HttpResponse("unsucessful")
+        try:
+            auction = get_object_or_404(Auction, artifact=artifact)
+            response_data = {}
+            response_data['reserve_price'] = float(auction.reserve_price)
+            response_data['current_bid'] = float(auction.current_bid)
+            response_data['start_time'] = str(auction.start_date)
+            response_data['end_time'] = str(auction.end_date)
+            return HttpResponse(json.dumps(response_data), content_type="application/json")
+        except:
+            return HttpResponse("unsucessful")

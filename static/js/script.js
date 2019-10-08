@@ -1,11 +1,20 @@
 $(document).ready(function() {
+
+    var artifactIds = [];
+    var artifactContainers = [];
     $(".artifact-information").each(function() {
         var artifactId = $(".auction-artifactid", this).data("artifactid");
-        //var startTime = Date.parse($(".auction-starttime", this).data("starttime"));
-        //var endTime = Date.parse($(".auction-endtime", this).data("endtime"));
-        getBidData(artifactId, $(this)); 
-    })    
+        var artifactContainer = $(this);
+        if(artifactId) {
+            artifactIds.push(artifactId);
+            artifactContainers.push(artifactContainer);
+        }
+    })
+    for (i=0; i<artifactIds.length; i++) {
+        getBidData(artifactIds[i], artifactContainers[i]); 
+    }
 })
+
 
 function initialisePage(artifactId, startTime, endTime, currentBid, artifactContainer) {
     var currentTime = new Date().getTime();
@@ -15,7 +24,6 @@ function initialisePage(artifactId, startTime, endTime, currentBid, artifactCont
     var auctionSoldStatus=$(".auction-sold-status", artifactContainer);        
     
     var auctionText;
-    
     if (startTime && endTime) {
         if (currentTime > startTime && currentTime < endTime) {
             auctionTimer.show();
@@ -23,8 +31,8 @@ function initialisePage(artifactId, startTime, endTime, currentBid, artifactCont
             auctionButtons.show();
             auctionSoldStatus.hide();
             auctionText = "Auction time remaining:";
-            displayTimer($(this), artifactId, endTime, auctionText, true);
-            checkBid(artifactId, currentBid, this);
+            displayTimer(artifactContainer, artifactId, endTime, auctionText, true);
+            checkBid(artifactId, currentBid, artifactContainer);
         }
         else if (currentTime < startTime) {
             auctionTimer.show();
@@ -32,7 +40,7 @@ function initialisePage(artifactId, startTime, endTime, currentBid, artifactCont
             auctionButtons.hide();
             auctionSoldStatus.hide();
             auctionText = "Time to start of auction:";
-            displayTimer($(this), artifactId, startTime, auctionText, false);
+            displayTimer(artifactContainer, artifactId, startTime, auctionText, false);
         }
         else {
             auctionTimer.hide();
@@ -101,13 +109,9 @@ function checkBid(artifactId, currentBid, artifactContainer) {
         url: "get_bid",
         data: { "artifact_id" : artifactId },
         success: function(data) {
-            console.log("current_bid "+data['current_bid'])
-            console.log("currentBid "+currentBid)
-            
-            if (data['current_bid']>currentBid) {
+        if (data['current_bid']>currentBid) {
                 location.reload();
             }
-            //$(".auction-current-bid", artifactContainer).text("Current bid: £"+data['current_bid'].toFixed(2))    
         }
     })
     }, 10000);

@@ -4,7 +4,7 @@ from django.utils import timezone
 from django.contrib.postgres.fields import ArrayField
 from django.contrib.auth.models import User
 from django.dispatch import receiver
-from django.db.models.signals import post_delete
+from django.db.models.signals import post_delete, post_save
 from django.core.exceptions import ValidationError
 
 class Category(models.Model):
@@ -29,23 +29,11 @@ class Artifact(models.Model):
     image = models.ImageField(upload_to='images', null=True, blank=True)
     price = models.DecimalField(max_digits=11, decimal_places=2, default=0) #the buy now price or maximum bid price
     buy_now_price = models.DecimalField(max_digits=11, decimal_places=2, default=0)
-    #reserved = models.BooleanField(default=False)
     sold = models.BooleanField(default=False)
     owner = models.ForeignKey(User, null=True, blank=True, on_delete=models.SET_NULL)
+    in_auction = models.BooleanField(default=False)
     # purchase_date = models.DateTimeField(null=True, blank=True)
     
-    def date_listed(self):
-        try:
-            return self.listed_date.strftime('%b %d, %Y %H:%M:%S')
-        except:
-            return None
-    
-    def date_auction_end(self):
-        try:
-            return self.auction_end_date.strftime('%b %d, %Y %H:%M:%S')
-        except:
-            return None
-   
     def clean(self):
         if self.owner == None and self.sold == True:
             raise ValidationError('No owner, set sold to false or set owner.')
@@ -70,7 +58,4 @@ class Artifact(models.Model):
     def __str__(self):
         return self.name
 
-@receiver(post_delete, sender=User)
-def delete_bids(sender, instance, **kwargs):
-    print("user deleted")
 

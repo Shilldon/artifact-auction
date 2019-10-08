@@ -3,11 +3,12 @@
 {% load bootstrap_tags %} 
 
 {% block head_js %}
-<script src="{% static 'js/script.js' %}"></script>
+<script defer src="{% static 'js/script.js' %}"></script>
 {% endblock %} 
 
 {% block content %}
 <div class="artifact-information container-fluid">
+    <div class="auction-artifactid" data-artifactid="{{ artifact.id }}">  </div>
     <div class="row">
         <div class="col-4">
             <h2>{{ artifact.name }}</h2>
@@ -41,10 +42,6 @@
     </div>
     
     <div class="row auction-bid-status" style="display:none">
-        <div class="auction-artifactid" data-artifactid="{{ artifact.id }}">  </div>
-        <div class="auction-starttime" data-starttime="{{ auction.reformatted_start_date }}"></div>
-        <div class="auction-reserve" data-starttime="{{ auction.reserve_price }}"></div>
-        <div class="auction-endtime" data-endtime="{{ auction.reformatted_end_date }}">  </div>
         <div class="col-6">
             {% if auction.current_bidder is None %}
             <h3>No bids</h3>
@@ -66,7 +63,7 @@
     {% if user.is_authenticated %}             
     <div class="row auction-buttons">
         <div class="col-3">
-            <h4>Reserve: {{ auction.reserve_price }}</h4>
+            <h4>Reserve: £{{ auction.reserve_price }}</h4>
             <button><a href="{% url 'add_to_collection' artifact.id 1 %}">Buy Now</a></button>
         </div>
         {% if auction.current_bidder != user %}
@@ -84,13 +81,15 @@
     <div class="row auction-sold-status" style="display:none">
         <div class="col-6">
         {% if artifact.sold is False %}
-            {% if auction.current_bidder == user %}
-                <h3>Congratulations you won this artifact.</h3>
-                <button><a href="{% url 'add_to_collection' artifact.id 0 %}">Pay Now</a></button>
-            {% elif auction.current_bidder.profile.remain_anonymous %}
-                <h3>This artifact has been won. The winner wishes to remain anonymous</h3>
-            {% else %}
-                <h3>Won by {{ artifact.owner }}</h3>
+            {%if auction.current_bidder is not None %}
+                {% if auction.current_bidder == user %}
+                    <h3>Congratulations you won this artifact.</h3>
+                    <button><a href="{% url 'add_to_collection' artifact.id 0 %}">Pay Now</a></button>
+                {% elif auction.current_bidder.profile.remain_anonymous %}
+                    <h3>This artifact has been won. The winner wishes to remain anonymous</h3>
+                {% else %}
+                    <h3>Won by {{ artifact.owner }}</h3>
+                {% endif %}
             {% endif %}
         {% else %} 
             {% if artifact.owner == None %}
