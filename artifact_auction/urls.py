@@ -22,6 +22,7 @@ from accounts import urls as urls_accounts
 from artifacts import urls as urls_artifacts
 from collection import urls as urls_collection
 from checkout import urls as urls_checkout
+from reviews import urls as urls_reviews
 from search import urls as urls_search
 from .settings import MEDIA_ROOT
 
@@ -32,6 +33,7 @@ urlpatterns = [
     url(r'^collection/', include(urls_collection)),
     url(r'^checkout/', include(urls_checkout)),
     url(r'^search/', include(urls_search)),    
+    url(r'^add_review/', include(urls_reviews)),  
     url(r'^$', index, name="index"),
     url(r'^media/(?P<path>.*)$', static.serve, {'document_root': MEDIA_ROOT}),
 ]

@@ -41,23 +41,36 @@
         </div>
     </div>
     
-    <div class="row auction-bid-status" style="display:none">
-        <div class="col-6">
-            {% if auction.current_bidder is None %}
-            <h3>No bids</h3>
-            {% else %}
-            <div>
-                <h3 class="auction-current-bid">Current bid: £{{ auction.current_bid }}</h3>
-                {% if auction.current_bidder == user %}
-                <h3>You are the current highest bidder</h3>
-                {% elif auction.current_bidder.profile.remain_anonymous %}
-                <h3>The bidder wishes to remain anonymous</h3>
+    <div class="auction-bid-status" style="display:none">
+        <div class="row">
+            <div class="col-6">
+                {% if auction.current_bidder is None %}
+                <h3>No bids</h3>
                 {% else %}
-                <h3>Current highest bidder: {{ auction.current_bidder }}</h3>
+                <div>
+                    <h3 class="auction-current-bid">Current bid: £{{ auction.current_bid }}</h3>
+                    {% if auction.current_bidder == user %}
+                    <h3>You are the current highest bidder</h3>
+                    {% elif auction.current_bidder.profile.remain_anonymous %}
+                    <h3>The bidder wishes to remain anonymous</h3>
+                    {% else %}
+                    <h3>Current highest bidder: {{ auction.current_bidder }}</h3>
+                    {% endif %}
+                </div>    
                 {% endif %}
-            </div>    
-            {% endif %}
+            </div>
         </div>
+        {% for bid in bids %}
+        <div class="row">
+            <div class="col-6">
+                {% if bid.bidder.profile.remain_anonymous is False %}
+                <p>Time: {{ bid.time }} Bid: £{{ bid.bid_amount }} Bidder: {{ bid.bidder }} </p>
+                {% else %}
+                <p>Time: {{ bid.time }} Bid: £{{ bid.bid_amount }} Bidder: Anonymous </p>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
     </div>    
     
     {% if user.is_authenticated %}             
@@ -103,7 +116,34 @@
             {% endif %}
         {% endif %}
         </div>
-    </div>    
+    </div>  
+
+    {% if review %}
+        <div class="row">
+            <div class="col-6">
+                <p>Rating: {{ review.rating }}</p>
+                <p>{{ review.description }}</p>
+            </div>
+        </div>
+    {% endif %}
+    {% if artifact.owner == user %}
+        {% if review %}
+        <div class="row">
+            <div class="col-6">
+                <button><a href="{% url 'add_review' artifact.id %}">Edit Review</a></button>
+            </div>     
+            <div class="col-6">
+                <button><a href="{% url 'delete_review' artifact.id %}">Delete Review</a></button>     
+            </div>            
+        </div>    
+        {% else %}
+        <div class="row">
+            <div class="col-6">
+                <button><a href="{% url 'add_review' artifact.id %}">Add Review</a></button>
+            </div>
+        </div>   
+        {% endif %}   
+    {% endif %}
 </div>
  
 {% endblock %}

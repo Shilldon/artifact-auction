@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% load bootstrap_tags %}
+
+{% block content %}
+
+<form method="POST">
+    {% csrf_token %}
+    {{ review_form | as_bootstrap}}
+    <button type="submit">Add</button>
+</form>
+
+{% endblock %}

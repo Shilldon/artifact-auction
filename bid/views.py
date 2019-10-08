@@ -1,3 +1,4 @@
+import json, datetime
 from django.shortcuts import render, get_object_or_404, reverse, redirect
 from django.contrib import messages
 from django.core.mail import send_mail
@@ -20,19 +21,12 @@ def check_bid(request, bid_form, artifact):
             """send email to  previous bidder regarding bid status"""
             bid_email(request, artifact, new_bid)
             
-            #auction.current_bid = new_bid
-            
             """check if there are any existing bids in the auction by artifact look up"""
             """auction and bid have the artifact model in common"""
-            queryset = Bids.objects.filter(artifact=artifact)
-            try:
-                """if so check if this user has made a bid and update it, or create a new bid for the user"""
-                bid = get_object_or_404(queryset, bidder=request.user)
-                bid.bid_amount=new_bid
-                bid.save()
-            except:
-                bid = Bids(bid_amount=new_bid, bidder=request.user, artifact=artifact)
-                bid.save()
+            queryset = Bids.objects.filter(auction=auction)
+            bid = Bids(bid_amount=new_bid, bidder=request.user, auction=auction)
+            bid.time = datetime.datetime.now()
+            bid.save()
             
             auction.current_bid = new_bid    
             auction.current_bidder = request.user
@@ -63,3 +57,19 @@ def bid_email(request, artifact, new_bid):
         'admin@artifact-auction.com',
         [auction.current_bidder.email],
         fail_silently=False,)      
+        
+"""return current bid value on artifact"""
+def get_bid(request):
+    if request.method == "GET":
+        id = request.GET["artifact_id"]
+        artifact = get_object_or_404(Artifact, pk=id)
+        try:
+            auction = get_object_or_404(Auction, artifact=artifact)
+            response_data = {}
+            """no need to pass reserve price - if bid is higher then page will reload which will update the reserve price"""
+            response_data['current_bid'] = float(auction.current_bid)
+            response_data['start_time'] = str(auction.start_date)
+            response_data['end_time'] = str(auction.end_date)
+            return HttpResponse(json.dumps(response_data), content_type="application/json")
+        except:
+            return HttpResponse("unsucessful")

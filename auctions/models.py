@@ -10,7 +10,7 @@ from artifacts.models import Artifact
 
 
 class Auction(models.Model):
-    artifact = models.ForeignKey(Artifact, on_delete=models.CASCADE, blank=True, null=True)
+    artifact = models.ForeignKey(Artifact, on_delete=models.CASCADE, default=None)
     name = models.CharField(max_length=20, default='Artifact Name')
     current_bidder = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     current_bid = models.DecimalField(max_digits=11, decimal_places=2, default=0)
