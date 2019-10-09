@@ -32,29 +32,13 @@ class Artifact(models.Model):
     sold = models.BooleanField(default=False)
     owner = models.ForeignKey(User, null=True, blank=True, on_delete=models.SET_NULL)
     in_auction = models.BooleanField(default=False)
-    # purchase_date = models.DateTimeField(null=True, blank=True)
-    
+
     def clean(self):
         if self.owner == None and self.sold == True:
             raise ValidationError('No owner, set sold to false or set owner.')
         if self.sold == False and self.owner is not None:
             raise ValidationError('Marked as sold, set owner to none or mark as sold.')
-        #if self.sold == True and self.reserved is True:
-        #    raise ValidationError('Artifact marked as sold and reserved, set either to false.')
-            
-        #if self.current_bidder is None and self.reserved is True:
-        #    raise ValidationError('No current bidder, set reserved to false or set current bidder.')
-        #if self.current_bidder is None and self.bid > 0:
-        #    raise ValidationError('No current bidder, set bid to 0 or set bid.')
-        #if self.current_bidder is not None and self.bid == 0:
-        #    raise ValidationError('Current bidder set, set bid value greater than 0.')
-        #if self.current_bidder is not None and self.owner is not None:
-        #    raise ValidationError('Error: owner and current bidder cannot both contain values. Set one to none.')
-        
-            
-        #if self.reserved == True and self.owner is not None:
-        #    raise ValidationError('Artifact marked as reserved, set owner to none.')
-   
+
     def __str__(self):
         return self.name
 

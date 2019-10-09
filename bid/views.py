@@ -33,7 +33,9 @@ def check_bid(request, bid_form, artifact):
 
             if new_bid > auction.reserve_price:
                 auction.reserve_price = Decimal(new_bid) * Decimal(1.2)
-
+                artifact.buy_now_price = auction.reserve_price
+                artifact.save()
+                
             auction.save()
 
 

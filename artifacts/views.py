@@ -12,7 +12,6 @@ from search.views import search_artifacts
 # Create your views here.
 """ Display list of all artifacts """
 def artifacts_list(request):
-    print("called")
     if request.method == "POST":
         search_form = SearchArtifactsForm(request.POST)
         artifacts = search_artifacts(request, search_form)
@@ -25,8 +24,7 @@ def artifacts_list(request):
 """ Display a single artifact """
 def display_artifact(request, id):
     artifact = get_object_or_404(Artifact, pk=id)
-    print("artifact displayed category", artifact.category)
-    print("Artifact sold=", artifact.sold)
+
     try:
         auction = get_object_or_404(Auction, artifact=artifact)
         """Check if the artifact is in a current auction and return the name of the bidder"""
