@@ -15,29 +15,30 @@ def check_bid(request, bid_form, artifact):
     
     if bid_form.is_valid():
         new_bid = Decimal(request.POST['amount_bid'])
-        current_bid = Decimal(auction.current_bid)
+        bids = Bids.objects.filter(auction=auction)
+        current_bid = bids.order_by('-bid_amount')[0].bid_amount
         if new_bid > current_bid:
-            
             """send email to  previous bidder regarding bid status"""
             bid_email(request, artifact, new_bid)
             
             """check if there are any existing bids in the auction by artifact look up"""
             """auction and bid have the artifact model in common"""
-            queryset = Bids.objects.filter(auction=auction)
+            #queryset = Bids.objects.filter(auction=auction)
             bid = Bids(bid_amount=new_bid, bidder=request.user, auction=auction)
             bid.time = datetime.datetime.now()
             bid.save()
             
-            auction.current_bid = new_bid    
-            auction.current_bidder = request.user
+            #auction.current_bid = new_bid    
+            #auction.current_bidder = request.user
 
-            if new_bid > auction.reserve_price:
-                auction.reserve_price = Decimal(new_bid) * Decimal(1.2)
-                artifact.buy_now_price = auction.reserve_price
+            if new_bid > artifact.buy_now_price:
+                print("new bid higher, update artfact buy now")
+                #auction.reserve_price = Decimal(new_bid) * Decimal(1.2)
+                #artifact.buy_now_price = auction.reserve_price
+                artifact.buy_now_price = Decimal(new_bid) * Decimal(1.2)
                 artifact.save()
                 
-            auction.save()
-
+            #auction.save()
 
             messages.success(request, 
                              "You have successfully placed your bid on %s" %artifact.name)
@@ -52,12 +53,14 @@ def bid_email(request, artifact, new_bid):
     auction = get_object_or_404(Auction, artifact=artifact)
     email_title = 'Artifact Auctions - '+artifact.name
     email_message = 'You have been outbid on '+artifact.name+'. The current bid is now £'+str(new_bid)+'.'
-    if auction.current_bidder:
+    bids = Bids.objects.filter(auction=auction)
+    current_bidder = bids.order_by('-bid_amount')[0].bidder
+    if current_bidder:
         send_mail(
         email_title,
         email_message,
         'admin@artifact-auction.com',
-        [auction.current_bidder.email],
+        [current_bidder.email],
         fail_silently=False,)      
         
 """return current bid value on artifact"""
@@ -67,9 +70,11 @@ def get_bid(request):
         artifact = get_object_or_404(Artifact, pk=id)
         try:
             auction = get_object_or_404(Auction, artifact=artifact)
+            bids = Bids.objects.filter(auction=auction)
+            current_bid = bids.order_by('-bid_amount')[0].bid_amount               
             response_data = {}
             """no need to pass reserve price - if bid is higher then page will reload which will update the reserve price"""
-            response_data['current_bid'] = float(auction.current_bid)
+            response_data['current_bid'] = float(current_bid)
             response_data['start_time'] = str(auction.start_date)
             response_data['end_time'] = str(auction.end_date)
             return HttpResponse(json.dumps(response_data), content_type="application/json")

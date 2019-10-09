@@ -9,18 +9,3 @@ class Bids(models.Model):
     bidder = models.ForeignKey(User, on_delete=models.CASCADE)
     auction = models.ForeignKey(Auction, on_delete=models.CASCADE, blank=True, null=True)
     time = models.DateTimeField(auto_now=False, null=True, blank=True)
-    
-"""
-@receiver(post_delete, sender=User)
-def delete_user_bids(sender, instance, **kwargs):
-    print(instance.id)
-    Bids.objects.filter(bidder=instance).delete()
-    
-    then update auction.current_bidder and current_bid with highest bid
-    
-    also do on save version for auction in case admin adjusts bidder and amount_bid
-    
-    ??instead hide bidder and amount from admin panel or make uneditable?
-    At least give warning
-    
-"""

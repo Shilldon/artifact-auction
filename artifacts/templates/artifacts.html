@@ -53,10 +53,10 @@
                         <h5 class="auction-timer"></h5>
                     </div>
                     <div class="col-3">
-                        <h4>Reserve: £{{ auction.reserve_price }}</h4>                        
+                        <h4>Reserve: £{{ artifact.buy_now_price }}</h4>                        
                     </div>
                     <div class="col-3 auction-bid-status">
-                        <h4 class="auction-current-bid">Current bid: £{{ auction.current_bid }}</h4>
+                        <h4 class="auction-current-bid">Current bid: £{{ auction_bids|get_item:auction.id }}</h4>
                     </div>                    
                 </div>  
             {% endif %}
