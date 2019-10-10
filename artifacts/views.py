@@ -30,23 +30,30 @@ def artifacts_list(request):
     auction_bids = {}
     for auction in auctions:
         bids = Bids.objects.filter(auction=auction)
-        auction_bids[auction.id]=str(bids.order_by('-bid_amount')[0].bid_amount)
+        if bids:
+            auction_bids[auction.id] = str(bids.order_by('-bid_amount')[0].bid_amount)
+        else:
+            auction_bids[auction.id] = 0
 
     return render(request, "artifacts.html", {"artifacts_list": artifacts, "auctions" : auctions, "search_form" : search_form, "auction_bids" : auction_bids})
 
 """ Display a single artifact """
 def display_artifact(request, id):
     artifact = get_object_or_404(Artifact, pk=id)
-    auction = get_object_or_404(Auction, artifact=artifact)
-    if auction:
+    print(artifact)
+    try:
         auction = get_object_or_404(Auction, artifact=artifact)
         """Check if the artifact is in a current auction and return the name of the bidder"""
-        bidder_name = get_bidder(request, auction)
         bids = Bids.objects.filter(auction=auction)
-        current_bid = str(bids.order_by('-bid_amount')[0].bid_amount)
-        current_bidder = bids.order_by('-bid_amount')[0].bidder
-        print(current_bidder)
-    else:
+        if bids:
+            bidder_name = get_bidder(request, auction)
+            current_bid = str(bids.order_by('-bid_amount')[0].bid_amount)
+            current_bidder = bids.order_by('-bid_amount')[0].bidder
+        else:
+            bidder_name = ""
+            current_bid = 0
+            current_bidder = None
+    except:
         auction = None
         bids = {}
         bidder_name = ""
@@ -58,16 +65,16 @@ def display_artifact(request, id):
         successful_bid=check_bid(request, bid_form, artifact)
     else:
         bid_form = BiddingForm()
+        successful_bid=False
     
     try:
         review = get_object_or_404(Review, artifact=artifact)
     except:
         review = None
     
-    try:
-        if successful_bid:
-            return redirect(artifacts_list)
-    except:
+    if successful_bid:
+        return redirect(artifacts_list)
+    else:
         return render(request,"display_artifact.html", {
                     'artifact' : artifact, 
                     'auction' : auction, 

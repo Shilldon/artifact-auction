@@ -28,13 +28,8 @@ def check_bid(request, bid_form, artifact):
             bid.save()
             
             if new_bid > artifact.buy_now_price:
-                print("new bid higher, update artfact buy now")
-                #auction.reserve_price = Decimal(new_bid) * Decimal(1.2)
-                #artifact.buy_now_price = auction.reserve_price
                 artifact.buy_now_price = Decimal(new_bid) * Decimal(1.2)
                 artifact.save()
-                
-            #auction.save()
 
             messages.success(request, 
                              "You have successfully placed your bid on %s" %artifact.name)
@@ -64,15 +59,26 @@ def get_bid(request):
     if request.method == "GET":
         id = request.GET["artifact_id"]
         artifact = get_object_or_404(Artifact, pk=id)
-        try:
-            auction = get_object_or_404(Auction, artifact=artifact)
-            bids = Bids.objects.filter(auction=auction)
-            current_bid = bids.order_by('-bid_amount')[0].bid_amount               
-            response_data = {}
-            """no need to pass reserve price - if bid is higher then page will reload which will update the reserve price"""
-            response_data['current_bid'] = float(current_bid)
-            response_data['start_time'] = str(auction.start_date)
-            response_data['end_time'] = str(auction.end_date)
-            return HttpResponse(json.dumps(response_data), content_type="application/json")
-        except:
-            return HttpResponse("unsucessful")
+        response_data = {}
+        if artifact.sold is False:
+            try:
+                auction = get_object_or_404(Auction, artifact=artifact)
+                bids = Bids.objects.filter(auction=auction)
+                try:
+                    current_bid = bids.order_by('-bid_amount')[0].bid_amount               
+                except:
+                    current_bid = 0
+                """no need to pass reserve price - if bid is higher then page will reload which will update the reserve price"""
+                response_data['in_auction'] = True
+                response_data['current_bid'] = float(current_bid)
+                response_data['start_time'] = str(auction.start_date)
+                response_data['end_time'] = str(auction.end_date)
+                return HttpResponse(json.dumps(response_data), content_type="application/json")
+            except:
+                response_data['message']=artifact.name+': Not yet listed for auction.'
+                response = HttpResponse(json.dumps(response_data), content_type="application/json")
+                return response
+        else: 
+            response_data['message']=artifact.name+' has already sold, no auction information'
+            response = HttpResponse(json.dumps(response_data), content_type="application/json")            
+            return response

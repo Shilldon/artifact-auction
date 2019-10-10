@@ -24,6 +24,7 @@ function initialisePage(artifactId, startTime, endTime, currentBid, artifactCont
     var auctionSoldStatus=$(".auction-sold-status", artifactContainer);        
     
     var auctionText;
+    
     if (startTime && endTime) {
         if (currentTime > startTime && currentTime < endTime) {
             auctionTimer.show();
@@ -123,10 +124,16 @@ function getBidData(artifactId, artifactContainer) {
         url: "get_bid",
         data: { "artifact_id" : artifactId },
         success: function(data) {
-            var currentBid = data['current_bid']
-            var startTime = Date.parse(data['start_time']);
-            var endTime = Date.parse(data['end_time']);
-            initialisePage(artifactId, startTime, endTime, currentBid, artifactContainer)
+            if(data.in_auction) {
+                var currentBid = data['current_bid']
+                var startTime = Date.parse(data['start_time']);
+                var endTime = Date.parse(data['end_time']);
+                initialisePage(artifactId, startTime, endTime, currentBid, artifactContainer)
+            }
+            else {
+                console.log(data['message']);
+                initialisePage(artifactId, "", "", 0, artifactContainer)
+            }
         }
     })
 }

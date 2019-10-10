@@ -6,23 +6,14 @@ def collection_contents(request):
     Ensures that the collection contents are available when rendering
     every page
     """
-    collection = request.session.get('collection', {})
+    collection = request.session.get('collection', [])
     total = 0
-    """
-    collection_items = []
-    """
     purchase = []
-    
-    if "purchase" in collection:
-        id = collection['purchase']
+    for id in collection:
         artifact = get_object_or_404(Artifact, pk=id)
-        purchase = {'id' : id, 'artifact' : artifact}
-        total = artifact.price
-    """
-    for id, in_collection in collection.items():
-        artifact = get_object_or_404(Artifact, pk=id)
-        total += artifact.price
-        collection_items.append({'id': id, 'artifact': artifact})
-    """
+        if artifact:
+            total += artifact.price
+            purchase.append({'id': id, 'artifact': artifact})
+
     
     return {'purchase': purchase, 'total' : total}

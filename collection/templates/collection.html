@@ -2,11 +2,23 @@
 
 
 {% block content %}
-<h2>Artifacts in collection</h2>
+<h3>Artifacts won - awaiting payment</h2>
 
-<h1>Artifact Name={{ purchase.artifact.name }}</h1>
-<h2>Price={{ purchase.artifact.price }}</h2>
 
-<h2>Total={{ total }}</h2>
+
+<h3>Total={{ total }}</h2>
+
+<h3>Artifacts owned</h3>
+
+{% for artifact in artifacts_owned %}
+    <div class="row">
+        <div class="col-3">
+            <h1><a href="{% url 'display_artifact' id=artifact.id %}">{{ artifact.name }}</a></h1>
+        </div> 
+
+        <div class="col-6 artifact" style="background-image: url('{{ MEDIA_URL}}{{ artifact.image }}'); ">
+        </div>
+    </div>
+{% endfor %}
 
 {% endblock %}

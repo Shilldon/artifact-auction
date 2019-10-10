@@ -19,7 +19,7 @@
             <h3>{{ artifact.description }}</h3>
         </div>
         <div class="col-6 offset-2 artifact" style="background-image: url('{{ MEDIA_URL}}{{ artifact.image }}'); ">
-            {% if artifact.sold is True %}
+            {% if artifact.sold is True and artifact.owner != user %}
             <div class="text-center">
                 <img class="artifact img-fluid" src="{{ MEDIA_URL }}images/sold.png"></img>
             </div>
@@ -96,7 +96,7 @@
         {% if artifact.sold is False %}
             {%if current_bidder is not None %}
                 {% if current_bidder == user %}
-                    <h3>Congratulations you won this artifact.</h3>
+                    <h3>Congratulations you won this artifact at £{{ current_bid }}.</h3>
                     <button><a href="{% url 'add_to_collection' artifact.id 0 %}">Pay Now</a></button>
                 {% elif current_bidder.profile.remain_anonymous %}
                     <h3>This artifact has been won but not yet paid for. The winner wishes to remain anonymous</h3>

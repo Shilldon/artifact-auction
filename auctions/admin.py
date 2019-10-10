@@ -1,13 +1,31 @@
 from django.contrib import admin
-from .forms import AuctionAdminForm, UserModelChoiceField
+from django import forms
+#from .forms import AuctionAdminForm, UserModelChoiceField
 from .models import Auction
 from artifacts.models import Artifact
 
-# Register your models here.
+
+class AuctionForm(forms.ModelForm):
+    
+    """only display artifacts that are not already being auctioned or that have not been sold"""
+    auctions = Auction.objects.all()
+    artifacts = Artifact.objects.all().exclude(pk__in=auctions.values('artifact'))
+    artifacts = artifacts.exclude(sold=True)
+    ARTIFACT_CHOICES = [(artifact.id, artifact.name) for artifact in artifacts]
+
+    artifact = forms.ModelChoiceField(label='Artifact', queryset=artifacts, required=True)
 
 class AuctionAdmin(admin.ModelAdmin):
-    def render_change_form(self, request, context, *args, **kwargs):
-        context['adminform'].form.fields['artifact'].queryset = Artifact.objects.filter(sold=False, in_auction=False)
-        return super(AuctionAdmin, self).render_change_form(request, context, *args, **kwargs)
-        
+    
+    """ prevent admin from changing the artifact related to this auction"""    
+    def get_readonly_fields(self, request, obj=None):
+        if obj: # editing an existing object
+            return self.readonly_fields + ('artifact',)
+        return self.readonly_fields
+    
+    form = AuctionForm
+    fields = ('artifact', 'start_date', 'end_date')
+    
 admin.site.register(Auction, AuctionAdmin)
+
+

@@ -5,6 +5,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail
 from artifacts.models import Artifact
+from auctions.models import Auction
 from .forms import MakePaymentForm, OrderForm
 from .models import PurchasedArtifact
 import stripe
@@ -23,13 +24,15 @@ def checkout(request):
             order.date = timezone.now()
             order.save()
             
-            collection = request.session.get('collection', {})
+            collection = request.session.get('collection', [])
+            artifacts_purchased = []
+            
             total = 0
-            id = collection['purchase']
-            artifact = get_object_or_404(Artifact, pk=id)
-            total = artifact.price
-
-            if artifact.sold is False:            
+            for item in collection:
+                id = item
+                artifact = get_object_or_404(Artifact, pk=id)
+                total += artifact.price
+                artifacts_purchased.append(artifact)
                 order_line_item = PurchasedArtifact(
                     order = order,
                     artifact = artifact,
@@ -48,15 +51,13 @@ def checkout(request):
                     messages.error(request, "Your card was declined")
                 
                 if customer.paid:
-                    artifact.sold = True
-                    artifact.owner = request.user
-                    artifact.listed_date = None
-                    artifact.auction_end_date = None
-                    artifact.bid = 0
-                    artifact.current_bidder = None
-                    artifact.reserved = False
-                    artifact.save()
-                    request.session['collection'] = {}
+                    for artifact in artifacts_purchased:
+                        artifact.sold = True
+                        artifact.owner = request.user
+                        artifact.save()                        
+                        auction = get_object_or_404(Auction, artifact=artifact)
+                        auction.delete()
+                    request.session['collection'] = []
                     
                     email_title = 'Artifact Auctions - '+artifact.name
                     email_message_purchase = 'Thank you for purchasing '+artifact.name+'. The artifact will be delievered to you in 3-4 working days.'
