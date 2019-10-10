@@ -99,9 +99,9 @@
                     <h3>Congratulations you won this artifact.</h3>
                     <button><a href="{% url 'add_to_collection' artifact.id 0 %}">Pay Now</a></button>
                 {% elif current_bidder.profile.remain_anonymous %}
-                    <h3>This artifact has been won. The winner wishes to remain anonymous</h3>
+                    <h3>This artifact has been won but not yet paid for. The winner wishes to remain anonymous</h3>
                 {% else %}
-                    <h3>Won by {{ artifact.owner }}</h3>
+                    <h3>Won by {{ current_bidder }}. Not yet paid for.</h3>
                 {% endif %}
             {% endif %}
         {% else %} 
@@ -126,6 +126,7 @@
             </div>
         </div>
     {% endif %}
+    
     {% if artifact.owner == user %}
         {% if review %}
         <div class="row">

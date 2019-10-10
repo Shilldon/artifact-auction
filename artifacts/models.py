@@ -31,7 +31,6 @@ class Artifact(models.Model):
     buy_now_price = models.DecimalField(max_digits=11, decimal_places=2, default=0)
     sold = models.BooleanField(default=False)
     owner = models.ForeignKey(User, null=True, blank=True, on_delete=models.SET_NULL)
-    in_auction = models.BooleanField(default=False)
 
     def clean(self):
         if self.owner == None and self.sold == True:

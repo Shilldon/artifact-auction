@@ -9,3 +9,7 @@ class Bids(models.Model):
     bidder = models.ForeignKey(User, on_delete=models.CASCADE)
     auction = models.ForeignKey(Auction, on_delete=models.CASCADE, blank=True, null=True)
     time = models.DateTimeField(auto_now=False, null=True, blank=True)
+    
+    def __str__(self):
+        return self.auction.artifact.name+": "+str(self.bid_amount)
+    

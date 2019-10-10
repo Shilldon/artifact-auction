@@ -8,4 +8,7 @@ class Review(models.Model):
     rating = models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(5)])
     reviewer = models.ForeignKey(User, on_delete=models.CASCADE, default=None)
     artifact = models.ForeignKey(Artifact, on_delete=models.CASCADE, default=None)
+
+    def __str__(self):
+        return self.artifact.name
     

@@ -45,7 +45,6 @@
         </div>
     </div>      
     {% endif %}
-    {% if artifact.in_auction is True %}                        
         {% for auction in auctions %}
             {% if auction.artifact == artifact %}
                 <div class="row auction-timer-container" style="display:none">
@@ -61,7 +60,6 @@
                 </div>  
             {% endif %}
         {%endfor%}
-    {% endif %}
 
 
 </div>

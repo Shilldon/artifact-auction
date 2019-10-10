@@ -17,7 +17,7 @@ class Event(models.Model):
     month = models.PositiveSmallIntegerField(default=1, null=True, blank=True)
     day = models.PositiveSmallIntegerField(default=1, null=True, blank=True)
     artifact = models.ForeignKey(Artifact, on_delete=models.CASCADE, default=None) 
-    owner = models.ForeignKey(Owner, on_delete=models.PROTECT, default=None, blank=True, null=True)
+    owner = models.ForeignKey(Owner, on_delete=models.SET_NULL, default=None, blank=True, null=True)
 
     def clean(self):
         day =self.day

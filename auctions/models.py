@@ -12,8 +12,8 @@ from artifacts.models import Artifact
 class Auction(models.Model):
     artifact = models.ForeignKey(Artifact, on_delete=models.CASCADE, default=None)
     name = models.CharField(max_length=20, default='Artifact Name')
-    start_date = models.DateTimeField(default=timezone.now, null=True, blank=True)
-    end_date = models.DateTimeField(null=True, blank=True)
+    start_date = models.DateTimeField(default=timezone.now)
+    end_date = models.DateTimeField(default=timezone.now)
     reserve_price = models.DecimalField(max_digits=11, decimal_places=2, default=0, validators=[MinValueValidator(0)])
 
     def clean(self):
@@ -27,14 +27,6 @@ class Auction(models.Model):
     def __str__(self):
         return self.artifact.name+" Auction"
 
-@receiver(post_save, sender=Auction)
-def change_auction(sender, instance, **kwargs):
-    if instance.start_date is not None:
-        instance.artifact.in_auction = True
-    else:
-        instance.artifact.in_auction = False
-    instance.artifact.save()       
-    
 @receiver(post_delete, sender=Auction)
 def add_auction(sender, instance, **kwargs):
     instance.artifact.in_auction = False

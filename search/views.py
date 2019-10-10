@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from django.contrib import messages
 from .forms import SearchArtifactsForm
 from artifacts.models import Artifact, Category
+from auctions.models import Auction
 
 # Create your views here.
 def search_artifacts(request, search_form):
@@ -17,15 +18,22 @@ def search_artifacts(request, search_form):
         min_price = search_form['min_buy_now_price'].value()
         sort_by = int(search_form["sort_by"].value())
 
+
+        #.filter(**filter_by("in_auction", in_auction)) \
+
         artifacts_list = artifacts.filter(description__icontains=description) \
                                   .filter(name__icontains=name) \
                                   .filter(**filter_by("sold", sold)) \
                                   .filter(category__id__in=categories) \
-                                  .filter(**filter_by("in_auction", in_auction)) \
                                   .filter(type__in=artifact_type) \
                                   .filter(**filter_by("buy_now_price__lte", max_price)) \
                                   .filter(**filter_by("buy_now_price__gte", min_price))
-        print(artifacts_list)
+        if in_auction:
+            auctions = Auction.objects.all()
+            artifacts_in_auctions = artifacts_list.filter(id__in=auctions.values('artifact'))
+            print(artifacts_in_auctions)
+            artifacts_list = artifacts_in_auctions
+            
         if sort_by==1:
             print("Sorting price low high")
             sorted_list = artifacts_list.order_by('buy_now_price')
