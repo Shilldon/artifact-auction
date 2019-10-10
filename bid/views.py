@@ -23,14 +23,10 @@ def check_bid(request, bid_form, artifact):
             
             """check if there are any existing bids in the auction by artifact look up"""
             """auction and bid have the artifact model in common"""
-            #queryset = Bids.objects.filter(auction=auction)
             bid = Bids(bid_amount=new_bid, bidder=request.user, auction=auction)
             bid.time = datetime.datetime.now()
             bid.save()
             
-            #auction.current_bid = new_bid    
-            #auction.current_bidder = request.user
-
             if new_bid > artifact.buy_now_price:
                 print("new bid higher, update artfact buy now")
                 #auction.reserve_price = Decimal(new_bid) * Decimal(1.2)

@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'bid',
     'collection',
     'checkout',
+    'history',
     'home',
     'reviews',
     'search',

@@ -37,7 +37,6 @@ def artifacts_list(request):
 """ Display a single artifact """
 def display_artifact(request, id):
     artifact = get_object_or_404(Artifact, pk=id)
-    print(artifact)
     auction = get_object_or_404(Auction, artifact=artifact)
     if auction:
         auction = get_object_or_404(Auction, artifact=artifact)
@@ -48,7 +47,6 @@ def display_artifact(request, id):
         current_bidder = bids.order_by('-bid_amount')[0].bidder
         print(current_bidder)
     else:
-        print("NO auction?")
         auction = None
         bids = {}
         bidder_name = ""
