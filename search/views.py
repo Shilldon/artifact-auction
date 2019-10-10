@@ -15,6 +15,7 @@ def search_artifacts(request, search_form):
         artifact_type = search_form['type'].value()
         max_price = search_form['max_buy_now_price'].value()
         min_price = search_form['min_buy_now_price'].value()
+        sort_by = int(search_form["sort_by"].value())
 
         artifacts_list = artifacts.filter(description__icontains=description) \
                                   .filter(name__icontains=name) \
@@ -24,7 +25,23 @@ def search_artifacts(request, search_form):
                                   .filter(type__in=artifact_type) \
                                   .filter(**filter_by("buy_now_price__lte", max_price)) \
                                   .filter(**filter_by("buy_now_price__gte", min_price))
-        return artifacts_list
+        print(artifacts_list)
+        if sort_by==1:
+            print("Sorting price low high")
+            sorted_list = artifacts_list.order_by('buy_now_price')
+        elif sort_by==2:
+            sorted_list = artifacts_list.order_by('-buy_now_price')
+            print("Sorting price high low")
+        elif sort_by==3:
+            sorted_list = artifacts_list.order_by('name')
+            print("Sorting name low high")
+        elif sort_by==4:
+            print("Sorting name high low")
+            sorted_list = artifacts_list.order_by('-name')
+        print("sorted ", artifacts_list)
+
+
+        return sorted_list
 
 def filter_by(query_name, query_value):
     if query_value:

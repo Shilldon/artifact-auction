@@ -2,7 +2,6 @@ from django import forms
 from decimal import Decimal
 from artifacts.models import Category
 
-
 class SearchArtifactsForm(forms.Form):
     
     queryset = Category.objects.all()
@@ -23,7 +22,16 @@ class SearchArtifactsForm(forms.Form):
     for type in TYPE_CHOICES:
         default_type_choices[type[0]] = True
     
+    SORT_CHOICES = [
+        (1, "Price: Low to High"),
+        (2, "Price: High to Low"),
+        (3, "Name: A to Z"),
+        (4, "Name: Z to A")
+    ]
+
+    
     name = forms.CharField(label="Name contains:", required=False)
+    sort_by = forms.ChoiceField(label='Sort by:', choices=SORT_CHOICES, required=False)
     description = forms.CharField(label="Description contains:", required=False)
     sold = forms.BooleanField(initial=False, required=False)
     in_auction = forms.BooleanField(label="Listed for auction", initial=False, required=False)
