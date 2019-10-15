@@ -1,10 +1,95 @@
 {% extends 'base.html' %} {% block content %}
-<div class="section title-image" >
+
+{% load static from staticfiles %}
+{% block head_js %}
+<script defer src="{% static 'js/buttons.js' %}"></script>
+<script defer src="{% static 'js/index.js' %}"></script>
+{% endblock %}
+
+<section class="section title-image">   
     <div class="title">
         <h1>Jones & Son</h1>
-        <h4>&#10016 Purveyors of historical artifacts &#10016</h4>
+        <h4>Since 1908</h4>
     </div>    
-</div>
+</section>
 
+<section class="section container">
+    <div class="row h-100 call-to-action">
+        <div class="col-12">
+            <h5 class="text-align-center">Purveyors of unique historical artifacts</h5>
+            <p>Since 1908 Prof. Henry Jones Sr and his son, Dr. Henry Jones junior, respected archaeologists, have travelled the world recovering unique historical artifacts. Having amassed a truly inspiring collection Professor and Dr Jones have opened that collection to the world.</p>
+            <p><strong>Explore </strong> their unique and awe-inispring collection.</p>
+            <p><strong>Learn </strong>about the owners of the artifacts through the ages and their fascinating history.</p>
+            <p><strong>Buy </strong>a piece of history in one of the Jones' unique auctions, today.</p>
+            <h4>&#10016</h4>
+        </div>    
+    </div>
+</section>
 
+<section class="section container">
+    <div class="row options">
+        <div class="col-12 text-center">
+            <h5>Own a piece of history</h5>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-10 offset-1 option-list hvr-sweep-to-right" >
+            <div class="row h-100">
+                <div class="col-8 option-inner">
+                    <a href="#"><span>{{ auction_status }}</span></a>
+                </div>
+                {% if auctions.count > 0 %}
+                <div class="col-1 my-auto" >
+                    <span id="options-collapse-button" data-toggle="collapse" data-target="#auctions-collapse"><i class="fas fa-caret-down"></i></span>
+                </div>
+                {% endif %}
+            </div>
+        </div>   
+    </div> 
+    
+    <div class="collapse" id="auctions-collapse">
+        {% for auction in auctions %}
+        <div class="row">
+        <div class="col-8 offset-2 option-list">
+            <div class="row h-100">
+                <div class="col-8 ">
+                    <a href="{% url 'display_artifact' id=auction.artifact.id %}">{{ auction.artifact.name }}</a>
+                </div>
+                <div class="col-2 artifact-image" style="background-image: url('{{ MEDIA_URL}}{{ auction.artifact.image }}">
+                </div>            
+            </div>
+        </div>  
+        </div>
+        {% endfor %}
+    </div>    
+
+    <div class="row">
+        <div class="col-10 offset-1 option-list hvr-sweep-to-right">
+            <div class="row">
+                <div class="col-12 option-inner">
+                    <a href="{% url 'artifacts_list' %}"><span>View Artifacts</span></a>     
+                </div>
+            </div>
+        </div>
+    </div>    
+    <div class="row">
+        {% if not user.is_authenticated %}
+        <div class="col-10 offset-1 option-list hvr-sweep-to-right">
+            <div class="row">
+                <div class="col-12 option-inner">
+                    <a href="{% url 'login' %}"><span>Log In/Register</span></a>
+                </div>    
+            </div>
+        </div>
+        {% else %}
+        <div class="col-10 offset-1 option-list hvr-sweep-to-right">
+            <div class="row">
+                <div class="col-12 option-inner">
+                    <a href="{% url 'view_collection' %}"><span>View Collection</span></a>
+                </div>
+            </div>
+        </div>    
+        {% endif %}
+    </div>
+</section>
 {% endblock %}

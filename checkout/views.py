@@ -52,7 +52,7 @@ def checkout(request):
             
             #iterate through the artifacts already sold to another user and
             #remove them from this user's collection.
-            if artifacts_already_sold.len() > 0:
+            if len(artifacts_already_sold) > 0:
                 for id in artifacts_already_sold:
                     collection.pop(id, None)
                 request.collection = collection
@@ -85,7 +85,7 @@ def checkout(request):
                         
                     #create a string of the artifacts purchased to email to
                     #purchaser
-                    if artifacts_purchased.len() > 1:
+                    if len(artifacts_purchased) > 1:
                         last_artifact = artifacts_purchased[-1:]
                         last_artifact = "and "+last_artifact
                         artifacts_purchased[-1:] = last_artifact
