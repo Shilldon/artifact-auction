@@ -20,15 +20,18 @@ def register(request):
                                      password=entered_password)
             profile_form = ProfileForm(request.POST, instance=user.profile)
             profile_form.save()
-
+            
+            print("registration is valid")
             if user:
                 messages.success(request, 
-                                 "You have successfully created an account")
+                                 "You have successfully created an account. Please log in using your credentials.")
                 return redirect(reverse('login'))
-            else:
-                messages.error(request, 
-                               "An error occurred, please try again later")
-            
+        elif registration_form.cleaned_data.get('password2') != registration_form.cleaned_data.get('password1'):
+            messages.error(request, 
+                               "Your passwords do not match")                  
+        else:
+            messages.error(request, 
+                           "An error occurred, please try again later")
     else:
         registration_form = UserRegistrationForm()
         profile_form = ProfileForm()
@@ -57,7 +60,7 @@ def login(request):
             auth.login(user=user, request=request)
             return redirect(reverse('index'))
         else:
-            login_form.add_error(None,"Your username or password is incorrect")
+            messages.error(request,"Your username or password is incorrect")
     
     else:
         #display login form

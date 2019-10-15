@@ -10,12 +10,14 @@
     font-weight: 700;
     color: #FFB938 !important; }
   .navbar a {
+    text-decoration: none;
+    color: #FFB938 !important;
     line-height: .75; }
-  .navbar a span {
+  .navbar .navbar-brand span {
     font-size: 0.75rem; }
 
 .navbar-brand {
-  font-family: 'Cinzel', serif;
+  font-family: 'Cinzel Decorative', serif;
   color: #FFB938 !important; }
 
 .modal-dialog {
@@ -40,7 +42,7 @@
   text-shadow: 0px 0px 15px #000000; }
   .title h1 {
     font-size: 2rem;
-    font-family: 'Cinzel', serif; }
+    font-family: 'Cinzel Decorative', serif; }
   .title h4 {
     font-size: 1rem;
     font-family: 'Nanum Gothic', sans-serif !important;
@@ -62,7 +64,7 @@
     color: white; }
 
 .options {
-  padding: 10px 0 10px 0; }
+  padding: 10px 0 40px 0; }
 
 .option-list {
   font-size: 1rem;
@@ -73,6 +75,9 @@
   margin-bottom: 5px; }
   .option-list img {
     width: 100%; }
+  .option-list a {
+    text-decoration: none;
+    color: #444444; }
 
 .option-inner {
   border-left: solid 5px #FFB938;
@@ -98,5 +103,69 @@
 
 .hvr-sweep-to-right:before {
   background-color: #FFB938; }
+
+footer {
+  padding-top: 20px;
+  padding-bottom: 20px;
+  background-color: #003273;
+  color: #FFB938;
+  font-family: 'Nanum Gothic', sans-serif !important; }
+  footer a {
+    font-size: 0.75rem;
+    text-decoration: none;
+    color: #FFB938 !important; }
+  footer li {
+    margin: 0 5px; }
+
+.modal {
+  font-size: 1rem;
+  font-family: 'Nanum Gothic', sans-serif !important; }
+  .modal li {
+    line-height: 2.5; }
+  .modal a {
+    color: #444444;
+    text-decoration: none; }
+
+.account-form-container {
+  color: #444444;
+  margin-top: 20px;
+  margin-bottom: 50px;
+  border: #003273 4px solid;
+  border-radius: 2%; }
+  .account-form-container .account-form {
+    padding-top: 20px;
+    padding-bottom: 20px; }
+  .account-form-container p {
+    font-size: 0.75rem;
+    padding: 0;
+    margin: 0; }
+  .account-form-container input {
+    font-size: 1rem; }
+
+.btn {
+  margin-top: 10px;
+  font-size: 0.8rem;
+  color: #003273;
+  background-color: #FFB938;
+  border: #734D07 solid 2px; }
+
+.btn-file {
+  position: relative;
+  overflow: hidden; }
+
+.btn-file input[type=file] {
+  position: absolute;
+  top: 0;
+  right: 0;
+  min-width: 100%;
+  min-height: 100%;
+  font-size: 100px;
+  text-align: right;
+  filter: alpha(opacity=0);
+  opacity: 0;
+  outline: none;
+  background: white;
+  cursor: inherit;
+  display: block; }
 
 /*# sourceMappingURL=custom.css.map */

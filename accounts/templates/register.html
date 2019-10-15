@@ -1,19 +1,142 @@
-{% extends 'base.html' %}
+{% extends 'base.html' %} {% load widget_tweaks %} {% load bootstrap_tags %} {% block content %}
 
-{% load bootstrap_tags %}
-
-{% block content %}
-
-<h1>Registration</h1>
-<form method="POST">
-    {% csrf_token %}
-    {{ registration_form | as_bootstrap}}
-    {{ profile_form | as_bootstrap }}
-    <button type="submit">Register</button> 
-</form>
-
-{% for message in messages %}
-<p>{{ message }}</p>
-{% endfor %}
+<div class="container">
+    <div class="row ">
+        <div class="col-10 offset-1 account-form-container">
+            <form method="POST">
+                {% csrf_token %}
+                <div class="container account-form">
+                    <div class="row">
+                        <div class="col-12">
+                            <h6>Register a new account</h6>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <p>First Name</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 option-list">
+                            <div class="row h-100">
+                                <div class="col-12 option-inner">
+                                    {% render_field registration_form.first_name style="border: none; outline: none" %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <p>Last Name</p>
+                        </div>
+                    </div>                    
+                    <div class="row">
+                        <div class="col-12 option-list">
+                            <div class="row h-100">
+                                <div class="col-12 option-inner">
+                                    {% render_field registration_form.last_name style="border: none; outline: none" %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>   
+                    <div class="row">
+                        <div class="col-12">
+                            <p>Username</p>
+                        </div>
+                    </div>                    
+                    <div class="row">
+                        <div class="col-12 option-list">
+                            <div class="row h-100">
+                                <div class="col-12 option-inner">
+                                    {% render_field registration_form.username style="border: none; outline: none" %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>     
+                    <div class="row">
+                        <div class="col-12">
+                            <p>Email Address</p>
+                        </div>
+                    </div>                    
+                    <div class="row">
+                        <div class="col-12 option-list">
+                            <div class="row h-100">
+                                <div class="col-12 option-inner">
+                                    {% render_field registration_form.email style="border: none; outline: none" %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>                      
+                    <div class="row">
+                        <div class="col-12">
+                            <p>Enter password</p>
+                        </div>
+                    </div>                    
+                    <div class="row">
+                        <div class="col-12 option-list">
+                            <div class="row h-100">
+                                <div class="col-12 option-inner">
+                                    {% render_field registration_form.password1 style="border: none; outline: none" %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>  
+                    <div class="row">
+                        <div class="col-12">
+                            <p>Re-enter password</p>
+                        </div>
+                    </div>                    
+                    <div class="row">
+                        <div class="col-12 option-list">
+                            <div class="row h-100">
+                                <div class="col-12 option-inner">
+                                    {% render_field registration_form.password2 style="border: none; outline: none" %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>     
+                    <div class="row">
+                        <div class="col-12">
+                            <p>Upload profile picture</p>
+                        </div>
+                    </div>                    
+                    <div class="row h-100">
+                        <div class="col-12 text-center">
+                            <span class="btn btn-default btn-file">
+                                Upload
+                            {{ registration_form.profile_picture }}
+                            </span>
+                        </div>
+                    </div>
+                     <div class="row">
+                        <div class="col-12">
+                            <span>Remain anonymous</span>
+                            {% render_field profile_form.remain_anonymous style="margin-top:15px; border: none; outline: none" %}
+                        </div>
+                    </div>    
+                    <div class="row">
+                        <div class="col-12">
+                            <p>Your username will not be displayed on bids or artifact ownership.</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 text-center">
+                            <button class="btn" type="submit">Submit</button>        
+                        </div>
+                    </div>                
+                </div>
+                {% if messages %}
+                <div class="alert alert-success">
+                    <div class="messages">
+                    {% for message in messages %}
+                    <p>{{ message }}</p>
+                    {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+            </form>
+        </div>
+    </div>
+</div>
 
 {% endblock %}
