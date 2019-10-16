@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.template.defaulttags import register
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .models import Artifact
 from auctions.models import Auction
 from auctions.views import get_bidder
@@ -22,10 +23,23 @@ def get_item(dictionary, key):
 def artifacts_list(request):
     if request.method == "POST":
         search_form = SearchArtifactsForm(request.POST)
-        artifacts = search_artifacts(request, search_form)
+        artifacts_list = search_artifacts(request, search_form)
+        
     else:
         search_form = SearchArtifactsForm()
-        artifacts = Artifact.objects.all()
+        artifacts_list = Artifact.objects.all()
+ 
+    results = artifacts_list.count()
+    page = request.GET.get('page', 1)
+
+    paginator = Paginator(artifacts_list, 10)
+    try:
+        artifacts = paginator.page(page)
+    except PageNotAnInteger:
+        artifacts = paginator.page(1)
+    except EmptyPage:
+        artifacts = paginator.page(paginator.num_pages)
+ 
         
     auctions = Auction.objects.all()
     auction_bids = {}
@@ -36,7 +50,7 @@ def artifacts_list(request):
         else:
             auction_bids[auction.id] = 0
 
-    return render(request, "artifacts.html", {"artifacts_list": artifacts, "auctions" : auctions, "search_form" : search_form, "auction_bids" : auction_bids})
+    return render(request, "artifacts.html", {"artifacts_list": artifacts, "auctions" : auctions, "search_form" : search_form, "auction_bids" : auction_bids, "results": results})
 
 """ Display a single artifact """
 def display_artifact(request, id):
@@ -87,4 +101,3 @@ def display_artifact(request, id):
                     'review' : review 
         })
             
-

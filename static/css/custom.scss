@@ -267,3 +267,19 @@ footer {
             outline: solid 2px $background-color-light;
         border-left: solid 5px $highlight-color-light;  
 }
+
+
+.artifact-list-paginationbar {
+    margin-top:20px;
+    margin-bottom: 40px;
+}
+
+.page-link{ 
+    color: $font-color-dark;
+}
+
+.page-item.active .page-link{
+    color: $font-color-light;
+    background-color: $background-color-dark;
+    border-color: $background-color-light;
+}

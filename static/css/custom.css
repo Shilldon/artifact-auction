@@ -198,4 +198,16 @@ footer {
   outline: solid 2px #1761BF;
   border-left: solid 5px #FFB938; }
 
+.artifact-list-paginationbar {
+  margin-top: 20px;
+  margin-bottom: 40px; }
+
+.page-link {
+  color: #734D07; }
+
+.page-item.active .page-link {
+  color: #FFB938;
+  background-color: #003273;
+  border-color: #1761BF; }
+
 /*# sourceMappingURL=custom.css.map */

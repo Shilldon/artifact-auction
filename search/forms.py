@@ -38,7 +38,7 @@ class SearchArtifactsForm(forms.Form):
     category = forms.MultipleChoiceField(choices=CATEGORY_CHOICES, widget=forms.CheckboxSelectMultiple, required=False, initial=default_category_choices)
     type = forms.MultipleChoiceField(choices=TYPE_CHOICES, widget=forms.CheckboxSelectMultiple, required=False, initial=default_type_choices)
     min_buy_now_price=forms.DecimalField(decimal_places=2, required=False)
-    max_buy_now_price=forms.DecimalField(label="Maximum reserve price", decimal_places=2, required=False)
+    max_buy_now_price=forms.DecimalField(decimal_places=2, required=False)
     
     def clean(self):
         cleaned_data = super().clean()

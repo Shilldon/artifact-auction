@@ -28,18 +28,22 @@
     </div>
 </form>        
 <div class="row search-options">
-        <div class="col-4 text-center">
-            <button data-toggle="modal" data-target="#filterModal">Filter
-        </div>    
-        <div class="col-4 text-center">
-            {{ artifacts_list|length }} results
-        </div>
-        <div class="col-4 text-center">
-             <button data-toggle="modal" data-target="#sortModal">Sort</button>
-        </div>
+    <div class="col-4 text-center">
+        <button data-toggle="modal" data-target="#filterModal">Filter</button>
+    </div>    
+    <div class="col-4 text-center">
+        {% if results == 1%}
+        {{ results }} result
+        {% else %}
+        {{ results }} results
+        {% endif %}
     </div>
-
+    <div class="col-4 text-center">
+         <button data-toggle="modal" data-target="#sortModal">Sort</button>
+    </div>
+</div>
 </section>
+
 <div class="container" >
 {% for artifact in artifacts_list %}
     <div class="row h-100 styled-box artifact-information" style="margin: 15px -5px 0 -5px; padding:5px 0 5px 0">
@@ -75,29 +79,57 @@
                     <span class="auction-bid-status">
                         <span class="auction-current-bid">Current bid: £{{ auction_bids|get_item:auction.id }}</span>
                     </span>
-                    {% else %}
-                    
                     {% endif %}
                 {%endfor%}  
             {% endif %}
         </div>
     </div>
-</a>    
 {% endfor %}
 </div>
-<!--
-<div>
-    
-<form method="POST">
-    {% csrf_token %}
-    {{ search_form | as_bootstrap }}
-    <button type="submit">Search</button>
-</form>
-</div>
--->
+
+<nav class="artifact-list-paginationbar">
+
+    {% if artifacts_list.has_other_pages %}
+    <ul class="pagination justify-content-center">
+        {% if artifacts_list.has_previous %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ artifacts_list.previous_page_number }}">&laquo;</a>
+        </li>
+        {% else %}
+        <li class="page-item disabled">
+            <a class="page-link" href="#"><span>&laquo;</span></a>
+        </li>
+    {% endif %}
+    {% for i in artifacts_list.paginator.page_range %}
+        {% if artifacts_list.number == i %}
+        <li class="page-item active">
+            <a class="page-link" href="#"><span>{{ i }}</span></a>
+        </li>
+        {% else %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ i }}">{{ i }}</a>
+        </li>
+        {% endif %}
+    {% endfor %}
+    {% if artifacts_list.has_next %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ artifacts_list.next_page_number }}">&raquo;</a>
+        </li>
+    {% else %}
+        <li class="page-item disabled">
+            <a class="page-link" href="#"><span>&raquo;</span></a>
+        </li>
+    {% endif %}
+  </ul>
+{% endif %}
+
+
+</nav>
+
 {% endblock %}
 
 {% block modal %} 
+<!-- filter search Modal -->
 <div class="modal fade" id="filterModal" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-full" role="document">
         <div class="modal-content">
@@ -147,6 +179,7 @@
                         <div class="row">
                             <div class="col-12">
                                 {% render_field search_form.category %}
+                                {{ search_form.category.value }}
                             </div>
                         </div>
                     </div>
@@ -173,15 +206,18 @@
                     <div class="row">
                         <div class="col-6">
                             <label for="min_buy_now_price" style="font-size: 0.75rem">Minimum</label>
-                            {% render_field search_form.min_buy_now_price %}
+                            {% render_field search_form.min_buy_now_price style="width:100%" %}
                         </div>
                         <div class="col-6">
                             <label for="max_buy_now_price" style="font-size: 0.75rem">Maximum</label>
-                            {% render_field search_form.max_buy_now_price %}
+                            {% render_field search_form.max_buy_now_price style="width:100%" %}
                         </div>
                     </div> 
                     <div class="row">
-                        <div class="col-12 text-center">
+                        <div class="col-6 text-center">
+                            <input id="resetSearch" type="reset" value="Clear" class="btn">       
+                        </div>                        
+                        <div class="col-6 text-center">
                             <button class="btn" type="submit">Filter</button>        
                         </div>
                     </div>                       
@@ -191,4 +227,44 @@
         </div>
     </div>
 </div>
+
+<!-- sort search Modal -->
+<div class="modal fade" id="sortModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-full" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Sort results</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="POST">
+                    {% csrf_token %}
+                    {{ search_form.name.as_hiddeb }}
+                    {{ search_form.sold.as_hidden }}
+                    {{ search_form.in_auction.as_hidden }}
+                    {{ search_form.category.as_hidden }}
+                    {{ search_form.type.as_hidden }}
+                    {{ search_form.min_buy_now_price.as_hidden }}
+                    {{ search_form.max_buy_now_price.as_hidden }}
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-12">
+                                <span>Sort by</span>
+                                {% render_field search_form.sort_by %}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12 text-center">
+                                <button class="btn" type="submit">Sort</button>        
+                            </div>
+                        </div>                       
+                    </div>  
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 {% endblock %}
