@@ -32,9 +32,9 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-10 offset-1 option-list hvr-sweep-to-right" >
+        <div class="col-10 offset-1 styled-box option-list hvr-sweep-to-right" >
             <div class="row h-100">
-                <div class="col-8 option-inner">
+                <div class="col-8">
                     <a href="#"><span>{{ auction_status }}</span></a>
                 </div>
                 {% if auctions.count > 0 %}
@@ -49,7 +49,7 @@
     <div class="collapse" id="auctions-collapse">
         {% for auction in auctions %}
         <div class="row">
-        <div class="col-8 offset-2 option-list">
+        <div class="col-8 offset-2 styled-box option-list ">
             <div class="row h-100">
                 <div class="col-8 ">
                     <a href="{% url 'display_artifact' id=auction.artifact.id %}">{{ auction.artifact.name }}</a>
@@ -63,7 +63,7 @@
     </div>    
 
     <div class="row">
-        <div class="col-10 offset-1 option-list hvr-sweep-to-right">
+        <div class="col-10 offset-1 styled-box option-list  hvr-sweep-to-right">
             <div class="row">
                 <div class="col-12 option-inner">
                     <a href="{% url 'artifacts_list' %}"><span>View Artifacts</span></a>     
@@ -73,7 +73,7 @@
     </div>    
     <div class="row">
         {% if not user.is_authenticated %}
-        <div class="col-10 offset-1 option-list hvr-sweep-to-right">
+        <div class="col-10 offset-1 styled-box option-list  hvr-sweep-to-right">
             <div class="row">
                 <div class="col-12 option-inner">
                     <a href="{% url 'login' %}"><span>Log In/Register</span></a>
@@ -81,7 +81,7 @@
             </div>
         </div>
         {% else %}
-        <div class="col-10 offset-1 option-list hvr-sweep-to-right">
+        <div class="col-10 offset-1 styled-box option-list  hvr-sweep-to-right">
             <div class="row">
                 <div class="col-12 option-inner">
                     <a href="{% url 'view_collection' %}"><span>View Collection</span></a>

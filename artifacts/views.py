@@ -26,6 +26,7 @@ def artifacts_list(request):
     else:
         search_form = SearchArtifactsForm()
         artifacts = Artifact.objects.all()
+        
     auctions = Auction.objects.all()
     auction_bids = {}
     for auction in auctions:

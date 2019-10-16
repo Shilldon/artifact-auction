@@ -70,36 +70,16 @@
   font-size: 1rem;
   font-family: 'Nanum Gothic', sans-serif !important;
   font-weight: 700;
-  border: solid 2px #1761BF;
   margin-top: 5px;
-  margin-bottom: 5px; }
+  margin-bottom: 5px;
+  line-height: 2.5; }
   .option-list img {
     width: 100%; }
   .option-list a {
     text-decoration: none;
     color: #444444; }
-
-.option-inner {
-  border-left: solid 5px #FFB938;
-  margin: 0;
-  line-height: 2.5; }
-  .option-inner p {
-    font-size: 0.75rem;
-    line-height: 0; }
-
-.artifact-image {
-  background-size: contain;
-  background-position: center center;
-  background-repeat: no-repeat;
-  width: 100%; }
-
-.artifact {
-  background-size: contain;
-  background-position: center center;
-  background-repeat: no-repeat;
-  width: 150px;
-  height: 150px;
-  margin: 0 auto; }
+  .option-list p {
+    font-size: 0.75rem; }
 
 .hvr-sweep-to-right:before {
   background-color: #FFB938; }
@@ -167,5 +147,42 @@ footer {
   background: white;
   cursor: inherit;
   display: block; }
+
+.search-bar-container {
+  margin-top: 20px;
+  margin-bottom: 20px; }
+  .search-bar-container button {
+    border: none;
+    background-color: transparent;
+    outline: none;
+    color: #FFB938; }
+
+.search-bar {
+  border: 1px solid #444444; }
+
+.search-icon {
+  color: #FFB938;
+  background-color: #003273;
+  padding: 5px 7px 0 0; }
+
+.artifact-information {
+  font-size: 0.75rem; }
+  .artifact-information a {
+    text-decoration: none;
+    color: #444444; }
+  .artifact-information h4 {
+    font-size: 1rem; }
+  .artifact-information p {
+    line-height: 1.5; }
+
+.artifact-image {
+  background-size: contain;
+  background-position: center center;
+  background-repeat: no-repeat;
+  line-height: 10; }
+
+.styled-box {
+  outline: solid 2px #1761BF;
+  border-left: solid 5px #FFB938; }
 
 /*# sourceMappingURL=custom.css.map */

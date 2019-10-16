@@ -30,7 +30,7 @@ class SearchArtifactsForm(forms.Form):
     ]
 
     
-    name = forms.CharField(label="Name contains:", required=False)
+    name = forms.CharField(label="Name contains:", required=False, widget=forms.Textarea(attrs= { 'cols':200,'rows':1, 'style': 'width:100%; outline:none; border:none; resize: none;' }))
     sort_by = forms.ChoiceField(label='Sort by:', choices=SORT_CHOICES, required=False)
     description = forms.CharField(label="Description contains:", required=False)
     sold = forms.BooleanField(initial=False, required=False)

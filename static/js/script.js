@@ -31,7 +31,7 @@ function initialisePage(artifactId, startTime, endTime, currentBid, artifactCont
             auctionBidStatus.show();
             auctionButtons.show();
             auctionSoldStatus.hide();
-            auctionText = "Auction time remaining:";
+            auctionText = "Time Left: ";
             displayTimer(artifactContainer, artifactId, endTime, auctionText, true);
             checkBid(artifactId, currentBid, artifactContainer);
         }
@@ -40,7 +40,7 @@ function initialisePage(artifactId, startTime, endTime, currentBid, artifactCont
             auctionBidStatus.hide();
             auctionButtons.hide();
             auctionSoldStatus.hide();
-            auctionText = "Time to start of auction:";
+            auctionText = "Starts in: ";
             displayTimer(artifactContainer, artifactId, startTime, auctionText, false);
         }
         else {
@@ -70,26 +70,22 @@ function displayTimer(artifactContainer, artifactId, referenceTime, auctionText,
         var hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
         var minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
         var seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
-        var dayString = " days "
-        var hourString = " hours "
-        var minuteString = " minutes "
-        var secondString = " seconds";
+        var dayString = "d "
+        var hourString = "h "
+        var minuteString = "m "
+        var secondString = "s";
 
         if (days == 0) { days = "";
             dayString = "" }
-        else if (days == 1) { dayString = " day " }
         
         if (hours == 0) { hours = "";
             hourString = "" }
-        else if (hours == 1) { hourString = " hour " }
         
         if (minutes == 0) { minutes = "";
             minuteString = "" }
-        else if (minutes == 1) { minuteString = " minute " }
         
         if (seconds == 0) { seconds = "";
             secondString = "" }
-        else if (seconds == 1) {  secondString = " second" }
         $(".auction-timer", artifactContainer).text(days + dayString + hours + hourString + minutes + minuteString + seconds + secondString);
 
         if (timeLeft <= 0) {
