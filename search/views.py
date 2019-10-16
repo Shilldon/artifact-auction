@@ -18,8 +18,11 @@ def search_artifacts(request, search_form):
         min_price = search_form['min_buy_now_price'].value()
         sort_by = int(search_form["sort_by"].value())
 
-        artifacts_list = artifacts.filter(description__icontains=description) \
-                                  .filter(name__icontains=name) \
+
+        print("artifacts %s, name %s, description %s, sold %s, in_auction %s, categories %s, artifact_type %s,  max_price %s, min_price %s" % (artifacts, name, description, sold, in_auction, categories, artifact_type, max_price, min_price))
+
+        artifacts_list = artifacts.filter(**filter_by("description__icontains", description)) \
+                                  .filter(**filter_by("name__icontains", name)) \
                                   .filter(**filter_by("sold", sold)) \
                                   .filter(category__id__in=categories) \
                                   .filter(type__in=artifact_type) \

@@ -10,31 +10,47 @@
 {% block content %}
 <section class="container">
 <form method="POST">
-    {% csrf_token %}    
     <div class="row search-bar-container">
         <div class="col-9 offset-1 search-bar">
-            {% render_field search_form.name%}
-            
+            {% csrf_token %} 
+            {% render_field search_form.name %}
+            {{ search_form.sort_by.as_hidden }}
+            {{ search_form.sold.as_hidden }}
+            {{ search_form.in_auction.as_hidden }}
+            {{ search_form.category.as_hidden }}
+            {{ search_form.type.as_hidden }}
+            {{ search_form.min_buy_now_price.as_hidden }}
+            {{ search_form.max_buy_now_price.as_hidden }}
         </div>
         <div class="col-1 search-icon text-center align-middle" >
             <button type="submit"><span class=" "><i class="fas fa-search"></i></span></button>  
         </div>
     </div>
-</form>    
+</form>        
+<div class="row search-options">
+        <div class="col-4 text-center">
+            <button data-toggle="modal" data-target="#filterModal">Filter
+        </div>    
+        <div class="col-4 text-center">
+            {{ artifacts_list|length }} results
+        </div>
+        <div class="col-4 text-center">
+             <button data-toggle="modal" data-target="#sortModal">Sort</button>
+        </div>
+    </div>
+
 </section>
 <div class="container" >
 {% for artifact in artifacts_list %}
     <div class="row h-100 styled-box artifact-information" style="margin: 15px -5px 0 -5px; padding:5px 0 5px 0">
-        
         <div class="auction-artifactid" data-artifactid="{{ artifact.id }}"></div>
         <div class="col-4 artifact-image text-center my-auto img-fluid" style="background-image: url('{{ MEDIA_URL }}{{ artifact.image }}');">
-        {% if artifact.sold is True %}
+            {% if artifact.sold is True %}
             <a href="{% url 'display_artifact' id=artifact.id %}"><img class="img-fluid my-auto" src="/media/images/sold.png"></img></a>
-        {%else %}
+            {%else %}
             <a style="display:block; height:100px; width:100px;" href="{% url 'display_artifact' id=artifact.id %}"></a>
-        {% endif %}
-        </div>                
-
+            {% endif %}
+        </div>
         <div class="col-8">
             <h4><a href="{% url 'display_artifact' id=artifact.id %}"><span>{{ artifact.name }}</span></a></h4>
             {% if artifact.sold is True %}
@@ -69,12 +85,110 @@
 </a>    
 {% endfor %}
 </div>
-
+<!--
 <div>
+    
 <form method="POST">
     {% csrf_token %}
     {{ search_form | as_bootstrap }}
     <button type="submit">Search</button>
 </form>
+</div>
+-->
+{% endblock %}
+
+{% block modal %} 
+<div class="modal fade" id="filterModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-full" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Filter results</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="POST">
+                {% csrf_token %}
+                {{ search_form.name.as_hidden }}
+                {{ search_form.sort_by.as_hidden }}
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12">
+                            <span>Description contains:</span>
+                            {% render_field search_form.description %}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-8">
+                            <span>Sold</span>
+                        </div>
+                        <div class="col-2">
+                            {% render_field search_form.sold %}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-8">
+                            <span>Listed for auction</span>
+                        </div>
+                        <div class="col-2">
+                            {% render_field search_form.in_auction %}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-8">
+                            <span>Categories</span>
+                        </div>
+                        <div class="col-2">
+                            <span class="collapse-button" data-toggle="collapse" data-target="#categoriesCollapse"><i class="fas fa-caret-down"></i></span>
+                        </div>                        
+                    </div>
+                    <div class="collapse" id="categoriesCollapse">
+                        <div class="row">
+                            <div class="col-12">
+                                {% render_field search_form.category %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-8">
+                            <span>Type</span>
+                        </div>
+                        <div class="col-2">
+                            <span class="collapse-button" data-toggle="collapse" data-target="#typesCollapse"><i class="fas fa-caret-down"></i></span>
+                        </div>                        
+                    </div>
+                    <div class="collapse" id="typesCollapse">
+                        <div class="row">
+                            <div class="col-12">
+                                {% render_field search_form.type %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <span>Reserve price</span>
+                        </div>
+                    </div>                    
+                    <div class="row">
+                        <div class="col-6">
+                            <label for="min_buy_now_price" style="font-size: 0.75rem">Minimum</label>
+                            {% render_field search_form.min_buy_now_price %}
+                        </div>
+                        <div class="col-6">
+                            <label for="max_buy_now_price" style="font-size: 0.75rem">Maximum</label>
+                            {% render_field search_form.max_buy_now_price %}
+                        </div>
+                    </div> 
+                    <div class="row">
+                        <div class="col-12 text-center">
+                            <button class="btn" type="submit">Filter</button>        
+                        </div>
+                    </div>                       
+                </div>  
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock %}

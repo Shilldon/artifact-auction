@@ -165,6 +165,19 @@ footer {
   background-color: #003273;
   padding: 5px 7px 0 0; }
 
+.search-options button {
+  color: #1761BF;
+  outline: none;
+  background-color: transparent;
+  border: none; }
+
+#filterModal li {
+  list-style-type: None;
+  line-height: 1.5; }
+  #filterModal li label {
+    font-size: 1rem;
+    margin-bottom: 0; }
+
 .artifact-information {
   font-size: 0.75rem; }
   .artifact-information a {

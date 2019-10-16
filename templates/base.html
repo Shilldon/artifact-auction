@@ -112,19 +112,6 @@
             </div>
         </div>
     </footer>
-</body>
-
-<!--
-{% if messages %}
-<div class="alert alert-success">
-    <div class="messages">
-        {% for message in messages %} {{ message }} {% endfor %}
-    </div>
-</div>
-{% endif %}
--->
-
-
 
 <!-- modals -->
 <div class="modal fade" id="modalMenu" tabindex="-1" role="dialog">
@@ -173,5 +160,12 @@
         </div>
     </div>
 </div>
+
+{% block modal %} {% endblock %}
+
+</body>
+
+
+
 
 </html>

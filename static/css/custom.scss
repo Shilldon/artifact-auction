@@ -3,7 +3,8 @@ $background-color-light: #1761BF; // Light Blue
 $font-color-light: #FFB938; // Yellow
 $font-color-dark: #734D07; // Brown
 $font-color-grey: #444444; // Grey
-$font-color-blue: #003273;
+$font-color-blue: #003273; // Dark blue
+$font-color-light-blue: #1761BF; // Light blue
 $highlight-color-light: #FFB938; // Beige
 $highlight-color-dark: #734D07; // Brown
 
@@ -218,6 +219,26 @@ footer {
     color: $font-color-light;
     background-color: $background-color-dark;
     padding: 5px 7px 0 0;
+}
+
+.search-options {
+    button {
+        color: $font-color-light-blue;
+        outline: none;
+        background-color: transparent;
+        border: none;
+    }
+}
+
+#filterModal {
+        li {
+            list-style-type:None;
+            line-height:1.5;
+            label {
+                font-size:1rem; 
+                margin-bottom:0;
+            }
+        }
 }
 
 .artifact-information {
