@@ -7,9 +7,11 @@ $(".collapse-button").click(function() {
     }
     else {
         $("i", this).addClass("fa-caret-up");    
-        $("i", this).removeClass("fa-caret-down");  
-        
+        $("i", this).removeClass("fa-caret-down"); 
+        console.log("clicked")
+        $("html, body").animate({ scrollTop: $(collapsible).height()+"50px" }, 250);
     }
+        
 
 })
 

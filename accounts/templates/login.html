@@ -2,10 +2,10 @@
 
 <div class="container">
     <div class="row ">
-        <div class="col-10 offset-1 account-form-container">
+        <div class="col-10 offset-1 accounts--form-container">
             <form method="POST">
                 {% csrf_token %}
-                <div class="container account-form">
+                <div class="container accounts--form">
                     <div class="row">
                         <div class="col-12">
                             <h6>Log in to your account</h6>
@@ -17,27 +17,27 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-12 styled-box option-list ">
+                        <div class="col-12 styled-box index--option">
                             <div class="row h-100">
-                                <div class="col-12 option-inner">
-                                    {% render_field login_form.username style="border: none; outline: none" %}
+                                <div class="col-12" tabindex="0">
+                                    {% render_field login_form.username %}
                                 </div>
                             </div>
                         </div>
                     </div>
-                     <div class="row">
+                     <div class="row" >
                         <div class="col-4">
                             <p>Password</p>
                         </div>
                         <div class="col-8 text-right">
-                            <p><a href="{% url 'password_reset' %}">Forgot Password</a></p>
+                            <p><a href="{% url 'password_reset' %}" tabindex="2">Forgot Password</a></p>
                         </div>
                     </div>                
                     <div class="row ">
-                        <div class="col-12 styled-box option-list ">
+                        <div class="col-12 styled-box index--option">
                             <div class="row h-100">
-                                <div class="col-12 option-inner">
-                                    {% render_field login_form.password style="border: none; outline: none" %}
+                                <div class="col-12" tabindex="1">
+                                    {% render_field login_form.password %}
                                 </div>
                             </div>
                         </div>
@@ -47,7 +47,8 @@
                             <button class="btn" type="submit">Sign-In</button>        
                         </div>
                     </div>                
-                </div>
+                    <div class="row">
+                        <div class="col-12">
                 {% if messages %}
                 <div class="alert alert-success">
                     <div class="messages">
@@ -56,7 +57,11 @@
                     {% endfor %}
                     </div>
                 </div>
-                {% endif %}
+                {% endif %}                            
+                        </div>
+                    </div>
+                </div>
+
             </form>
         </div>
     </div>

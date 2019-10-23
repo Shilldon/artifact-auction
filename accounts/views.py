@@ -10,18 +10,16 @@ from accounts.forms import UserRegistrationForm, UserLoginForm, UserEditProfileF
 def register(request):
     if request.method == "POST":
         registration_form = UserRegistrationForm(request.POST)
-        profile_form = ProfileForm(request.POST)
+        
         if registration_form.is_valid():
             registration_form.save()
             entered_username = registration_form.cleaned_data.get('username')
             entered_password = registration_form.cleaned_data.get('password2')
-            remain_anonymous = profile_form['remain_anonymous'].value()
             user = auth.authenticate(username=entered_username, 
                                      password=entered_password)
-            profile_form = ProfileForm(request.POST, instance=user.profile)
+            profile_form = ProfileForm(request.POST, request.FILES, instance=user.profile)
             profile_form.save()
-            
-            print("registration is valid")
+          
             if user:
                 messages.success(request, 
                                  "You have successfully created an account. Please log in using your credentials.")
@@ -31,7 +29,7 @@ def register(request):
                                "Your passwords do not match")                  
         else:
             messages.error(request, 
-                           "An error occurred, please try again later")
+                           "Please check and amend the above.")
     else:
         registration_form = UserRegistrationForm()
         profile_form = ProfileForm()
@@ -92,7 +90,7 @@ def edit_profile(request):
     
     if request.method == "POST":
         edit_user_form = UserEditProfileForm(request.POST, instance=user)
-        edit_profile_form = ProfileForm(request.POST, instance=user.profile)
+        edit_profile_form = ProfileForm(request.POST, request.FILES, instance=user.profile)
 
         if edit_user_form.is_valid() and edit_profile_form.is_valid():
             edit_user_form.save()

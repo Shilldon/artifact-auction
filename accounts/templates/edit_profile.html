@@ -1,14 +1,135 @@
 {% extends 'base.html' %}
-
+{% load widget_tweaks %}
 {% load bootstrap_tags %}
 
 {% block content %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-10 offset-1 accounts--form-container">
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="container accounts--form">
+                    <div class="row">
+                        <div class="col-12">
+                            <h6>Edit profile</h6>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <p>First Name</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 styled-box">
+                            {% render_field edit_user_form.first_name %}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <p>Last Name</p>
+                        </div>
+                    </div>                    
+                    <div class="row">
+                        <div class="col-12 styled-box">
+                            {% render_field edit_user_form.last_name %}
+                        </div>
+                    </div>   
+                    <div class="row">
+                        <div class="col-12">
+                            <p>Username</p>
+                        </div>
+                    </div>                    
+                    <div class="row">
+                        <div class="col-12 styled-box">
+                            {% render_field edit_user_form.username %}
+                        </div>
+                        <div class="col-12"  >
+                           {% render_field edit_user_form.errors.username %}     
+                        </div>                        
+                    </div>     
+                    <div class="row">
+                        <div class="col-12">
+                            <p>Email Address</p>
+                        </div>
+                    </div>                    
+                    <div class="row">
+                        <div class="col-12 styled-box">
+                            {% render_field edit_user_form.email %}
+                        </div>
+                        <div class="col-12"  >
+                           {% render_field edit_user_form.errors.email %}     
+                        </div>                           
+                    </div>      
+                    <div class="row">
+                        <div class="col-6 offset-3 text-center">
+                            {% if user.profile.profile_picture %}
+                            <img class="img-fluid my-auto" src="{{MEDIA_URL}}{{user.profile.profile_picture}}" class="img-fluid my-auto" alt="User's Profile Picture">
+                            {% else %}
+                            <img src="/media/images/default_profile_picture.png" class="img-fluid my-auto" alt="User's Profile Picture">
+                            {% endif %}  
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 text-center">
+                            <p>Upload a new profile picture</p>
+                        </div>
+                    </div>                    
+                    <div class="row h-100">
+                        <div class="col-12 text-center">
+                            <span class="btn ">
+                                Choose File
+                                {% render_field edit_profile_form.profile_picture %}
+                            </span>
+                        </div>
+                    </div>
+                     <div class="row">
+                        <div class="col-12">
+                            <span>Remain anonymous</span>
+                            {% render_field edit_profile_form.remain_anonymous %}
+                        </div>
+                    </div>    
+                    <div class="row">
+                        <div class="col-12">
+                            <p>Your username will not be displayed on bids or artifact ownership.</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 text-center">
+                            <button class="btn" type="submit">Update</button>        
+                        </div>
+                    </div>                
+                </div>
+                {% if messages %}
+                <div class="alert alert-success">
+                    <div class="messages">
+                    {% for message in messages %}
+                    <p>{{ message }}</p>
+                    {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+            </form>
+        </div>
+    </div>
+</div>
+
+
     <h2>{{ user.username }}</h2>
 
 <form method="POST">
     {% csrf_token %}
-    {{ edit_user_form | as_bootstrap }}
-    {{ edit_profile_form | as_bootstrap }}
+    <div class="row">
+        <div class="col-12">
+        {{ edit_user_form | as_bootstrap }}            
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+          {{ edit_profile_form | as_bootstrap }}  
+        </div>
+    </div>
+    
     <button type="submit">Update</button>
 </form> 
 

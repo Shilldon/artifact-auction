@@ -31,7 +31,7 @@ function initialisePage(artifactId, startTime, endTime, currentBid, artifactCont
             auctionBidStatus.show();
             auctionButtons.show();
             auctionSoldStatus.hide();
-            auctionText = "Time Left: ";
+            auctionText = "Time left: ";
             displayTimer(artifactContainer, artifactId, endTime, auctionText, true);
             checkBid(artifactId, currentBid, artifactContainer);
         }

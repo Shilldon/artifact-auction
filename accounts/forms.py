@@ -31,8 +31,6 @@ class UserRegistrationForm(UserCreationForm):
         label="Last Name",
         max_length=50)
 
-    profile_picture = forms.ImageField(required=False)
-    
     class Meta:
         model = User
         fields = (
@@ -42,7 +40,6 @@ class UserRegistrationForm(UserCreationForm):
             'email', 
             'password1', 
             'password2', 
-            'profile_picture',
         )
 
     def clean_email(self):
@@ -50,7 +47,7 @@ class UserRegistrationForm(UserCreationForm):
 
         if not email:
             raise forms.ValidationError(u'Please enter an email address')
-        if User.objects.filter(email=email):
+        if User.objects.exclude(pk=self.instance.pk).filter(email=email):
             raise forms.ValidationError(u'That email address is already registered')
     
         return email
@@ -59,7 +56,7 @@ class UserRegistrationForm(UserCreationForm):
         username = self.cleaned_data.get('username')
         if not username:
             raise forms.ValidationError(u'Please enter a username')
-        if User.objects.filter(username=username):
+        if User.objects.exclude(pk=self.instance.pk).filter(username=username):
             raise forms.ValidationError(u'That username is already taken')
     
         return username
@@ -84,10 +81,10 @@ class ProfileForm(forms.ModelForm):
 
     class Meta:
         model = Profile
-        fields = ('remain_anonymous', )
+        fields = ('remain_anonymous', 'profile_picture')
 
 class UserEditProfileForm(UserChangeForm):
-    
+  
     class Meta:
         model = User
         fields = (
@@ -95,5 +92,24 @@ class UserEditProfileForm(UserChangeForm):
             'first_name', 
             'last_name', 
             'email',
-            'password'
+            'password',
         )
+
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        print(User.objects.filter(email=email))
+        if not email:
+            raise forms.ValidationError(u'Please enter an email address')
+        if User.objects.exclude(pk=self.instance.pk).filter(email=email):
+            raise forms.ValidationError(u'That email address is already registered')
+    
+        return email
+
+    def clean_username(self):
+        username = self.cleaned_data.get('username')
+        if not username:
+            raise forms.ValidationError(u'Please enter a username')
+        if User.objects.exclude(pk=self.instance.pk).filter(username=username):
+            raise forms.ValidationError(u'That username is already taken')
+    
+        return username

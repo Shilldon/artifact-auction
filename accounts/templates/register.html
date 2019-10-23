@@ -2,10 +2,10 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-10 offset-1 account-form-container">
-            <form method="POST">
+        <div class="col-10 offset-1 accounts--form-container">
+            <form method="POST" enctype="multipart/form-data">
                 {% csrf_token %}
-                <div class="container account-form">
+                <div class="container accounts--form">
                     <div class="row">
                         <div class="col-12">
                             <h6>Register a new account</h6>
@@ -17,8 +17,8 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-12 styled-box option-list ">
-                            {% render_field registration_form.first_name style="border: none; outline: none" %}
+                        <div class="col-12 styled-box">
+                            {% render_field registration_form.first_name %}
                         </div>
                     </div>
                     <div class="row">
@@ -27,8 +27,8 @@
                         </div>
                     </div>                    
                     <div class="row">
-                        <div class="col-12 styled-box option-list ">
-                            {% render_field registration_form.last_name style="border: none; outline: none" %}
+                        <div class="col-12 styled-box">
+                            {% render_field registration_form.last_name %}
                         </div>
                     </div>   
                     <div class="row">
@@ -37,8 +37,11 @@
                         </div>
                     </div>                    
                     <div class="row">
-                        <div class="col-12 styled-box option-list ">
-                            {% render_field registration_form.username style="border: none; outline: none" %}
+                        <div class="col-12 styled-box">
+                            {% render_field registration_form.username %}
+                        </div>
+                        <div class="col-12"  >
+                           {% render_field registration_form.errors.username %}     
                         </div>
                     </div>     
                     <div class="row">
@@ -47,9 +50,12 @@
                         </div>
                     </div>                    
                     <div class="row">
-                        <div class="col-12 styled-box option-list ">
-                            {% render_field registration_form.email style="border: none; outline: none" %}
+                        <div class="col-12 styled-box">
+                            {% render_field registration_form.email %}
                         </div>
+                        <div class="col-12"  >
+                           {% render_field registration_form.errors.email %}     
+                        </div>                        
                     </div>                      
                     <div class="row">
                         <div class="col-12">
@@ -57,8 +63,8 @@
                         </div>
                     </div>                    
                     <div class="row">
-                        <div class="col-12 styled-box option-list ">
-                            {% render_field registration_form.password1 style="border: none; outline: none" %}
+                        <div class="col-12 styled-box">
+                            {% render_field registration_form.password1 %}
                         </div>
                     </div>  
                     <div class="row">
@@ -67,27 +73,27 @@
                         </div>
                     </div>                    
                     <div class="row">
-                        <div class="col-12 styled-box option-list ">
-                            {% render_field registration_form.password2 style="border: none; outline: none" %}
+                        <div class="col-12 styled-box">
+                            {% render_field registration_form.password2 %}
                         </div>
                     </div>     
                     <div class="row">
                         <div class="col-12">
-                            <p>Upload profile picture</p>
+                            <p>Upload a profile picture</p>
                         </div>
                     </div>                    
                     <div class="row h-100">
                         <div class="col-12 text-center">
                             <span class="btn btn-default btn-file">
                                 Choose File
-                            {{ registration_form.profile_picture }}
+                                {% render_field profile_form.profile_picture %}
                             </span>
                         </div>
                     </div>
                      <div class="row">
                         <div class="col-12">
                             <span>Remain anonymous</span>
-                            {% render_field profile_form.remain_anonymous style="margin-top:15px; border: none; outline: none" %}
+                            {% render_field profile_form.remain_anonymous %}
                         </div>
                     </div>    
                     <div class="row">

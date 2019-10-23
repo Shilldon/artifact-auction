@@ -16,7 +16,10 @@ def check_bid(request, bid_form, artifact):
     if bid_form.is_valid():
         new_bid = Decimal(request.POST['amount_bid'])
         bids = Bids.objects.filter(auction=auction)
-        current_bid = bids.order_by('-bid_amount')[0].bid_amount
+        try:
+            current_bid = bids.order_by('-bid_amount')[0].bid_amount
+        except:
+            current_bid = 0
         if new_bid > current_bid:
             """send email to  previous bidder regarding bid status"""
             bid_email(request, artifact, new_bid)
@@ -45,7 +48,10 @@ def bid_email(request, artifact, new_bid):
     email_title = 'Artifact Auctions - '+artifact.name
     email_message = 'You have been outbid on '+artifact.name+'. The current bid is now £'+str(new_bid)+'.'
     bids = Bids.objects.filter(auction=auction)
-    current_bidder = bids.order_by('-bid_amount')[0].bidder
+    try:
+        current_bidder = bids.order_by('-bid_amount')[0].bidder
+    except:
+        current_bidder = None
     if current_bidder:
         send_mail(
         email_title,

@@ -1,7 +1,6 @@
 {% extends 'base.html' %}
 
 {% load static from staticfiles %}
-{% load bootstrap_tags %}
 {% load widget_tweaks %}
 {% block head_js %}
 <script defer src="{% static 'js/script.js' %}"></script>
@@ -46,9 +45,13 @@
 
 <div class="container" >
 {% for artifact in artifacts_list %}
-    <div class="row h-100 styled-box artifact-information" style="margin: 15px -5px 0 -5px; padding:5px 0 5px 0">
+    <div class="row h-100 styled-box artifact-information artifact-list" style="margin: 15px -5px 0 -5px; padding:5px 0 5px 0">
         <div class="auction-artifactid" data-artifactid="{{ artifact.id }}"></div>
+        {% if artifact.image %}
         <div class="col-4 artifact-image text-center my-auto img-fluid" style="background-image: url('{{ MEDIA_URL }}{{ artifact.image }}');">
+        {% else %}
+        <div class="col-4 artifact-image text-center my-auto img-fluid" style="background-image: url('/media/images/cross_gold.png');">
+        {% endif %}        
             {% if artifact.sold is True %}
             <a href="{% url 'display_artifact' id=artifact.id %}"><img class="img-fluid my-auto" src="/media/images/sold.png"></img></a>
             {%else %}
@@ -70,15 +73,15 @@
             {% else %}
             <span class="auction-status"></span>
             <span class="auction-timer-container">
-                <span class="auction-timer"></span><br>
+                <span class="auction-timer"></span>
             </span>
             
                 {% for auction in auctions %}
                     {% if auction.artifact == artifact %}
-                    <span>Reserve: £{{ artifact.buy_now_price }}<br></span>                        
-                    <span class="auction-bid-status">
+                    <div class="auction-bid-status">
+                        <span>Buy now for: £{{ artifact.buy_now_price }}<br></span>                        
                         <span class="auction-current-bid">Current bid: £{{ auction_bids|get_item:auction.id }}</span>
-                    </span>
+                    </div>
                     {% endif %}
                 {%endfor%}  
             {% endif %}
@@ -241,7 +244,7 @@
             <div class="modal-body">
                 <form method="POST">
                     {% csrf_token %}
-                    {{ search_form.name.as_hiddeb }}
+                    {{ search_form.name.as_hidden }}
                     {{ search_form.sold.as_hidden }}
                     {{ search_form.in_auction.as_hidden }}
                     {{ search_form.category.as_hidden }}

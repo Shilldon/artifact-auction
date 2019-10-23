@@ -6,6 +6,10 @@ from django.dispatch import receiver
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     remain_anonymous = models.BooleanField(default=False)
+    profile_picture = models.ImageField(upload_to='images', null=True, blank=True)
+    
+    def __str__(self):
+        return "%s's profile" % self.user
 
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):

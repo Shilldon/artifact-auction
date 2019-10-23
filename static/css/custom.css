@@ -1,3 +1,10 @@
+body {
+  font-family: "Montserrat", sans-serif; }
+
+a {
+  text-decoration: none !important;
+  color: #FFB938; }
+
 .navbar {
   background-color: #003273 !important; }
   .navbar button {
@@ -6,12 +13,9 @@
     border: none;
     outline: none; }
   .navbar .navbar-nav li span {
-    font-family: 'Nanum Gothic', sans-serif !important;
     font-weight: 700;
     color: #FFB938 !important; }
   .navbar a {
-    text-decoration: none;
-    color: #FFB938 !important;
     line-height: .75; }
   .navbar .navbar-brand span {
     font-size: 0.75rem; }
@@ -20,13 +24,29 @@
   font-family: 'Cinzel Decorative', serif;
   color: #FFB938 !important; }
 
+.modal {
+  font-size: 1rem;
+  font-family: 'Montserrat', sans-serif !important; }
+  .modal li {
+    line-height: 2.5; }
+  .modal a {
+    color: #444444;
+    text-decoration: none; }
+
 .modal-dialog {
   position: fixed;
   margin: auto;
   width: 100%;
   height: 100%; }
 
-.title-image {
+#filterModal li {
+  list-style-type: None;
+  line-height: 1.5; }
+  #filterModal li label {
+    font-size: 1rem;
+    margin-bottom: 0; }
+
+.index--title-image {
   background-image: url("/media/images/background.jpg");
   background-size: contain;
   background-repeat: no-repeat;
@@ -35,92 +55,64 @@
   align-items: center;
   justify-content: center; }
 
-.title {
+.index--title-text {
   position: absolute;
   color: white;
   text-align: center;
   text-shadow: 0px 0px 15px #000000; }
-  .title h1 {
+  .index--title-text h1 {
     font-size: 2rem;
     font-family: 'Cinzel Decorative', serif; }
-  .title h4 {
+  .index--title-text h4 {
     font-size: 1rem;
-    font-family: 'Nanum Gothic', sans-serif !important;
     font-weight: 700; }
 
-.call-to-action {
+.index--call-to-action {
   padding: 15px 0 10px 0;
   background-color: #003273 !important;
-  font-family: 'Nanum Gothic', sans-serif !important;
   text-align: center; }
-  .call-to-action h4 {
+  .index--call-to-action h4 {
     color: #FFB938; }
-  .call-to-action h5 {
+  .index--call-to-action h5 {
     color: #FFB938;
     font-weight: 700;
     font-size: 1rem; }
-  .call-to-action p {
+  .index--call-to-action p {
     font-size: 0.75rem;
     color: white; }
 
-.options {
-  padding: 10px 0 40px 0; }
+.index--options-container {
+  padding-top: 10px;
+  padding-bottom: 40px; }
 
-.option-list {
+.index--option {
   font-size: 1rem;
-  font-family: 'Nanum Gothic', sans-serif !important;
-  font-weight: 700;
-  margin-top: 5px;
-  margin-bottom: 5px;
-  line-height: 2.5; }
-  .option-list img {
+  font-weight: 700; }
+  .index--option img {
     width: 100%; }
-  .option-list a {
-    text-decoration: none;
+  .index--option a {
     color: #444444; }
-  .option-list p {
+  .index--option p {
     font-size: 0.75rem; }
+
+.errorlist {
+  list-style-type: none;
+  padding: 0;
+  color: red;
+  font-size: 0.75rem; }
 
 .hvr-sweep-to-right:before {
   background-color: #FFB938; }
 
-footer {
-  padding-top: 20px;
-  padding-bottom: 20px;
-  background-color: #003273;
-  color: #FFB938;
-  font-family: 'Nanum Gothic', sans-serif !important; }
-  footer a {
-    font-size: 0.75rem;
-    text-decoration: none;
-    color: #FFB938 !important; }
-  footer li {
-    margin: 0 5px; }
-
-.modal {
-  font-size: 1rem;
-  font-family: 'Nanum Gothic', sans-serif !important; }
-  .modal li {
-    line-height: 2.5; }
-  .modal a {
-    color: #444444;
-    text-decoration: none; }
-
-.account-form-container {
-  color: #444444;
-  margin-top: 20px;
-  margin-bottom: 50px;
-  border: #003273 4px solid;
-  border-radius: 2%; }
-  .account-form-container .account-form {
-    padding-top: 20px;
-    padding-bottom: 20px; }
-  .account-form-container p {
-    font-size: 0.75rem;
-    padding: 0;
-    margin: 0; }
-  .account-form-container input {
-    font-size: 1rem; }
+.styled-box {
+  margin-top: 5px;
+  margin-bottom: 5px;
+  line-height: 2.5;
+  outline: solid 2px #1761BF;
+  border-left: solid 5px #FFB938; }
+  .styled-box input {
+    border: none;
+    outline: none; }
 
 .btn {
   margin-top: 10px;
@@ -128,6 +120,26 @@ footer {
   color: #003273;
   background-color: #FFB938;
   border: #734D07 solid 2px; }
+  .btn a {
+    color: #003273; }
+
+.accounts--form-container {
+  color: #444444;
+  margin-top: 20px;
+  margin-bottom: 50px;
+  border: #003273 4px solid;
+  border-radius: 2%; }
+  .accounts--form-container .accounts--form {
+    padding-top: 20px;
+    padding-bottom: 20px; }
+  .accounts--form-container p {
+    font-size: 0.75rem;
+    padding: 0;
+    margin: 0; }
+  .accounts--form-container input {
+    font-size: 1rem;
+    border: none;
+    outline: none; }
 
 .btn-file {
   position: relative;
@@ -147,6 +159,13 @@ footer {
   background: white;
   cursor: inherit;
   display: block; }
+
+.accounts--profile-btn {
+  width: 100%;
+  margin-bottom: 20px; }
+
+img {
+  padding-top: 20px; }
 
 .search-bar-container {
   margin-top: 20px;
@@ -171,32 +190,22 @@ footer {
   background-color: transparent;
   border: none; }
 
-#filterModal li {
-  list-style-type: None;
-  line-height: 1.5; }
-  #filterModal li label {
-    font-size: 1rem;
-    margin-bottom: 0; }
-
-.artifact-information {
+.artifact-list {
   font-size: 0.75rem; }
-  .artifact-information a {
-    text-decoration: none;
+  .artifact-list a {
     color: #444444; }
-  .artifact-information h4 {
+  .artifact-list h4 {
     font-size: 1rem; }
-  .artifact-information p {
+  .artifact-list p {
     line-height: 1.5; }
 
 .artifact-image {
   background-size: contain;
   background-position: center center;
   background-repeat: no-repeat;
-  line-height: 10; }
-
-.styled-box {
-  outline: solid 2px #1761BF;
-  border-left: solid 5px #FFB938; }
+  line-height: 10;
+  margin-left: 5px;
+  margin-right: -5px; }
 
 .artifact-list-paginationbar {
   margin-top: 20px;
@@ -209,5 +218,49 @@ footer {
   color: #FFB938;
   background-color: #003273;
   border-color: #1761BF; }
+
+.artifact-single {
+  font-size: 0.9rem; }
+  .artifact-single a {
+    color: #003273; }
+  .artifact-single .row {
+    padding-top: 10px; }
+  .artifact-single img {
+    border: solid #734D07 5px; }
+  .artifact-single .bid-history-btn {
+    outline: none;
+    background: transparent;
+    border: none;
+    color: #1761BF;
+    padding: 0; }
+
+.artifact-details {
+  margin-bottom: 30px; }
+  .artifact-details .row {
+    margin-bottom: 10px; }
+  .artifact-details .collapse {
+    padding-bottom: 10px;
+    border-bottom: 1px solid #444444; }
+
+.review-container {
+  line-height: 0; }
+  .review-container .review-star {
+    color: #FFB938; }
+  .review-container .review-empty-star {
+    color: #003273; }
+
+#id_amount_bid {
+  font-size: 0.8rem; }
+
+footer {
+  padding-top: 20px;
+  padding-bottom: 20px;
+  background-color: #003273;
+  color: #FFB938; }
+  footer a {
+    font-size: 0.75rem;
+    color: #FFB938 !important; }
+  footer li {
+    margin: 0 5px; }
 
 /*# sourceMappingURL=custom.css.map */

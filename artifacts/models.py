@@ -27,10 +27,10 @@ class Artifact(models.Model):
     category = models.ForeignKey(Category, on_delete=models.PROTECT)
     description = models.CharField(max_length=500, default='An artifact')
     image = models.ImageField(upload_to='images', null=True, blank=True)
-    #price = models.DecimalField(max_digits=11, decimal_places=2, default=0) #the buy now price or maximum bid price
-    buy_now_price = models.DecimalField(max_digits=11, decimal_places=2, default=0)
+    buy_now_price = models.DecimalField(max_digits=11, decimal_places=2, default=0.00)
     sold = models.BooleanField(default=False)
     owner = models.ForeignKey(User, null=True, blank=True, on_delete=models.SET_NULL)
+    reserve_price = models.DecimalField(max_digits=11, decimal_places=2, default=0.00, blank=True) 
 
     def clean(self):
         if self.owner == None and self.sold == True:

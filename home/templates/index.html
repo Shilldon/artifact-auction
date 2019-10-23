@@ -5,15 +5,17 @@
 <script defer src="{% static 'js/index.js' %}"></script>
 {% endblock %}
 
-<section class="section title-image">   
-    <div class="title">
+<!-- Main Title image and logo -->
+<section class="section index--title-image">   
+    <div class="index--title-text">
         <h1>Jones & Son</h1>
         <h4>Since 1908</h4>
     </div>    
 </section>
 
+<!-- Call to action -->
 <section class="section container">
-    <div class="row h-100 call-to-action">
+    <div class="row h-100 index--call-to-action">
         <div class="col-12">
             <h5 class="text-align-center">Purveyors of unique historical artifacts</h5>
             <p>Since 1908 Prof. Henry Jones Sr and his son, Dr. Henry Jones junior, respected archaeologists, have travelled the world recovering unique historical artifacts. Having amassed a truly inspiring collection Professor and Dr Jones have opened that collection to the world.</p>
@@ -25,14 +27,14 @@
     </div>
 </section>
 
-<section class="section container options" >
+<section class="section container index--options-container" >
     <div class="row ">
         <div class="col-12 text-center">
             <h5>Own a piece of history</h5>
         </div>
     </div>
     <div class="row">
-        <div class="col-10 offset-1 styled-box option-list hvr-sweep-to-right" >
+        <div class="col-10 offset-1 styled-box index--option hvr-sweep-to-right" >
             <div class="row h-100">
                 <div class="col-8">
                     <a href="#"><span>{{ auction_status }}</span></a>
@@ -49,7 +51,7 @@
     <div class="collapse" id="auctions-collapse">
         {% for auction in auctions %}
         <div class="row">
-        <div class="col-8 offset-2 styled-box option-list ">
+        <div class="col-8 offset-2 styled-box index--option ">
             <div class="row h-100">
                 <div class="col-8 ">
                     <a href="{% url 'display_artifact' id=auction.artifact.id %}">{{ auction.artifact.name }}</a>
@@ -63,9 +65,9 @@
     </div>    
 
     <div class="row">
-        <div class="col-10 offset-1 styled-box option-list  hvr-sweep-to-right">
+        <div class="col-10 offset-1 styled-box index--option hvr-sweep-to-right">
             <div class="row">
-                <div class="col-12 option-inner">
+                <div class="col-12">
                     <a href="{% url 'artifacts_list' %}"><span>View Artifacts</span></a>     
                 </div>
             </div>
@@ -73,17 +75,17 @@
     </div>    
     <div class="row">
         {% if not user.is_authenticated %}
-        <div class="col-10 offset-1 styled-box option-list  hvr-sweep-to-right">
+        <div class="col-10 offset-1 styled-box index--option hvr-sweep-to-right">
             <div class="row">
-                <div class="col-12 option-inner">
+                <div class="col-12">
                     <a href="{% url 'login' %}"><span>Log In/Register</span></a>
                 </div>    
             </div>
         </div>
         {% else %}
-        <div class="col-10 offset-1 styled-box option-list  hvr-sweep-to-right">
+        <div class="col-10 offset-1 styled-box index--option hvr-sweep-to-right">
             <div class="row">
-                <div class="col-12 option-inner">
+                <div class="col-12">
                     <a href="{% url 'view_collection' %}"><span>View Collection</span></a>
                 </div>
             </div>

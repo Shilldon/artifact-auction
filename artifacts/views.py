@@ -7,6 +7,7 @@ from auctions.views import get_bidder
 from bid.forms import BiddingForm
 from bid.views import check_bid
 from bid.models import Bids
+from history.models import Event
 from reviews.models import Review
 from search.forms import SearchArtifactsForm
 from search.views import search_artifacts
@@ -55,14 +56,19 @@ def artifacts_list(request):
 """ Display a single artifact """
 def display_artifact(request, id):
     artifact = get_object_or_404(Artifact, pk=id)
-    print(artifact)
+
+    try:
+        events = Event.objects.filter(artifact=artifact)
+    except:
+        events = None
+
     try:
         auction = get_object_or_404(Auction, artifact=artifact)
         """Check if the artifact is in a current auction and return the name of the bidder"""
         bids = Bids.objects.filter(auction=auction)
         if bids:
             bidder_name = get_bidder(request, auction)
-            current_bid = str(bids.order_by('-bid_amount')[0].bid_amount)
+            current_bid = bids.order_by('-bid_amount')[0].bid_amount
             current_bidder = bids.order_by('-bid_amount')[0].bidder
         else:
             bidder_name = ""
@@ -84,8 +90,10 @@ def display_artifact(request, id):
     
     try:
         review = get_object_or_404(Review, artifact=artifact)
+        rating = range(review.rating)
     except:
         review = None
+        rating = range(0)
     
     if successful_bid:
         return redirect(artifacts_list)
@@ -98,6 +106,8 @@ def display_artifact(request, id):
                     'bids' : bids, 
                     'current_bid' : current_bid,
                     'current_bidder' : current_bidder,
-                    'review' : review 
+                    'review' : review,
+                    'rating' : rating,
+                    'events' : events
         })
             
