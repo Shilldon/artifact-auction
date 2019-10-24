@@ -57,10 +57,16 @@
                         <div class="col-12 styled-box">
                             {% render_field edit_user_form.email %}
                         </div>
-                        <div class="col-12"  >
+                        <div class="col-12">
                            {% render_field edit_user_form.errors.email %}     
                         </div>                           
-                    </div>      
+                    </div>   
+                    <div class="row">
+                    <div class="col-12 text-center">
+                        <button class="btn"><a href="{% url 'password_reset' %}">Change Password</a></button>
+                    </div>                         
+                    </div>
+                    <hr>
                     <div class="row">
                         <div class="col-6 offset-3 text-center">
                             {% if user.profile.profile_picture %}
@@ -70,23 +76,37 @@
                             {% endif %}  
                         </div>
                     </div>
+                    {% if user.profile.profile_picture %}
                     <div class="row">
                         <div class="col-12 text-center">
-                            <p>Upload a new profile picture</p>
-                        </div>
-                    </div>                    
-                    <div class="row h-100">
-                        <div class="col-12 text-center">
-                            <span class="btn ">
-                                Choose File
-                                {% render_field edit_profile_form.profile_picture %}
-                            </span>
+                            <input type="checkbox" name="profile_picture-clear" id="profile_picture-clear_id">
+                            <label form="profile_picture-clear_id">Remove</label>
                         </div>
                     </div>
+                    {% endif %}
+                    <div class="row">
+                        <div class="col-12 text-center">
+                            <p>or upload a new profile picture</p>
+                        </div>
+                    </div>                    
+                    <div class="row">         
+                        <div class="col-12 text-center">
+                            <div class="btn">
+                                <label for="id_profile_picture" style="margin-bottom:0">Choose file</span>
+                                <input type="file" name="profile_picture" style="display:none" id="id_profile_picture">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 text-center">
+                             <p id="profile-picture-selected"></p>
+                        </div>
+                    </div>
+                    <hr>
                      <div class="row">
                         <div class="col-12">
-                            <span>Remain anonymous</span>
                             {% render_field edit_profile_form.remain_anonymous %}
+                            <span>Remain anonymous</span>
                         </div>
                     </div>    
                     <div class="row">
@@ -115,22 +135,21 @@
 </div>
 
 
-    <h2>{{ user.username }}</h2>
+<script>
+    $('#id_profile_picture').change(function(e){
+        var fileName = e.target.files[0].name;
+        $("#profile-picture-selected").text("File selected: "+fileName);
+    });
 
-<form method="POST">
-    {% csrf_token %}
-    <div class="row">
-        <div class="col-12">
-        {{ edit_user_form | as_bootstrap }}            
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-12">
-          {{ edit_profile_form | as_bootstrap }}  
-        </div>
-    </div>
-    
-    <button type="submit">Update</button>
-</form> 
-
+/*    
+need to label element: id="profile-picture-name"
+    $(document).ready(function(){
+        var filePath = $("#profile-picture-name").text();
+        var fileNameIndex = filePath.lastIndexOf("/") + 1;
+        var fileName = filePath.substr(fileNameIndex);
+       console.log(fileName)
+        $("#profile-picture-selected").text(fileName);
+    });
+    */
+</script>
 {% endblock %}

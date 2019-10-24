@@ -27,7 +27,7 @@ from search import urls as urls_search
 from .settings import MEDIA_ROOT
 
 urlpatterns = [
-    url(r'^accounts/', include(urls_accounts)),
+    url(r'^/', include(urls_accounts)),
     url(r'^admin/', admin.site.urls),
     url(r'^artifacts/', include(urls_artifacts)),
     url(r'^collection/', include(urls_collection)),

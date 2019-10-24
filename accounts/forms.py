@@ -2,6 +2,7 @@ from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.core.exceptions import ValidationError
+from django.utils.translation import ugettext_lazy as _
 from .models import Profile
 
 class UserLoginForm(forms.Form):
@@ -78,10 +79,12 @@ class UserRegistrationForm(UserCreationForm):
         return password2
 
 class ProfileForm(forms.ModelForm):
-
     class Meta:
         model = Profile
         fields = ('remain_anonymous', 'profile_picture')
+
+    def name(self):
+        self.fields['profile_picture'].label = "Choose file"
 
 class UserEditProfileForm(UserChangeForm):
   

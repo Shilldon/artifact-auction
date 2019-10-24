@@ -4,7 +4,6 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserChangeForm
 from accounts.forms import UserRegistrationForm, UserLoginForm, UserEditProfileForm, ProfileForm
-#from accounts.models import Profile
 
 """ render user registration page """
 def register(request):
