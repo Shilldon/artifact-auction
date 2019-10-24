@@ -2,23 +2,60 @@
 
 
 {% block content %}
-<h3>Artifacts won - awaiting payment</h2>
 
 
-
-<h3>Total={{ total }}</h2>
-
-<h3>Artifacts owned</h3>
-
-{% for artifact in artifacts_owned %}
-    <div class="row">
-        <div class="col-3">
-            <h1><a href="{% url 'display_artifact' id=artifact.id %}">{{ artifact.name }}</a></h1>
-        </div> 
-
-        <div class="col-6 artifact" style="background-image: url('{{ MEDIA_URL}}{{ artifact.image }}'); ">
+<section>
+    <div class="container">
+        {% if artifacts_won|length > 0 %}
+        <div class="row">
+            <div class="col-8 offset-2 text-center">
+                <h5>Artifacts won</h5>
+            </div>
         </div>
+        {% endif %}
+        
+        {% for id, item in artifacts_won.items %}
+        <div class="row h-100 styled-box artifact-list" style="margin: 15px -5px 0 -5px; padding:5px 0 5px 0">
+            {% if item.artifact.image %}
+            <div class="col-4 artifact-image text-center my-auto img-fluid" style="background-image: url('{{ MEDIA_URL }}{{ item.artifact.image }}');">
+            {% else %}
+            <div class="col-4 artifact-image text-center my-auto img-fluid" style="background-image: url('/media/images/cross_gold.png');">
+            {% endif %}   
+            <a style="display:block; height:100px; width:100px;" href="{% url 'display_artifact' id=item.artifact.id %}"></a>
+            </div>
+            <div class="col-8">
+                <h4><a href="{% url 'display_artifact' id=item.artifact.id %}"><span>{{ item.artifact.name }}</span></a></h4>
+                <span class="auction-current-bid">Winning bid: £{{ item.bid }}</span>
+                <button><a href="{% url 'add_to_collection' item.artifact.id 0 %}">Pay Now</a></button>
+            </div>
+        </div>    
+        {% endfor %}
     </div>
-{% endfor %}
+</section>
 
+<section>
+    <div class="container">
+        {% if artifacts_owned|length > 0 %}
+        <div class="row">
+            <div class="col-8 offset-2 text-center">
+                <h5>Artifacts owned</h5>
+            </div>
+        </div>
+        {% endif %}
+
+    {% for artifact in artifacts_owned %}
+        <div class="row h-100 styled-box artifact-list" style="margin: 15px -5px 0 -5px; padding:5px 0 5px 0">
+            {% if artifact.image %}
+            <div class="col-4 artifact-image text-center my-auto img-fluid" style="background-image: url('{{ MEDIA_URL }}{{ artifact.image }}');">
+            {% else %}
+            <div class="col-4 artifact-image text-center my-auto img-fluid" style="background-image: url('/media/images/cross_gold.png');">
+            {% endif %}   
+            <a style="display:block; height:100px; width:100px;" href="{% url 'display_artifact' id=artifact.id %}"></a>
+            </div>
+            <div class="col-8 my-auto">
+                <h4><a href="{% url 'display_artifact' id=artifact.id %}"><span>{{ artifact.name }}</span></a></h4>
+            </div>
+        </div>    
+    {% endfor %}
+</section>
 {% endblock %}
