@@ -58,10 +58,11 @@ def display_artifact(request, id):
     artifact = get_object_or_404(Artifact, pk=id)
 
     try:
-        events = Event.objects.filter(artifact=artifact)
+        events = Event.objects.filter(artifact=artifact).order_by('sort_year', 'month', 'day')
+
     except:
         events = None
-
+    print(events)
     try:
         auction = get_object_or_404(Auction, artifact=artifact)
         """Check if the artifact is in a current auction and return the name of the bidder"""

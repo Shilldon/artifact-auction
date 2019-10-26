@@ -5,20 +5,30 @@ from artifacts.models import Artifact
 class Owner(models.Model):
     name = models.CharField(max_length=30, default="")
     description = models.CharField(max_length=800, default="")
+    picture = models.ImageField(upload_to='images', null=True, blank=True)
     
     def __str__(self):
         return self.name    
 
 class Event(models.Model):
+    
+    BCAD_CHOICE = [
+        ('BC', "BC"), 
+        ('AD', "AD")
+    ]
+    
+    
     name = models.CharField(max_length=50, default="")
     description = models.CharField(max_length=800, default="")
     year = models.PositiveIntegerField(default=0)
-    bc = models.CharField(max_length=2, default="AD")
-    month = models.PositiveSmallIntegerField(default=1, null=True, blank=True)
-    day = models.PositiveSmallIntegerField(default=1, null=True, blank=True)
+    sort_year = models.IntegerField(default=0)
+    bc = models.CharField(max_length=2, choices=BCAD_CHOICE, default='BC')
+    month = models.PositiveSmallIntegerField(default=None, null=True, blank=True)
+    day = models.PositiveSmallIntegerField(default=None, null=True, blank=True)
     artifact = models.ForeignKey(Artifact, on_delete=models.CASCADE, default=None) 
     owner = models.ForeignKey(Owner, on_delete=models.SET_NULL, default=None, blank=True, null=True)
-
+    picture = models.ImageField(upload_to='images', null=True, blank=True)
+    
     def clean(self):
         day =self.day
         month = self.month
@@ -34,6 +44,11 @@ class Event(models.Model):
             raise ValidationError(
                 "Day must be less than 30."
                 )   
+        if self.year!=0:
+            if self.bc=="BC":
+                self.sort_year=-self.year
+            else:
+                self.sort_year=self.year
 
     def __str__(self):
         return self.name    

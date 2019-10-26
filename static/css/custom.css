@@ -145,9 +145,11 @@ a {
   width: 100%;
   margin-bottom: 20px; }
 
+/*
 img {
-  padding-top: 20px; }
-
+    padding-top: 20px;
+}
+*/
 .search-bar-container {
   margin-top: 20px;
   margin-bottom: 20px; }
@@ -220,8 +222,7 @@ img {
   .artifact-details .row {
     margin-bottom: 10px; }
   .artifact-details .collapse {
-    padding-bottom: 10px;
-    border-bottom: 1px solid #444444; }
+    padding-bottom: 10px; }
 
 .review-container {
   line-height: 0; }

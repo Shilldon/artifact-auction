@@ -1,0 +1,100 @@
+{% extends 'base.html' %} 
+{% load static from staticfiles %} 
+{% load artifact_auction_tags %}
+{% load bootstrap_tags %} 
+
+{% block content %}
+
+<section class="container artifact-single">
+    <div class="row">
+        <div class="col-12 text-center">
+            <h4>{{ owner.name }}</h5>
+        </div>
+    </div>    
+    <div class="row h-100">
+        <div class="col-8 offset-2 mx-auto my-auto">
+            {% if owner.picture %}
+            <img class="img-fluid my-auto" src="{{ MEDIA_URL }}{{ owner.picture }}" alt="image of {{ owner.name }}">
+            {% endif %}            
+        </div>
+    </div>
+</section>
+    
+<section class="container artifact-details">
+    {% if owner.description %}
+    <div class="row">
+        <div class="col-10">
+            <h5>About</h5>
+        </div>
+        <div class="col-2">
+            <span class="collapse-button" data-toggle="collapse" data-target="#about-collapse"><i class="fas fa-caret-down"></i></span>
+        </div>
+    </div>
+    <div class="row collapse" id="about-collapse">
+        <div class="col-12">
+            {{ owner.description }}
+        </div>
+        <hr>
+    </div>
+    {% endif %}
+   
+    {% if events %}
+    <div class="row">
+        <div class="col-10">
+            <h5>Events</h5>
+        </div>
+        <div class="col-2">
+            <span class="collapse-button" data-toggle="collapse" data-target="#history-collapse"><i class="fas fa-caret-down"></i></span>
+        </div>
+    </div>
+    <div class="collapse" id="history-collapse">
+        {% for event in events %}
+        <div class="row">
+            <div class="col-12">
+                {{ event.name }}    
+            </div>
+        </div>        
+        <div class="row">
+            <div class="col-12">
+                {% if event.day %}
+                <span>{{ event.day }} </span>
+                {% endif %}
+                {% if event.month|month_name %}
+                <span>{{ event.month|month_name }} </span>
+                {% endif %}
+                <span>{{ event.year }}</span>
+                <span>{{ event.bc }}</span>
+            </div>
+        </div>
+        <hr>
+        {% endfor %}
+    </div>
+    {% endif %}
+    
+    {% if artifacts %}
+    <div class="row">
+        <div class="col-10">
+            <h5>Artifacts held</h5>
+        </div>
+        <div class="col-2">
+            <span class="collapse-button" data-toggle="collapse" data-target="#artifacts-collapse"><i class="fas fa-caret-down"></i></span>
+        </div>
+    </div>
+    <div class="collapse" id="artifacts-collapse">
+        {% for artifact in artifacts %}
+        <div class="row">
+            <div class="col-12">
+                <a href="{% url 'display_artifact' id=artifact.id %}"><span>{{ artifact.name }}</span></a>
+            </div>
+        </div>
+        {% endfor %}
+        <hr>
+    </div>    
+    {% endif %}
+    
+</section>
+
+{% endblock %}
+
+
+
