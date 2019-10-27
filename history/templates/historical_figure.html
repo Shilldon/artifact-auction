@@ -51,11 +51,6 @@
         {% for event in events %}
         <div class="row">
             <div class="col-12">
-                {{ event.name }}    
-            </div>
-        </div>        
-        <div class="row">
-            <div class="col-12">
                 {% if event.day %}
                 <span>{{ event.day }} </span>
                 {% endif %}
@@ -64,6 +59,21 @@
                 {% endif %}
                 <span>{{ event.year }}</span>
                 <span>{{ event.bc }}</span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                {{ event.name }}    
+            </div>
+        </div>        
+        <div class="row">
+            <div class="col-12">
+                <span>{{ event.artifact }}</span>
+            </div>
+        </div>        
+        <div class="row">
+            <div class="col-12">
+                <span>{{ event.url_description | safe }}</span>
             </div>
         </div>
         <hr>

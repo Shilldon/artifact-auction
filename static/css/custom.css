@@ -234,6 +234,10 @@ img {
 #id_amount_bid {
   font-size: 0.8rem; }
 
+#history-collapse a {
+  color: #003273;
+  cursor: pointer; }
+
 footer {
   padding-top: 20px;
   padding-bottom: 20px;
