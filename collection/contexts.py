@@ -9,9 +9,9 @@ def collection_contents(request):
     collection = request.session.get('collection', {})
     total = 0
     purchase = []
-    for id, price in collection:
+    for id, price in collection.items():
         artifact = get_object_or_404(Artifact, pk=id)
-        purchase.append({'id': id, 'artifact': artifact})
-
+        total += price
+        purchase.append({ 'id': id, 'artifact': artifact, 'price' : price })
     
     return {'purchase': purchase, 'total' : total}

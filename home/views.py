@@ -17,5 +17,5 @@ def index(request):
             auction_status="Current auctions"
     else:
         auction_status="No live auctions"
-
+    
     return render(request, 'index.html', {"auctions" : auctions, "auction_status" : auction_status})

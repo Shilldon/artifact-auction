@@ -11,7 +11,7 @@ from artifacts.models import Artifact
 
 class Auction(models.Model):
     artifact = models.ForeignKey(Artifact, on_delete=models.CASCADE, default=None)
-    name = models.CharField(max_length=20, default='Artifact Name')
+    name = models.CharField(max_length=20, default='Auction')
     start_date = models.DateTimeField(default=timezone.now)
     end_date = models.DateTimeField(default=timezone.now)
 

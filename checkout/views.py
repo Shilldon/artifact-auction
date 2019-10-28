@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail
 from artifacts.models import Artifact
 from auctions.models import Auction
+from bid.models import Bids
 from .forms import MakePaymentForm, OrderForm
 from .models import PurchasedArtifact
 import stripe
@@ -20,6 +21,7 @@ def checkout(request):
         payment_form = MakePaymentForm(request.POST)
         
         if order_form.is_valid() and payment_form.is_valid():
+
             order = order_form.save(commit=False)
             order.date = timezone.now()
             order.save()
@@ -33,6 +35,7 @@ def checkout(request):
             artifacts_purchased = []
             
             total = 0
+            print("collection=", collection)
             for id, price in collection.items():
                 artifact = get_object_or_404(Artifact, pk=id)
                 if artifact.sold is not True:
@@ -113,3 +116,57 @@ def checkout(request):
         order_form = OrderForm()
         
     return render(request, "checkout.html", {'order_form' : order_form, 'payment_form' : payment_form, 'publishable': settings.STRIPE_PUBLISHABLE })
+    
+
+def buy_all(request):
+    """
+    On selecting pay for all won artifacts. Cycle through artifacts won
+    and add to collection then proceed to checkout
+    """
+    collection = {}
+    finished_auctions = Auction.objects.filter(end_date__lte=timezone.now())
+    highest_bids = []
+    
+    for auction in finished_auctions:
+        try:
+            bids = Bids.objects.filter(auction=auction)
+            highest_bid = bids.order_by('-bid_amount')[0]
+            print("highest bid ", highest_bid)
+            highest_bids.append(highest_bid)
+        except:
+            None
+    
+    for bid in highest_bids:
+        if bid.bidder == request.user:
+            artifact = bid.auction.artifact
+            id = artifact.id
+            price = float(bid.bid_amount)
+            print("artifact ", artifact.name)
+            collection[id] = collection.get(id, price)
+            request.session['collection'] = collection        
+
+    return redirect(reverse('checkout'))    
+    
+def buy_one(request, id, buy_now):
+    """
+    Get the user's collection of artifacts and, if not already in the collection 
+    add the selected artifact to the collection
+    """
+    artifact = get_object_or_404(Artifact, pk=id)
+    auction = get_object_or_404(Auction, artifact=artifact)
+    price = 0
+    collection = {}
+    """
+    On selecting pay now or buy now for a single artifact determine the
+    price and proceed to checkout just for that artifact
+    """
+    collection[id] = collection.get(id, price)
+    request.session['collection'] = collection
+        
+    if int(buy_now)==1:
+        price = float(artifact.buy_now_price)
+    else:
+        last_bid = Bids.objects.filter(auction=auction).order_by('-bid_amount')[0].bid_amount
+        price = float(last_bid)
+
+    return redirect(reverse('checkout'))    
