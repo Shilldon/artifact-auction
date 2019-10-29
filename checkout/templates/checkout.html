@@ -1,46 +1,89 @@
-{% extends 'base.html' %}
-{% load static from staticfiles %}
-{% load bootstrap_tags %}
-
-{% block head_js %}
+{% extends 'base.html' %} {% load static from staticfiles %} {% load bootstrap_tags %} {% block head_js %}
 <!--Load StripeJS for payment authentication-->
 <script src="https://js.stripe.com/v2/"></script>
 <script>
-//<![CDATA[
+    //<![CDATA[
     Stripe.publishableKey = '{{ publishable }}';
     //]]>
 </script>
 <script src="{% static 'js/stripe.js' %}"></script>
+{% endblock %} {% block content %}
+
+<section class="container">
+        <div class="row" style="margin-top:20px">
+            <div class="col-8 offset-2 text-center">
+                <h5>Review purchase</h5>
+            </div>
+        </div>
+    <div class="row">
+        <div class="col-12 text-right">
+            <span>Price</span>
+        </div>
+    </div>
+    <hr> {% for item in purchase %}
+    <div class="row h-100">
+        <div class="col-3 mx-auto my-auto">
+            {% if artifact.image %}
+            <img class="img-fluid my-auto" src="{{ MEDIA_URL }}{{ item.artifact.image }}" alt="image of {{ item.artifact.name }}"> {% else %}
+            <img class="img-fluid my-auto" src="/media/images/placeholder.png" alt="{{ item.artifact.name }}"> {% endif %}
+        </div>
+        <div class="col-6">
+            <p>{{ item.artifact.name }}</p>
+        </div>
+        <div class="col-3 text-right">
+            <p>£{{item.price}}</p>
+        </div>
+    </div>
+    <hr> {% endfor %}
+
+    <div class="row">
+        <div class="col-12 text-right">
+            <p>Total: £{{total}}</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12 text-right">
+            <button class="btn" data-toggle="modal" data-target="#paymentModal">Pay Now</button>
+        </div>
+    </div>
+</section>
+
 {% endblock %}
 
+{% block modal %}
 
-{% block content %}
-<h1>Checkout</h1>
-<p>{{purchase}}</p>
-{% for item in purchase %}
-<h2>Purchase={{item.id}}</h2>
-<h1>Artifact Name={{ item.artifact.name }}</h1>
-<h2>Price={{ item.price }}</h2>
-{% endfor %}
-<h2>Total={{ total }}</h2>
+<!-- modals -->
+<div class="modal fade" id="paymentModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5>Payment Details</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body p-4">
+                <form role="form" method="post" id="payment-form" action="{% url 'checkout' %}">
+                    <div id="credit-card-errors" style="display:none">
+                        <div class="alert-message block-message error" id="stripe-error-message"></div>
+                    </div>
 
-<form role="form" method="post" id="payment-form" action="{% url 'checkout' %}">
-    <legend>Payment Details</legend>
-    <div id="credit-card-errors" style="display:none">
-        <div class="alert-message block-message error" id="stripe-error-message"></div>
-    </div>
-    
-    <div class="form-group col-md-6">
-        {{ order_form|as_bootstrap }}
-    </div>
-    <div class="form-group col-md-6">
-        {{ payment_form|as_bootstrap }}
-    </div>
-    
-    {% csrf_token %}
-    <div class="form-group col-md-12">
-        <input class="btn btn-primary" id="submit_payment_btn" name="commit" type="submit" value="Submit Payment">
-    </div>
-</form>
+                    <div class="form-group col-md-6">
+                        {{ order_form|as_bootstrap }}
+                    </div>
+                    <div class="form-group col-md-6">
+                        {{ payment_form|as_bootstrap }}
+                    </div>
 
-{% endblock %}
+                    {% csrf_token %}
+                    <div class="form-group col-md-12">
+                        <input class="btn btn-primary" id="submit_payment_btn" name="commit" type="submit" value="Submit Payment">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %} 

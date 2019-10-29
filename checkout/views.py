@@ -35,7 +35,6 @@ def checkout(request):
             artifacts_purchased = []
             
             total = 0
-            print("collection=", collection)
             for id, price in collection.items():
                 artifact = get_object_or_404(Artifact, pk=id)
                 if artifact.sold is not True:
@@ -109,7 +108,6 @@ def checkout(request):
                     messages.error(request, "Unable to take payment")
                 
         else:
-            print(payment_form.errors)
             messages.error(request, "We were unable to take payment with that card.")
     else:
         payment_form = MakePaymentForm()
@@ -131,7 +129,6 @@ def buy_all(request):
         try:
             bids = Bids.objects.filter(auction=auction)
             highest_bid = bids.order_by('-bid_amount')[0]
-            print("highest bid ", highest_bid)
             highest_bids.append(highest_bid)
         except:
             None
@@ -141,7 +138,6 @@ def buy_all(request):
             artifact = bid.auction.artifact
             id = artifact.id
             price = float(bid.bid_amount)
-            print("artifact ", artifact.name)
             collection[id] = collection.get(id, price)
             request.session['collection'] = collection        
 

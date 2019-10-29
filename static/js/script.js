@@ -1,5 +1,4 @@
 $(document).ready(function() {
-
     var artifactIds = [];
     var artifactContainers = [];
     $(".artifact-information").each(function() {
@@ -21,7 +20,7 @@ function initialisePage(artifactId, startTime, endTime, currentBid, artifactCont
     var auctionTimer=$(".auction-timer-container", artifactContainer);
     var auctionBidStatus=$(".auction-bid-status", artifactContainer);
     var auctionButtons=$(".auction-buttons", artifactContainer);
-    var auctionSoldStatus=$(".auction-sold-status", artifactContainer);        
+    //var auctionSoldStatus=$(".auction-sold-status", artifactContainer);        
     
     var auctionText;
     
@@ -30,7 +29,7 @@ function initialisePage(artifactId, startTime, endTime, currentBid, artifactCont
             auctionTimer.show();
             auctionBidStatus.show();
             auctionButtons.show();
-            auctionSoldStatus.hide();
+            //auctionSoldStatus.hide();
             auctionText = "Time left: ";
             displayTimer(artifactContainer, artifactId, endTime, auctionText, true);
             checkBid(artifactId, currentBid, artifactContainer);
@@ -39,7 +38,7 @@ function initialisePage(artifactId, startTime, endTime, currentBid, artifactCont
             auctionTimer.show();
             auctionBidStatus.hide();
             auctionButtons.hide();
-            auctionSoldStatus.hide();
+            //auctionSoldStatus.hide();
             auctionText = "Starts in: ";
             displayTimer(artifactContainer, artifactId, startTime, auctionText, false);
         }
@@ -47,7 +46,7 @@ function initialisePage(artifactId, startTime, endTime, currentBid, artifactCont
             auctionTimer.hide();
             auctionBidStatus.hide();
             auctionButtons.hide();
-            auctionSoldStatus.show();
+            //auctionSoldStatus.show();
             auctionText="Auction finished.";
         }
     }
@@ -55,7 +54,7 @@ function initialisePage(artifactId, startTime, endTime, currentBid, artifactCont
         auctionTimer.hide();
         auctionBidStatus.hide();
         auctionButtons.hide();
-        auctionSoldStatus.show();
+        //auctionSoldStatus.show();
         auctionText="Not yet listed for auction.";
     }
     $(".auction-status", artifactContainer).text(auctionText);
@@ -127,7 +126,6 @@ function getBidData(artifactId, artifactContainer) {
                 initialisePage(artifactId, startTime, endTime, currentBid, artifactContainer)
             }
             else {
-                console.log(data['message']);
                 initialisePage(artifactId, "", "", 0, artifactContainer)
             }
         }

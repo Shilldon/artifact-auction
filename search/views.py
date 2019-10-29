@@ -1,5 +1,6 @@
 from django.shortcuts import get_object_or_404
 from django.contrib import messages
+from django.utils import timezone
 from .forms import SearchArtifactsForm
 from artifacts.models import Artifact, Category
 from auctions.models import Auction
@@ -18,9 +19,6 @@ def search_artifacts(request, search_form):
         min_price = search_form['min_buy_now_price'].value()
         sort_by = int(search_form["sort_by"].value())
 
-
-        print("artifacts %s, name %s, description %s, sold %s, in_auction %s, categories %s, artifact_type %s,  max_price %s, min_price %s" % (artifacts, name, description, sold, in_auction, categories, artifact_type, max_price, min_price))
-
         artifacts_list = artifacts.filter(**filter_by("description__icontains", description)) \
                                   .filter(**filter_by("name__icontains", name)) \
                                   .filter(**filter_by("sold", sold)) \
@@ -29,7 +27,7 @@ def search_artifacts(request, search_form):
                                   .filter(**filter_by("buy_now_price__lte", max_price)) \
                                   .filter(**filter_by("buy_now_price__gte", min_price))
         if in_auction:
-            auctions = Auction.objects.all()
+            auctions = Auction.objects.filter(end_date__gte=timezone.now())
             artifacts_in_auctions = artifacts_list.filter(id__in=auctions.values('artifact'))
             artifacts_list = artifacts_in_auctions
             

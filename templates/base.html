@@ -29,7 +29,8 @@
 
     <script defer src="{% static 'js/buttons.js' %}"></script>
 
-    {% block head_js %} {% endblock %}
+    {% block head_js %} 
+    {% endblock %}
 </head>
 
 <body>
@@ -51,34 +52,37 @@
         </button>
         <div class="d-none d-lg-block ml-auto mr-1">
             <ul class="navbar-nav">
-                <li class="nav-item">
+                <li class="nav-item mx-3 my-auto text-center text-wrap">
                     <a href="{% url 'index' %}"><span>Home</span></a>
-                </li>                
-                <li class="nav-item">
+                </li>    
+                {% if user.is_superuser %}
+                <li class="nav-item mx-3 my-auto text-center text-wrap">
+                    <a href="{% url 'admin:index' %}"><span>Admin panel</span></a>
+                </li>
+                {% endif %}                 
+                <li class="nav-item mx-3 text-center text-wrap">
                     <a href="{% url 'artifacts_list' %}"><span>View Artifacts</span></a>
                 </li>
                 {% if user.is_authenticated %}
-                <li class="nav-item">
-                    <a href="{% url 'view_profile' %}"><span>View {{ user }}'s Profile</span></a>
-                </li>
-                <li class="nav-item">
-                    <a href="{% url 'logout' %}"><span>Logout {{ user }}</span></a>
-                </li>
-                <li class="nav-item">
+                <li class="nav-item mx-3 my-auto text-center text-wrap">
                     <a href="{% url 'view_collection' %}"><span>View Collection</span></a>
                 </li>
-                <li class="nav-item">
+                {% if purchase|length > 0 %}
+                <li class="nav-item mx-3 my-auto text-center text-wrap">
                     <a href="{% url 'checkout' %}"><span>Checkout</span></a>
+                </li>           
+                {% endif %}
+                <li class="nav-item mx-3 my-auto text-center text-wrap">
+                    <a href="{% url 'view_profile' %}"><span>Profile</span></a>
                 </li>
-                {% if user.is_superuser %}
-                <li class="nav-item">
-                    <a href="{% url 'admin:index' %}"><span>Admin panel</span></a>
+                <li class="nav-item mx-3 my-auto text-center text-wrap">
+                    <a href="{% url 'logout' %}"><span>Logout</span></a>
                 </li>
-                {% endif %} {% else %}
-                <li class="nav-item">
+                {% else %}
+                <li class="nav-item mx-3 my-auto text-center text-wrap">
                     <a href="{% url 'register' %}"><span>Register</span></a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item mx-3 my-auto text-center text-wrap">
                     <a href="{% url 'login' %}"><span>Log In</span></a>
                 </li>
                 {% endif %}
@@ -90,10 +94,10 @@
 
 
     <!-- Footer -->
-    <footer class="footer fixed-bottom mt-auto py-0">
+    <footer class="footer d-block d-lg-none fixed-bottom py-1 py-sm-2 py-lg-3">
         <div class="container">
-            <div class="row">
-                <div class="col-3 ">
+            <div class="row ">
+                <div class="col-12 col-sm-6">
                     <ul class="list-unstyled list-group list-group-horizontal">
                         <li>
                             <a href="{% url 'index' %}"><span>Home</span></a>
@@ -107,7 +111,13 @@
                         <li>
                             <a href="#!">Account</a>
                         </li>
+                        <li>
+                            <a href="#!">Terms</a>
+                        </li>                        
                     </ul>
+                </div>
+                <div class="col-sm-6 my-auto d-none d-lg-block text-right">
+                    <span>info@artifact-auctions.com 01635 600000</span>
                 </div>
             </div>
         </div>
@@ -147,7 +157,11 @@
                     <li class="nav-item">
                         <a href="{% url 'admin:index' %}"><span>Admin panel</span></a>
                     </li>
-                    {% endif %} {% else %}
+                    <li class="nav-item">
+                        <a href="#adminHelpModal" data-toggle="modal" data-target="#adminHelpModal"><span>Admin Help</span></a>
+                    </li>                    
+                    {% endif %} 
+                    {% else %}
                     <li class="nav-item">
                         <a href="{% url 'register' %}"><span>Register</span></a>
                     </li>
@@ -161,6 +175,20 @@
     </div>
 </div>
 
+<div class="modal fade" id="adminHelpModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-full" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body p-4">
+                <p>You can add new artifacts to the site through the admin panel. Under the artifact object you can set a reserve price and/or 'buy now' price. Setting a reserve price means that the artifact will not sell if the bids do not exceed the stated price. Setting a buy now price enables purchasers to buy the artifact at the price stated. Please note as bids are received the buy now price will be updated to exceed the current bid by 20%. NB if you do not enter a reserve or buy now price purchasers will be able buy the artifact for 20% more than the initial bid.</p>
+            </div>
+        </div>
+    </div>
+</div>
 {% block modal %} {% endblock %}
 
 </body>

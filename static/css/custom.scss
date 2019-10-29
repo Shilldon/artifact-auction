@@ -94,27 +94,19 @@ a {
     color: white;
     text-align:center;
     text-shadow: 0px 0px 15px #000000; ;
-    h1 {
-        font-size:2rem;
+    h1{
         font-family: 'Cinzel Decorative', serif;    
     }
-    h4 {
-        font-size:1rem;
-        font-weight: 700; 
-    }    
 }
 
 .index--call-to-action {
-    padding:15px 0 10px 0;
     background-color: $background-color-dark !important;
-    text-align: center;
-    h4 {
+    h6 {
         color: $font-color-light;    
     }
-    h5 {
+    h4 {
         color: $font-color-light;
-        font-weight: 700;         
-        font-size:1rem;
+        font-weight: 700;   
     }
     p {
         font-size: 0.75rem;
@@ -123,8 +115,7 @@ a {
 }
 
 .index--options-container {
-    padding-top: 10px;
-    padding-bottom: 40px;
+
 }
 
 .index--option {
@@ -140,6 +131,11 @@ a {
         font-size:0.75rem;
     }        
 }
+
+.index--artifact-image {
+    height:20vw; 
+    object-fit:cover;
+}    
 
 
 //-----GENERAL STYLES-----//
@@ -179,6 +175,14 @@ a {
     a {
         color: $font-color-blue;
     }
+}
+
+.carousel-control-prev-icon {
+ background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23734D07' viewBox='0 0 8 8'%3E%3Cpath d='M5.25 0l-4 4 4 4 1.5-1.5-2.5-2.5 2.5-2.5-1.5-1.5z'/%3E%3C/svg%3E") !important;
+}
+
+.carousel-control-next-icon {
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23734D07' viewBox='0 0 8 8'%3E%3Cpath d='M2.75 0l-1.5 1.5 2.5 2.5-2.5 2.5 1.5 1.5 4-4-4-4z'/%3E%3C/svg%3E") !important;
 }
 
 //-----ACCOUNTS-----//
@@ -268,8 +272,6 @@ img {
     background-position: center center;
     background-repeat: no-repeat;   
     line-height:10;
-    margin-left:5px;
-    margin-right:-5px;
 }
 
 .artifact-list-paginationbar {
@@ -346,8 +348,6 @@ img {
 //-----FOOTER-----//
 
 footer {
-    padding-top: 20px;
-    padding-bottom: 20px;
     background-color:$background-color-dark;
     color: $font-color-light;
     a {
@@ -357,4 +357,80 @@ footer {
     li {
         margin: 0 5px;
     }
+}
+
+//-----MEDIA QUERIES-----//
+@media (min-width:768px) {
+    h1 {
+        font-size: 4rem;
+    }
+    h4 {
+        font-size: 2rem;
+    }
+    h5 {
+        font-size: 1.5rem;
+    }    
+    h6 {
+        font-size:1.25rem;
+    }
+    p {
+        font-size: 1rem !important;
+    }
+    
+    footer {
+        a { 
+            font-size: 1rem;
+        }
+    }
+    .navbar {
+        a {
+            font-size: 1.25rem;
+        }
+        i {
+            font-size: 1.75rem;
+        }
+        .navbar-brand {
+            font-size:2rem;
+        }  
+        .navbar-brand span {
+            font-size:1rem;
+        }
+    }
+}
+
+@media (min-width: 1280px) {
+    h1 {
+        font-size: 6rem;
+    }
+    h4 {
+        font-size: 3rem;
+    }
+    h5 {
+        font-size: 2rem;
+    }    
+    h6 {
+        font-size:1.75rem;
+    }
+    p {
+        font-size: 1rem !important;
+    }
+    
+    footer {
+        a { 
+            font-size: 1.5rem;
+        }
+    }    
+    
+    .navbar {
+        padding-top:20px;
+        padding-bottom:20px;
+        .navbar-brand  {
+            padding-left:20px;
+            font-size:3rem;
+        }
+        .navbar-brand span {
+            font-size:1.5rem;
+        }        
+    }        
+  
 }

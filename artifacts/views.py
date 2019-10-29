@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.template.defaulttags import register
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.utils import timezone
 from .models import Artifact
 from auctions.models import Auction
 from auctions.views import get_bidder
@@ -21,14 +22,17 @@ def get_item(dictionary, key):
 
 
 """ Display list of all artifacts """
-def artifacts_list(request):
+def artifacts_list(request, index_search):
     if request.method == "POST":
         search_form = SearchArtifactsForm(request.POST)
         artifacts_list = search_artifacts(request, search_form)
-        
     else:
         search_form = SearchArtifactsForm()
         artifacts_list = Artifact.objects.all()
+ 
+    if index_search:
+        auctions = Auction.objects.filter(end_date__gte=timezone.now())
+        artifacts_list = Artifact.objects.filter(id__in=auctions.values('artifact'))        
  
     results = artifacts_list.count()
     page = request.GET.get('page', 1)

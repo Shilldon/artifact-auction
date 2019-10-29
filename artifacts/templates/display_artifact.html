@@ -21,7 +21,7 @@
             {% if artifact.image %}
             <img class="img-fluid my-auto" src="{{ MEDIA_URL }}{{ artifact.image }}" alt="image of {{ artifact.name }}">
             {% else %}
-            <img class="img-fluid my-auto" src="/media/images/cross_gold.png" alt="{{ artifact.name }}">
+            <img class="img-fluid my-auto" src="/media/images/placeholder.png" alt="{{ artifact.name }}">
             {% endif %}            
         </div>
     </div>
@@ -39,14 +39,17 @@
         <div class="col-6 text-left">
             <span style="">Current Bid £{{ current_bid }}</span>
         </div>
+        {% if artifact.buy_now_price > 0 %}
         <div class="col-6 text-right">
             <span>Buy now for £{{ artifact.buy_now_price }}</span>
-        </div>
-        {% if current_bid < artifact.reserve %}
+        </div>   
+        {% endif %}
+        {% if current_bid < artifact.reserve_price %}
         <div class="col-6">
             <span>Reserve not met</span>
         </div>
         {% endif %}
+     
     </div> 
 
     <div class="auction-buttons" style="display:none">    
@@ -58,9 +61,11 @@
                         <button class="btn" type="submit">Place Bid</button>
                     {% endif %}
                 </div>
+                {% if artifact.buy_now.price > 0 %}
                 <div class="col-6 text-right">
                     <button class="btn"><a href="{% url 'buy_one' artifact.id 1 %}">Buy Now</a></button>
                 </div>
+                {% endif %}
             </div>
             <div class="row">
                 <div class="col-6">

@@ -6,18 +6,20 @@
 {% endblock %}
 
 <!-- Main Title image and logo -->
-<section class="section index--title-image">   
+
+<section class="index--title-image">   
     <div class="index--title-text">
         <h1>Jones & Son</h1>
-        <h4>Since 1908</h4>
+        <h5>Since 1908</h5>
     </div>    
 </section>
 
+
 <!-- Call to action -->
-<section class="section container">
-    <div class="row h-100 index--call-to-action">
+<section class="container-fluid">
+    <div class="row h-100 index--call-to-action text-center pt-3 pb-3 pt-sm-5 pb-sm-4">
         <div class="col-12">
-            <h5 class="text-align-center">Purveyors of unique historical artifacts</h5>
+            <h6>Purveyors of unique historical artifacts</h6>
             <p>Since 1908 Prof. Henry Jones Sr and his son, Dr. Henry Jones junior, respected archaeologists, have travelled the world recovering unique historical artifacts. Having amassed a truly inspiring collection Professor and Dr Jones have opened that collection to the world.</p>
             <p><strong>Explore </strong> their unique and awe-inispring collection.</p>
             <p><strong>Learn </strong>about the owners of the artifacts through the ages and their fascinating history.</p>
@@ -27,70 +29,105 @@
     </div>
 </section>
 
-<section class="section container index--options-container" >
-    <div class="row ">
+<section class="section container-fluid pt-4 mb-5" >
+    <div class="row pb-3">
         <div class="col-12 text-center">
             <h5>Own a piece of history</h5>
         </div>
     </div>
-    <div class="row">
-        <div class="col-10 offset-1 styled-box index--option hvr-sweep-to-right" >
+    <div class="row mx-1 d-block d-sm-none">
+        <div class="col-12 styled-box index--option" >
             <div class="row h-100">
                 <div class="col-8">
                     <a href="#"><span>{{ auction_status }}</span></a>
                 </div>
                 {% if auctions.count > 0 %}
-                <div class="col-1 my-auto" >
+                <div class="col-1 my-auto mx-auto" >
                     <span class="collapse-button" data-toggle="collapse" data-target="#auctions-collapse"><i class="fas fa-caret-down"></i></span>
                 </div>
                 {% endif %}
             </div>
-        </div>   
-    </div> 
-    
-    <div class="collapse" id="auctions-collapse">
-        {% for auction in auctions %}
-        <div class="row">
-        <div class="col-8 offset-2 styled-box index--option ">
-            <div class="row h-100">
-                <div class="col-8 ">
-                    <a href="{% url 'display_artifact' id=auction.artifact.id %}">{{ auction.artifact.name }}</a>
-                </div>
-                <div class="col-2 artifact-image" style="background-image: url('{{ MEDIA_URL}}{{ auction.artifact.image }}">
-                </div>            
+        <div class="collapse" id="auctions-collapse">
+            <hr class="mt-0">
+            {% for auction in auctions %}
+            <div class="row">
+                <div class="col-10 offset-1 ">
+                    <div class="row h-100">
+                        <div class="col-12 my-auto" >
+                            <a href="{% url 'display_artifact' id=auction.artifact.id %}">{{ auction.artifact.name }}</a>
+                        </div>
+                    </div>
+                </div>  
             </div>
-        </div>  
-        </div>
-        {% endfor %}
-    </div>    
-
-    <div class="row">
-        <div class="col-10 offset-1 styled-box index--option hvr-sweep-to-right">
+            <hr>
+            {% endfor %}
+        </div>             
+        </div>   
+   
+        <div class="col-12 styled-box index--option hvr-sweep-to-right">
             <div class="row">
                 <div class="col-12">
                     <a href="{% url 'artifacts_list' %}"><span>View Artifacts</span></a>     
                 </div>
             </div>
         </div>
-    </div>    
-    <div class="row">
-        {% if not user.is_authenticated %}
-        <div class="col-10 offset-1 styled-box index--option hvr-sweep-to-right">
+    </div>
+    <div class="row justify-content-around mx-0 d-none d-sm-flex">
+        <div class="col-5 styled-box">
             <div class="row">
-                <div class="col-12">
-                    <a href="{% url 'login' %}"><span>Log In/Register</span></a>
-                </div>    
-            </div>
-        </div>
-        {% else %}
-        <div class="col-10 offset-1 styled-box index--option hvr-sweep-to-right">
-            <div class="row">
-                <div class="col-12">
-                    <a href="{% url 'view_collection' %}"><span>View Collection</span></a>
+                <div class="col-12 pt-5 text-center">
+                    <a href="{% url 'artifacts_list' %}"><img class="img-thumbnail my-auto index--artifact-image" src="/media/images/artifacts.jpg" alt="image of artifacts"></a>   
                 </div>
             </div>
-        </div>    
-        {% endif %}
-    </div>
+            <div class="row">
+                <div class="col-12 text-center">
+                    <a href="{% url 'artifacts_list' %}"><p>View Artifacts</p></a>     
+                </div>
+            </div>
+        </div>
+        <div class="col-5 styled-box carousel slide text-center" id="auctionCarousel" data-ride="carousel">
+            <div class="carousel-inner my-0">
+                <div class="carousel-item active">
+                    <div class="row">
+                        <div class="col-12 pt-5 text-center">
+                            <img class="img-thumbnail my-auto index--artifact-image" src="/media/images/auction.jpg" alt="image of artifacts">  
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 text-center">
+                            <a href="{% url 'artifacts_list' index_search=1 %}"><p>{{ auction_status }}</p></a>     
+                        </div>
+                    </div>
+                </div>    
+                {% for auction in auctions %}
+                <div class="carousel-item">
+                    <div class="row ">
+                        <div class="col-12 pt-5 text-center">
+                            {% if auction.artifact.image %}
+                            <img class="img-thumbnail my-auto index--artifact-image" src="{{ MEDIA_URL}}{{ auction.artifact.image }}" alt="image of "+{{ auction.artifact.name }}>   
+                            {% else %}
+                            <img class="img-thumbnail my-auto index--artifact-image" src="/media/images/placeholder.png" alt="image of "+{{ auction.artifact.name }}>   
+                            {% endif %}                            
+                        </div>
+                    </div>
+                    <div class="row h-100">
+                        <div class="col-12 text-center text-truncate">
+                            <p><a href="{% url 'display_artifact' id=auction.artifact.id %}">{{ auction.artifact.name }}</a></p>
+                        </div>
+                    </div>
+                </div>    
+                {% endfor %}
+                <a class="carousel-control-prev" href="#auctionCarousel" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#auctionCarousel" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>                
+            </div>        
+        </div>
+    </div>    
 </section>
+                        
 {% endblock %}
