@@ -150,19 +150,22 @@ def buy_one(request, id, buy_now):
     """
     artifact = get_object_or_404(Artifact, pk=id)
     auction = get_object_or_404(Auction, artifact=artifact)
+    print(artifact)
     price = 0
     collection = {}
     """
     On selecting pay now or buy now for a single artifact determine the
     price and proceed to checkout just for that artifact
     """
-    collection[id] = collection.get(id, price)
-    request.session['collection'] = collection
-        
     if int(buy_now)==1:
         price = float(artifact.buy_now_price)
     else:
         last_bid = Bids.objects.filter(auction=auction).order_by('-bid_amount')[0].bid_amount
         price = float(last_bid)
+
+    collection[id] = collection.get(id, price)
+    request.session['collection']=collection
+    print("collection in checkout=", collection)
+
 
     return redirect(reverse('checkout'))    

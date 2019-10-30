@@ -1,12 +1,10 @@
-$background-color-dark: #003273; //Dark Blue
-$background-color-light: #1761BF; // Light Blue
-$font-color-light: #FFB938; // Yellow
-$font-color-dark: #734D07; // Brown
-$font-color-grey: #444444; // Grey
-$font-color-blue: #003273; // Dark blue
-$font-color-light-blue: #1761BF; // Light blue
-$highlight-color-light: #FFB938; // Beige
-$highlight-color-dark: #734D07; // Brown
+$dark-base:  #003273; //Dark Blue
+$light-base: #1761BF; // Light Blue
+$dark-contrast: #734D07; // Brown
+$mid-contrast: #FFB938; // Beige
+$light-contrast: #FFB938; // Yellow
+
+$font-base: #444444; // Grey 
 
 
 body { 
@@ -15,26 +13,30 @@ body {
 
 a {
     text-decoration:none !important;
-    color: $font-color-blue;
+    color: $font-base;
+    cursor: pointer;
+}
+a:hover {
+    color: $dark-base;    
 }
 
 //----- NAVBAR -----//
 
 .navbar {
-    background-color: $background-color-dark !important;
+    background-color: $dark-base !important;
     button {
-        color: $font-color-light !important;  
+        color: $light-contrast !important;  
         background-color: transparent;
         border: none;
         outline: none;
     }
     .navbar-nav li span {
         font-weight: 700;
-        color: $font-color-light !important;
+        color: $light-contrast !important;
     }
     a {
         line-height: .75; 
-        color: $font-color-light;
+        color: $light-contrast;
     }
     .navbar-brand span {
         font-size: 0.75rem;
@@ -43,28 +45,22 @@ a {
 
 .navbar-brand {
     font-family: 'Cinzel Decorative', serif;
-    color: $font-color-light !important;
+    color: $light-contrast !important;
 }
 
 //-----MODALS-----//
 
 .modal {
+    margin:auto;
     font-size:1rem;
     font-family: 'Montserrat', sans-serif !important;
     li {
         line-height:2.5;
     }
     a {
-        color: $font-color-grey;
+        color: $font-base;
         text-decoration: none;
     }
-}
-
-.modal-dialog {
-  position: fixed;
-  margin: auto;
-  width: 100%;
-  height: 100%;
 }
 
 #filterModal {
@@ -100,22 +96,18 @@ a {
 }
 
 .index--call-to-action {
-    background-color: $background-color-dark !important;
+    background-color: $dark-base !important;
     h6 {
-        color: $font-color-light;    
+        color: $light-contrast;    
     }
     h4 {
-        color: $font-color-light;
+        color: $light-contrast;
         font-weight: 700;   
     }
     p {
         font-size: 0.75rem;
         color: white;       
     }
-}
-
-.index--options-container {
-
 }
 
 .index--option {
@@ -125,7 +117,7 @@ a {
         width:100%;
     }      
     a {
-        color: $font-color-grey;
+        color: $font-base;
     }
     p {
         font-size:0.75rem;
@@ -149,7 +141,7 @@ a {
 }
 
 .hvr-sweep-to-right:before {
-    background-color: $highlight-color-light;    
+    background-color: $mid-contrast;    
 }
 
 //--Styling for lists and options in grid layout--//
@@ -157,25 +149,53 @@ a {
     margin-top: 5px;
     margin-bottom: 5px;
     line-height:2.5;
-    outline: solid 2px $background-color-light;
-    border-left: solid 5px $highlight-color-light;
+    outline: solid 2px $light-base;
+    border-left: solid 5px $mid-contrast;
     input {
         border: none; 
         outline: none;
     }
 }
 
-//--Select button--//
+//--Buttons--//
 .btn {
     margin-top:10px;
-    font-size: 0.8rem;
-    color: $font-color-blue;
-    background-color: $highlight-color-light;
-    border: $highlight-color-dark solid 2px; 
-    a {
-        color: $font-color-blue;
-    }
+    font-size: 0.8rem;  
+    outline: none !important;
 }
+
+.btn-primary  {
+    color: $dark-base !important;
+    background-color: $light-contrast !important;
+    border: $dark-contrast solid 2px !important;  
+    width:125px;
+    a {
+        color: $dark-base !important;
+    }    
+}
+
+.btn-primary:active, .btn-primary:focus {
+    outline: 0 !important;
+    box-shadow:  0px 0px 0px 3px $dark-contrast !important;    
+}
+
+
+.btn-dark {
+    color: white !important;
+    background-color: $dark-base !important;
+    border: $light-base solid 2px !important; 
+    width:125px;
+    a {
+        color: white !important;
+    }     
+}
+
+.btn-dark:active, .btn-dark:focus {
+    outline:0 !important;
+    box-shadow:  0px 0px 0px 2px $light-base !important;    
+}
+
+
 
 .carousel-control-prev-icon {
  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23734D07' viewBox='0 0 8 8'%3E%3Cpath d='M5.25 0l-4 4 4 4 1.5-1.5-2.5-2.5 2.5-2.5-1.5-1.5z'/%3E%3C/svg%3E") !important;
@@ -188,14 +208,10 @@ a {
 //-----ACCOUNTS-----//
 
 .accounts--form-container {
-    color: $font-color-grey;
-    margin-top:20px;
-    margin-bottom:50px;
-    border: $background-color-dark 4px solid;
+    color: $font-base;
+    border: $dark-base 4px solid;
     border-radius: 2%;
     .accounts--form {
-        padding-top:20px;
-        padding-bottom:20px;
     }
     p {
         font-size:0.75rem;
@@ -203,47 +219,36 @@ a {
         margin:0;
     }
     input {
-        font-size:1rem;    
+        font-size:.8rem;    
         border: none; 
-        outline: none;    
+        outline: none;   
+        width:100%;
     }
     
 }
 
-.accounts--profile-btn {
-    width: 100%;
-    margin-bottom: 20px;
-}
-
-/*
-img {
-    padding-top: 20px;
-}
-*/
 .search-bar-container {
-    margin-top:20px;
-    margin-bottom:20px;
     button {
         border:none;
         background-color: transparent;
         outline:none;
-        color: $font-color-light;
+        color: $light-contrast;
     }
 }
 
 .search-bar {
-    border: 1px solid $font-color-grey
+    border: 1px solid $font-base
 }
 
 .search-icon {
-    color: $font-color-light;
-    background-color: $background-color-dark;
+    color: $light-contrast;
+    background-color: $dark-base;
     padding: 5px 7px 0 0;
 }
 
 .search-options {
     button {
-        color: $font-color-light-blue;
+        color: $light-base;
         outline: none;
         background-color: transparent;
         border: none;
@@ -257,10 +262,7 @@ img {
 .artifact-list{
     font-size:0.75rem;
     a {    
-        color: $font-color-grey;        
-    }
-    h4 {
-        font-size:1rem;
+        color: $font-base;        
     }
     p {
         line-height:1.5;
@@ -271,22 +273,32 @@ img {
     background-size: contain;
     background-position: center center;
     background-repeat: no-repeat;   
-    line-height:10;
+    max-width:100%;
 }
 
-.artifact-list-paginationbar {
-    margin-top:20px;
-    margin-bottom: 40px;
+.artifact-sold-image {
+    position:absolute; 
+    left:0;
+    top:10%;
 }
 
 .page-link{ 
-    color: $font-color-dark;
+    color: $dark-contrast;
+}
+
+.page-link:active {
+    box-shadow: 0 0 0 2px $light-base !important;    
+}
+
+.page-link:focus {
+    box-shadow: 0 0 0 2px $light-base !important;    
 }
 
 .page-item.active .page-link{
-    color: $font-color-light;
-    background-color: $background-color-dark;
-    border-color: $background-color-light;
+    color: $light-contrast;
+    background-color: $dark-base;
+    border-color: $light-base;
+    
 }
 
 
@@ -295,19 +307,19 @@ img {
 .artifact-single{
     font-size:0.9rem;
     a {
-        color: $font-color-blue;
+        color: $dark-base;
     }
     .row {
         padding-top:10px;
     }
     img {
-        border: solid  $highlight-color-dark 5px;
+        border: solid  $dark-contrast 5px;
     }
     .bid-history-btn {
         outline: none;
         background: transparent;
         border: none;
-        color: $font-color-light-blue;
+        color: $light-base;
         padding:0;
     }
 }
@@ -327,10 +339,10 @@ img {
     line-height:0;
     
     .review-star  {
-        color: $font-color-light;
+        color: $light-contrast;
     }
     .review-empty-star {
-        color: $font-color-blue;
+        color: $dark-base;
     }
 }
 
@@ -340,7 +352,7 @@ img {
 
 #history-collapse {
     a {
-        color: $font-color-blue;
+        color: $dark-base;
         cursor: pointer;
     }
 }
@@ -348,11 +360,11 @@ img {
 //-----FOOTER-----//
 
 footer {
-    background-color:$background-color-dark;
-    color: $font-color-light;
+    background-color:$dark-base;
+    color: $light-contrast;
     a {
         font-size:0.75rem;
-        color: $font-color-light !important;
+        color: $light-contrast !important;
     }
     li {
         margin: 0 5px;
@@ -384,10 +396,10 @@ footer {
     }
     .navbar {
         a {
-            font-size: 1.25rem;
+            font-size: 1rem;
         }
         i {
-            font-size: 1.75rem;
+            font-size: 1.25rem;
         }
         .navbar-brand {
             font-size:2rem;
@@ -396,6 +408,12 @@ footer {
             font-size:1rem;
         }
     }
+
+    .search-options {
+        button {
+            font-size:1.1rem;
+        }
+    }    
 }
 
 @media (min-width: 1280px) {
@@ -406,15 +424,14 @@ footer {
         font-size: 3rem;
     }
     h5 {
-        font-size: 2rem;
+        font-size: 1.75rem;
     }    
     h6 {
-        font-size:1.75rem;
+        font-size:1.5rem;
     }
     p {
         font-size: 1rem !important;
     }
-    
     footer {
         a { 
             font-size: 1.5rem;
@@ -422,14 +439,12 @@ footer {
     }    
     
     .navbar {
-        padding-top:20px;
-        padding-bottom:20px;
         .navbar-brand  {
             padding-left:20px;
-            font-size:3rem;
+            font-size:2.5rem;
         }
         .navbar-brand span {
-            font-size:1.5rem;
+            font-size:1.25rem;
         }        
     }        
   

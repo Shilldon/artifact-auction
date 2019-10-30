@@ -45,23 +45,24 @@
 </div>
 </section>
 
-<div class="container-fluid" >
+<div class="container-fluid artifact-list" >
 {% for artifact in artifacts_list %}
 <a href="{% url 'display_artifact' id=artifact.id %}">  
-    <div class="row justify-content-around  h-100 artifact-list artifact-information mt-3 mx-1">
+    <div class="row justify-content-around d-flex flex-wrap align-items-center artifact-information mt-3 mx-1">
         <div class="auction-artifactid" data-artifactid="{{ artifact.id }}"></div>
-        
         {% if artifact.image %}
-        <div class="col-3 col-sm-3 artifact-image text-center my-auto" style="height:100px; background-image: url('{{ MEDIA_URL }}{{ artifact.image }}');">
+        <div class="col-4 col-sm-2 col-lg-1 d-inline-block artifact-image text-center">
+            <img class="img-fluid" src="{{ MEDIA_URL }}{{ artifact.image }}" alt="image of {{artifact.name}}">
         {% else %}
-        <div class="col-3 col-sm-3 artifact-image text-center my-auto" style="height:100px; background-image: url('/media/images/placeholder.png');">
+        <div class="col-4 col-sm-2 col-lg-1 d-inline-block artifact-image text-center">
+            <img class="img-fluid" src="/media/images/placeholder.png" alt="placeholder image">
         {% endif %}        
             {% if artifact.sold is True %}
-            <img class="img-fluid my-auto" style="height:100px" src="/media/images/sold.png"></img>
-            {% endif %}
+            <img class="artifact-sold-image img-fluid" src="/media/images/sold.png" alt="sold stamp"></img>    
+            {% endif %}           
         </div>
-        <div class="col-9 col-sm-6">
-            <h4>{{ artifact.name }}</h4>
+        <div class="col-8">
+            <h6>{{ artifact.name }}</h6>
             {% if artifact.sold is True %}
                 {% if artifact.owner == None %}
                 <p>Sold</p>
@@ -77,25 +78,19 @@
             <span class="auction-timer-container">
                 <span class="auction-timer"></span>
             </span>
-            {% for auction in auctions %}
-                {% if auction.artifact == artifact %}
                 <div class="auction-bid-status">
-                    <span>Buy now for: £{{ artifact.buy_now_price }}<br></span>                        
-                    <span class="auction-current-bid">Current bid: £{{ auction_bids|get_item:auction.id }}</span>
+                    <span>Buy now for: £{{ artifact.buy_now_price }}<br></span>                
+                    <span class="auction-current-bid">Current bid: £{{ auction_bids|get_item:artifact }}</span>
                 </div>
-                {% endif %}
-            {%endfor%}  
             {% endif %}
         </div>
     </div>
-
-        <hr>
 </a>        
+<hr>
 {% endfor %}
 </div>
 
-<nav class="artifact-list-paginationbar">
-
+<nav class="pb-5">
     {% if artifacts_list.has_other_pages %}
     <ul class="pagination justify-content-center">
         {% if artifacts_list.has_previous %}
@@ -139,6 +134,7 @@
 <!-- filter search Modal -->
 <div class="modal fade" id="filterModal" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-dialog-scrollable" role="document">
+                <form method="POST">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Filter results</h5>
@@ -147,7 +143,6 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form method="POST">
                 {% csrf_token %}
                 {{ search_form.name.as_hidden }}
                 {{ search_form.sort_by.as_hidden }}
@@ -219,18 +214,22 @@
                             {% render_field search_form.max_buy_now_price style="width:100%" %}
                         </div>
                     </div> 
+                 </div>  
+            </div>
+            <div class="modal-footer">
                     <div class="row">
                         <div class="col-6 text-center">
-                            <input id="resetSearch" type="reset" value="Clear" class="btn">       
+                            <input id="resetSearch" type="reset" value="Clear" class="btn btn-dark">       
                         </div>                        
                         <div class="col-6 text-center">
-                            <button class="btn" type="submit">Filter</button>        
+                            <button class="btn btn-primary" type="submit">Filter</button>        
                         </div>
                     </div>                       
-                </div>  
-                </form>
             </div>
+
+            
         </div>
+                </form>        
     </div>
 </div>
 
@@ -263,7 +262,7 @@
                         </div>
                         <div class="row">
                             <div class="col-12 text-center">
-                                <button class="btn" type="submit">Sort</button>        
+                                <button class="btn btn-primary" type="submit">Sort</button>        
                             </div>
                         </div>                       
                     </div>  

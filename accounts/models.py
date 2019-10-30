@@ -7,6 +7,7 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     remain_anonymous = models.BooleanField(default=False)
     profile_picture = models.ImageField(upload_to='images', null=True, blank=True)
+    description = models.CharField(max_length=500, default='Artifact collector')
     
     def __str__(self):
         return "%s's profile" % self.user

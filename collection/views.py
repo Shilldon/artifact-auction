@@ -21,6 +21,7 @@ def view_collection(request):
                 artifacts_won[auction.artifact.id]={ 'artifact' : auction.artifact, 'bid' : highest_bid }
         except:
             None
+            
     artifacts_owned = Artifact.objects.filter(owner=request.user)
 
     return render(request, "collection.html", { "artifacts_owned" : artifacts_owned, "artifacts_won" : artifacts_won, 'total' : total })

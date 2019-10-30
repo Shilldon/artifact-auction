@@ -13,134 +13,131 @@
     <div class="auction-artifactid" data-artifactid="{{ artifact.id }}">  </div>
     <div class="row">
         <div class="col-12 text-center">
-            <h4>{{ artifact.name }}</h5>
+            <h5>{{ artifact.name }}</h5>
         </div>
-    </div>    
-    <div class="row h-100">
-        <div class="col-8 offset-2 mx-auto my-auto">
-            {% if artifact.image %}
-            <img class="img-fluid my-auto" src="{{ MEDIA_URL }}{{ artifact.image }}" alt="image of {{ artifact.name }}">
-            {% else %}
-            <img class="img-fluid my-auto" src="/media/images/placeholder.png" alt="{{ artifact.name }}">
-            {% endif %}            
-        </div>
-    </div>
-    
-    {% if artifact.sold is False %}
-    <div class="row" >
-        <div class="col-12 text-left">
-            <span class="auction-status"></span>   
-            <span class="auction-timer auction-timer-container" style="display:none; float:right"></span>            
-        </div>
-    </div>
-    {% endif %}
-
-    <div class="row auction-bid-status" style="display:none">
-        <div class="col-6 text-left">
-            <span style="">Current Bid £{{ current_bid }}</span>
-        </div>
-        {% if artifact.buy_now_price > 0 %}
-        <div class="col-6 text-right">
-            <span>Buy now for £{{ artifact.buy_now_price }}</span>
-        </div>   
-        {% endif %}
-        {% if current_bid < artifact.reserve_price %}
-        <div class="col-6">
-            <span>Reserve not met</span>
-        </div>
-        {% endif %}
-     
     </div> 
-
-    <div class="auction-buttons" style="display:none">    
-    {% if user.is_authenticated %}
-        <form method="POST" class="button-bid">
-            <div class="row">
-                <div class="col-6 text-left">
-                    {% if current_bidder != user %}
-                        <button class="btn" type="submit">Place Bid</button>
-                    {% endif %}
-                </div>
-                {% if artifact.buy_now.price > 0 %}
-                <div class="col-6 text-right">
-                    <button class="btn"><a href="{% url 'buy_one' artifact.id 1 %}">Buy Now</a></button>
-                </div>
-                {% endif %}
-            </div>
-            <div class="row">
-                <div class="col-6">
-                {% if current_bidder != user %}
-                    {% csrf_token %}
-                    {{ bid_form | as_bootstrap }}
-                {% endif %}
-                </div>
-            </div>
-        </form> 
-    {% endif %}  
-
-    
     <div class="row">
-        <div class="col-12">
-            {% if current_bidder is not None %}
-                {% if current_bidder == user %}
-                <span>You are the highest bidder</span>
-                {% elif current_bidder.profile.remain_anonymous %}
-                <span>The bidder wishes to remain anonymous</span>
-                {% else %}
-                <span>Highest bidder - {{ current_bidder }}</span>
-                {% endif %}
-            {% endif %}
-        </div>    
-    </div>
-    </div>
-
-    {% if current_bidder is not None %}
-    <div class="row">
-        <div class="col-12">
-            <button class="bid-history-btn" data-toggle="modal" data-target="#bidsModal">Bid history</button>
-        </div>
-    </div>
-    {% endif %}
-    
-    <div class="row auction-sold-status" style="display:none">
-        <div class="col-12">
-        {% if artifact.sold is False %}
-            {% if current_bid >= artifact.reserve_price %}
-                {%if current_bidder is not None %}
-                    {% if current_bidder == user %}
-                        <span>Congratulations you won this artifact for £{{ current_bid }}.</span>
-                        <button class="btn"><a href="{% url 'buy_one' artifact.id 0 %}">Pay Now</a></button>
-                    {% elif current_bidder.profile.remain_anonymous %}
-                        <span>This artifact has been purchased. The owner wishes to remain anonymous</span>
+        <div class="col-12 col-lg-6">
+            <div class="row h-100 justify-content-center">
+                <div class="col-8 col-sm-6 col-lg-8">
+                    {% if artifact.image %}
+                    <img class="img-thumbnail mx-auto d-block" src="{{ MEDIA_URL }}{{ artifact.image }}" alt="image of {{ artifact.name }}">
                     {% else %}
-                        <span>Won by {{ current_bidder }}</span>
-                    {% endif %}
-                    
-                {% endif %}
-            {% else %}
-                <span>This item did not meet the reserve price - not sold.</span>
-            {% endif %}
-        {% else %} 
-            {% if artifact.owner == None %}
-            <h5>Sold</h5>
-            {% elif artifact.owner == user %}
-            <h5>You own this artifact</h5>
-            {% elif artifact.owner.profile.remain_anonymous %}
-            <h5>This artifact has been purchased. The owner wishes to remain anonymous</h5>
-            {% else %}
-            <h5>Owned by {{ artifact.owner }}</h5>
-            {% endif %}
-        {% endif %}
+                    <img class="img-thumbnail mx-auto d-block" src="/media/images/placeholder.png" alt="placeholder image">
+                    {% endif %}            
+                </div>
+            </div>
         </div>
-    </div>  
+        <div class="col-12 col-lg-6 my-auto">
+            {% if artifact.sold is False %}
+            <div class="row mt-3" >
+                <div class="col-12 text-left">
+                    <span class="auction-status"></span>   
+                    <span class="auction-timer auction-timer-container" style="display:none"></span>            
+                </div>
+            </div>
+            {% endif %}
     
+    
+            <div class="auction-bid-status" style="display:none">
+                <div class="row">
+                    <div class="col-12">
+                        {% if current_bidder is not None %}
+                            {% if current_bidder == user %}
+                            <span>You are the highest bidder</span>
+                            {% elif current_bidder.profile.remain_anonymous %}
+                            <span>The current bidder wishes to remain anonymous</span>
+                            {% else %}
+                            <span>Highest bidder - {{ current_bidder }}</span>
+                            {% endif %}
+                        {% endif %}
+                    </div>    
+                </div>   
+                <div class="row">
+                    <div class="col-12 col-lg-6 text-left">
+                        <span>Current bid: £{{ current_bid }}</span>
+                    </div>
+                    {% if artifact.buy_now_price > 0 %}
+                    <div class="col-12 col-lg-6 text-left">
+                        <span>Buy now for: £{{ artifact.buy_now_price }}</span>
+                    </div>           
+                    {% endif %}      
+                </div>    
+            </div>            
+            <div class="auction-buttons" style="display:none">    
+                {% if user.is_authenticated %}
+                <form method="POST" class="button-bid" >
+                <div class="row justify-content-center">
+                        <div class="col-6 col-sm-4 col-lg-6 text-left">
+                            {% if current_bidder != user %}
+                                <button class="btn btn-primary" type="submit">Place Bid</button>
+                            {% endif %}
+                        </div>
+                        {% if artifact.buy_now_price > 0 %}
+                        <div class="col-6 col-sm-4 col-lg-6  text-right text-sm-left">
+                            <button class="btn btn-dark"><a href="{% url 'buy_one' artifact.id 1 %}">Buy Now</a></button>
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="row">
+                        <div class="col-6 col-sm-4 offset-sm-2 offset-lg-0">
+                        {% if current_bidder != user %}
+                            {% csrf_token %}
+                            {{ bid_form | as_bootstrap }}
+                        {% endif %}
+                        </div>
+                    </div>
+                </div>    
+                </form>                 
+                {% endif %}  
+    
+            {% if current_bidder is not None %}
+            <div class="row">
+                <div class="col-12">
+                    <button class="bid-history-btn" data-toggle="modal" data-target="#bidsModal">Bid history</button>
+                </div>
+            </div>
+            {% endif %}
+       
+            <div class="row auction-sold-status mt-3" style="display:none">
+                <div class="col-12">
+                {% if artifact.sold is False %}
+                    {% if current_bid >= artifact.reserve_price %}
+                        {%if current_bidder is not None %}
+                            {% if current_bidder == user %}
+                                <p>Congratulations you won this artifact for £{{ current_bid }}.</p>
+                                <button class="btn btn-primary"><a href="{% url 'buy_one' artifact.id 0 %}">Pay Now</a></button>
+                            {% elif current_bidder.profile.remain_anonymous %}
+                                <span>This artifact has been won. The winner wishes to remain anonymous</span>
+                            {% else %}
+                                <span>Won by {{ current_bidder }}</span>
+                            {% endif %}
+                        {% endif %}
+                    {% else %}
+                    <span>This item did not meet the reserve price - not sold.</span>
+                    {% endif %}
+                {% else %} 
+                    {% if artifact.owner == None %}
+                    <h6>Sold</h6>
+                    {% elif artifact.owner == user %}
+                    <h6>You own this artifact.</h6>
+                    {% elif artifact.owner.profile.remain_anonymous %}
+                    <h6>This artifact has been purchased. The owner wishes to remain anonymous</h6>
+                    {% else %}
+                    <h6>Owned by {{ artifact.owner }}</h6>
+                    {% endif %}
+                {% endif %}
+                </div>
+            </div>  
+        </div>  
+    </div>   
 </section>
 
-<section class="container artifact-details">
+<section class="container artifact-single py-3">
     {% if artifact.description %}
     <div class="row">
         <div class="col-10">
-            <h5>About</h5>
+            <h6>About</h6>
         </div>
         <div class="col-2">
             <span class="collapse-button" data-toggle="collapse" data-target="#about-collapse"><i class="fas fa-caret-down"></i></span>
@@ -148,7 +145,7 @@
     </div>
     <div class="row collapse" id="about-collapse">
         <div class="col-12">
-            {{ artifact.description }}
+            <span>{{ artifact.description }}</span>
         </div>
     </div>
     <hr>
@@ -156,10 +153,10 @@
     {% if review %}
     <div class="row">
         <div class="col-3">
-            <h5>Review</h5>
+            <h6>Review</h6>
         </div>
-        <div class="col-7 review-container" >
-            <ul class="list-inline">
+        <div class="col-7 review-container my-auto" >
+            <ul class="list-inline pt-1">
                 {% for n in "12345" %}
                 {% if forloop.counter <= review.rating %}
                 <li class="list-inline-item "><span><i class="fas fa-star review-star"></i></span></li>
@@ -173,18 +170,21 @@
             <span class="collapse-button" data-toggle="collapse" data-target="#review-collapse"><i class="fas fa-caret-down"></i></span>
         </div>
     </div>
-    <div class="row collapse" id="review-collapse">
-        <div class="col-12">
-            {{ review.description }}
-        </div>
-    </div>
-        {% if user == artifact.owner %}
+    <div class="collapse" id="review-collapse">
         <div class="row">
-            <div class="col-12 text-left">
-                <button class="btn"><a href="{% url 'add_review' artifact.id %}">Edit Review</a></button>
+            <div class="col-12">
+                {{ review.description }}
             </div>
-        </div>   
-        {% endif %}
+        </div>
+        {% if user == artifact.owner %}
+        <div class="row text-left">
+            <div class="col-12">
+                <button class="btn btn-primary"><a href="{% url 'add_review' artifact.id %}">Edit Review</a></button>
+            </div>
+        </div>  
+        {% endif %}         
+    </div>
+    <hr>        
     {% elif user == artifact.owner %}
     <div class="row">
         <div class="col-12 text-left">
@@ -192,11 +192,12 @@
         </div>
     </div>     
     <hr>
-    {% endif %}    
+    {% endif %}  
+    
     {% if events %}
     <div class="row">
         <div class="col-10">
-            <h5>History</h5>
+            <h6>History</h6>
         </div>
         <div class="col-2">
             <span class="collapse-button" data-toggle="collapse" data-target="#history-collapse"><i class="fas fa-caret-down"></i></span>
@@ -244,10 +245,10 @@
 
 {% block modal %}
 <div class="modal fade" id="bidsModal" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-full" role="document">
+    <div class="modal-dialog modal-dialog-scrollable" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5>Bidding History</h5>
+                <h6>Bidding History</h6>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                      <span aria-hidden="true">&times;</span>
                 </button>
@@ -262,7 +263,9 @@
                     <span>Bid: £{{ bid.bid_amount }}</span>    
                 </div>    
                 <div class="col-l-4 col-sm-12">
-                    {% if bid.bidder.profile.remain_anonymous is False %}
+                    {% if user == bid.bidder %}
+                    <span>Bidder: {{ bid.bidder }}</span> 
+                    {% elif bid.bidder.profile.remain_anonymous is False %}
                     <span>Bidder: {{ bid.bidder }}</span> 
                     {% else %}
                     <span>Bidder: Anonymous</span>

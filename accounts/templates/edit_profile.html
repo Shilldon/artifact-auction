@@ -2,64 +2,57 @@
 {% load widget_tweaks %}
 {% load bootstrap_tags %}
 
+{% load static from staticfiles %}
+{% block head_js %}
+<script defer src="{% static 'js/profile.js' %}"></script>
+{% endblock %}
+
 {% block content %}
 
-<div class="container">
+<div class="container mt-3 mb-5">
     <div class="row">
         <div class="col-10 offset-1 accounts--form-container">
             <form method="POST" enctype="multipart/form-data">
                 {% csrf_token %}
-                <div class="container accounts--form">
+                <div class="container py-3">
                     <div class="row">
                         <div class="col-12">
-                            <h6>Edit profile</h6>
+                            <h5>Edit profile</h5>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-12">
-                            <p>First Name</p>
+                        <div class="col-12 col-sm-6">
+                            <label for="id_first_name">First Name</label>
+                            <div class="styled-box pl-2">
+                                {% render_field edit_user_form.first_name %}    
+                            </div>     
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12 styled-box">
-                            {% render_field edit_user_form.first_name %}
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <p>Last Name</p>
-                        </div>
-                    </div>                    
-                    <div class="row">
-                        <div class="col-12 styled-box">
-                            {% render_field edit_user_form.last_name %}
-                        </div>
+                        <div class="col-12 col-sm-6">
+                            <label for="id_last_name">Last Name</label>
+                            <div class="styled-box pl-2">
+                                {% render_field edit_user_form.last_name %}
+                            </div>
+                        </div>    
                     </div>   
                     <div class="row">
-                        <div class="col-12">
-                            <p>Username</p>
+                        <div class="col-12 col-sm-6">
+                            <label for="id_user_name">Username</label>
+                            <div class="styled-box pl-2">
+                                {% render_field edit_user_form.username %}
+                            </div>
+                            <div>
+                               {% render_field edit_user_form.errors.username %}     
+                            </div>  
                         </div>
-                    </div>                    
-                    <div class="row">
-                        <div class="col-12 styled-box">
-                            {% render_field edit_user_form.username %}
-                        </div>
-                        <div class="col-12"  >
-                           {% render_field edit_user_form.errors.username %}     
-                        </div>                        
-                    </div>     
-                    <div class="row">
-                        <div class="col-12">
-                            <p>Email Address</p>
-                        </div>
-                    </div>                    
-                    <div class="row">
-                        <div class="col-12 styled-box">
+                        <div class="col-12 col-sm-6">
+                            <label for="id_email">Email Address</label>
+                            <div class="styled-box pl-2">
                             {% render_field edit_user_form.email %}
-                        </div>
-                        <div class="col-12">
-                           {% render_field edit_user_form.errors.email %}     
-                        </div>                           
+                            </div>
+                            <div>
+                               {% render_field edit_user_form.errors.email %}     
+                            </div>                           
+                        </div>    
                     </div>   
                     <div class="row">
                     <div class="col-12 text-center">
@@ -67,32 +60,42 @@
                     </div>                         
                     </div>
                     <hr>
-                    <div class="row">
-                        <div class="col-6 offset-3 text-center">
+                    <div class="row justify-content-center">
+                        <div class="col-6 col-sm-4 col-lg-3 text-center">
                             {% if user.profile.profile_picture %}
-                            <img class="img-fluid my-auto" src="{{MEDIA_URL}}{{user.profile.profile_picture}}" class="img-fluid my-auto" alt="User's Profile Picture">
+                            <img class="img-thumbnail mx-auto d-block artifact-image" src="{{MEDIA_URL}}{{user.profile.profile_picture}}" class="img-fluid my-auto" alt="User's Profile Picture">
                             {% else %}
-                            <img src="/media/images/default_profile_picture.png" class="img-fluid my-auto" alt="User's Profile Picture">
+                            <img class="img-thumbnail mx-auto d-block artifact-image" src="/media/images/default_profile_picture.png" alt="User's Profile Picture">
                             {% endif %}  
                         </div>
                     </div>
                     {% if user.profile.profile_picture %}
                     <div class="row">
-                        <div class="col-12 text-center">
-                            <input type="checkbox" name="profile_picture-clear" id="profile_picture-clear_id">
-                            <label form="profile_picture-clear_id">Remove</label>
+                        <div class="col-2">
+                            {% render_field edit_profile_form.remain_anonymous %}
+                        </div>                         
+                        <div class="col-10 col-sm-6 pl-0 text-left">
+                            <span>Remove picture</span>    
                         </div>
                     </div>
-                    {% endif %}
+                    
                     <div class="row">
-                        <div class="col-12 text-center">
+                        <div class="col-12 col-sm-10 offset-sm-2 pl-sm-0 text-center text-sm-left">
                             <p>or upload a new profile picture</p>
                         </div>
-                    </div>                    
+                    </div>    
+                    
+                    {% else %}
+                    <div class="row">
+                        <div class="col-12 text-center">
+                            <p>Upload a profile picture</p>
+                        </div>
+                    </div> 
+                    {% endif %}
                     <div class="row">         
                         <div class="col-12 text-center">
-                            <div class="btn">
-                                <label for="id_profile_picture" style="margin-bottom:0">Choose file</span>
+                            <div class="btn btn-dark">
+                                <label for="id_profile_picture" style="margin-bottom:0">Choose file</label>
                                 <input type="file" name="profile_picture" style="display:none" id="id_profile_picture">
                             </div>
                         </div>
@@ -104,19 +107,25 @@
                     </div>
                     <hr>
                      <div class="row">
-                        <div class="col-12">
+                        <div class="col-2">
                             {% render_field edit_profile_form.remain_anonymous %}
-                            <span>Remain anonymous</span>
+                        </div>                         
+                        <div class="col-10 pl-0 text-left">
+                            <span>Remain anonymous</span>    
                         </div>
                     </div>    
                     <div class="row">
-                        <div class="col-12">
-                            <p>Your username will not be displayed on bids or artifact ownership.</p>
+                        <div class="col-10 offset-2 pl-0">
+                            {% if edit_profile_form.remain_anonymous is true %}
+                            <p id="remain-anonymous-text">Your username will not be displayed on bids or artifact ownership.</p>
+                            {% else %}
+                            <p id="remain-anonymous-text">Select this option to ensure that your username is not displayed on bids or artifact ownership.</p>
+                            {% endif %} 
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-12 text-center">
-                            <button class="btn" type="submit">Update</button>        
+                            <button class="btn btn-primary" type="submit">Update</button>        
                         </div>
                     </div>                
                 </div>
@@ -133,23 +142,4 @@
         </div>
     </div>
 </div>
-
-
-<script>
-    $('#id_profile_picture').change(function(e){
-        var fileName = e.target.files[0].name;
-        $("#profile-picture-selected").text("File selected: "+fileName);
-    });
-
-/*    
-need to label element: id="profile-picture-name"
-    $(document).ready(function(){
-        var filePath = $("#profile-picture-name").text();
-        var fileNameIndex = filePath.lastIndexOf("/") + 1;
-        var fileName = filePath.substr(fileNameIndex);
-       console.log(fileName)
-        $("#profile-picture-selected").text(fileName);
-    });
-    */
-</script>
 {% endblock %}

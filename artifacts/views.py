@@ -51,10 +51,11 @@ def artifacts_list(request, index_search):
     for auction in auctions:
         bids = Bids.objects.filter(auction=auction)
         if bids:
-            auction_bids[auction.id] = str(bids.order_by('-bid_amount')[0].bid_amount)
+            auction_bids[auction.artifact] = str(bids.order_by('-bid_amount')[0].bid_amount)
         else:
-            auction_bids[auction.id] = 0
-
+            auction_bids[auction.artifact] = 0 
+    print(auction_bids)
+    #print(auction_bids[2])    
     return render(request, "artifacts.html", {"artifacts_list": artifacts, "auctions" : auctions, "search_form" : search_form, "auction_bids" : auction_bids, "results": results})
 
 """ Display a single artifact """
@@ -66,7 +67,7 @@ def display_artifact(request, id):
 
     except:
         events = None
-    print(events)
+
     try:
         auction = get_object_or_404(Auction, artifact=artifact)
         """Check if the artifact is in a current auction and return the name of the bidder"""
