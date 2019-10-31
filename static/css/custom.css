@@ -208,27 +208,15 @@ a:hover {
   background-color: #003273;
   border-color: #1761BF; }
 
-.artifact-single {
-  font-size: 0.9rem; }
-  .artifact-single a {
-    color: #003273; }
-  .artifact-single .row {
-    padding-top: 10px; }
-  .artifact-single img {
-    border: solid #734D07 5px; }
-  .artifact-single .bid-history-btn {
-    outline: none;
-    background: transparent;
-    border: none;
-    color: #1761BF;
-    padding: 0; }
+.artifact-single img {
+  border: solid #734D07 5px; }
 
-.artifact-details {
-  margin-bottom: 30px; }
-  .artifact-details .row {
-    margin-bottom: 10px; }
-  .artifact-details .collapse {
-    padding-bottom: 10px; }
+.bid-history-btn {
+  outline: none;
+  background: transparent;
+  border: none;
+  color: #1761BF;
+  padding: 0; }
 
 .review-container {
   line-height: 0; }

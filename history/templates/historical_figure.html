@@ -5,24 +5,50 @@
 
 {% block content %}
 
+
+
 <section class="container artifact-single">
-    <div class="row">
+    <div class="row py-3">
         <div class="col-12 text-center">
-            <h4>{{ owner.name }}</h5>
+            <h5>{{ owner.name }}</h5>
+        </div>
+    </div> 
+ 
+   <div class="row h-100 d-none d-lg-flex">
+        <div class="col-lg-12 pull-right">
+            <div class="col-5 pl-0">
+            {% if owner.picture %}
+            <img class="img-thumbnail img-responsive float-left mr-3" src="{{ MEDIA_URL }}{{ owner.picture }}" alt="Picture of {{ owner.name }}">
+            {% else %}
+            <img class="img-thumbnail img-responsive float-left mr-3" src="/media/images/default_profile_picture.png" alt="placeholder image">
+            {% endif %}
+            </div>
+            {% if owner.description %}
+            <h5>About</h5>    
+            <p class="text-justify">{{ owner.description }}</p>
+            {% endif %}
         </div>
     </div>    
-    <div class="row h-100">
-        <div class="col-8 offset-2 mx-auto my-auto">
-            {% if owner.picture %}
-            <img class="img-fluid my-auto" src="{{ MEDIA_URL }}{{ owner.picture }}" alt="image of {{ owner.name }}">
-            {% endif %}            
+    
+    <div class="row d-block d-lg-none">
+        <div class="col-12 col-lg-6">
+            <div class="row justify-content-center">
+                <div class="col-8 col-sm-6 col-lg-8">
+                    {% if owner.picture %}
+                    <img class="img-thumbnail mx-auto d-block" src="{{ MEDIA_URL }}{{ owner.picture }}" alt="image of {{ owner.name }}">
+                    {% else %}
+                    <img class="img-thumbnail mx-auto d-block" src="/media/images/default_profile_picture.png" alt="placeholder image">
+                    {% endif %}            
+                </div>
+            </div>
         </div>
     </div>
-</section>
+</section>    
     
-<section class="container artifact-details">
+    
+<section class="container pt-3 mb-5">
     {% if owner.description %}
-    <div class="row">
+    <div class="row d-flex d-lg-none my-3">
         <div class="col-10">
             <h5>About</h5>
         </div>
@@ -39,7 +65,7 @@
     {% endif %}
    
     {% if events %}
-    <div class="row">
+    <div class="row my-3">
         <div class="col-10">
             <h5>Events</h5>
         </div>
@@ -49,40 +75,25 @@
     </div>
     <div class="collapse" id="history-collapse">
         {% for event in events %}
+        {% if event.date %}
         <div class="row">
             <div class="col-12">
-                {% if event.day %}
-                <span>{{ event.day }} </span>
-                {% endif %}
-                {% if event.month|month_name %}
-                <span>{{ event.month|month_name }} </span>
-                {% endif %}
-                <span>{{ event.year }}</span>
-                <span>{{ event.bc }}</span>
+                <span>{{ event.date }}</span>
             </div>
         </div>
+        {% endif %}
         <div class="row">
             <div class="col-12">
-                {{ event.name }}    
+                <a href="{% url 'display_event' event.id %}">{{ event.name }} </a>    
             </div>
         </div>        
-        <div class="row">
-            <div class="col-12">
-                <span>{{ event.artifact }}</span>
-            </div>
-        </div>        
-        <div class="row">
-            <div class="col-12">
-                <span>{{ event.url_description | safe }}</span>
-            </div>
-        </div>
         <hr>
         {% endfor %}
     </div>
     {% endif %}
     
     {% if artifacts %}
-    <div class="row">
+    <div class="row my-3">
         <div class="col-10">
             <h5>Artifacts held</h5>
         </div>

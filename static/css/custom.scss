@@ -305,16 +305,11 @@ a:hover {
 //-----DISPLAY ARTIFACT-----//
 
 .artifact-single{
-    font-size:0.9rem;
-    a {
-        color: $dark-base;
-    }
-    .row {
-        padding-top:10px;
-    }
     img {
         border: solid  $dark-contrast 5px;
     }
+}
+
     .bid-history-btn {
         outline: none;
         background: transparent;
@@ -322,18 +317,6 @@ a:hover {
         color: $light-base;
         padding:0;
     }
-}
-
-.artifact-details {
-    margin-bottom:30px;
-    .row {
-        margin-bottom:10px;
-    }
-    .collapse {
-        padding-bottom:10px;
-    }
-}
-
 
 .review-container {
     line-height:0;

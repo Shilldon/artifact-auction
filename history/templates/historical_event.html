@@ -1,0 +1,67 @@
+{% extends 'base.html' %} 
+{% load static from staticfiles %} 
+{% load artifact_auction_tags %}
+{% load bootstrap_tags %} 
+
+{% block content %}
+
+<section class="container artifact-single">
+    <div class="row py-3">
+        <div class="col-12 text-center">
+            <h5>{{ event.name }}</h5>
+        </div>
+    </div> 
+ 
+   <div class="row h-100 d-none d-lg-flex">
+        <div class="col-lg-12 pull-right">
+            <div class="col-6 pl-0">
+                {% if event.picture %}
+                <img class="img-thumbnail img-responsive float-left mr-3" src="{{ MEDIA_URL }}{{ event.picture }}" alt="Picture of {{ event.name }}">
+                {% else %}
+                <img class="img-thumbnail img-responsive float-left mr-3" src="/media/images/default_profile_picture.png" alt="placeholder image">
+                {% endif %}
+            </div>
+            {% if event.date %}
+            <h5>{{ event.date }}</h5>
+            {% endif %}                      
+            <p class="text-justify">{{ event.description }}</p>
+
+        </div>
+    </div>    
+    
+    <div class="row d-block d-lg-none">
+        <div class="col-12 col-lg-6">
+            <div class="row justify-content-center">
+                <div class="col-8 col-sm-6 col-lg-8">
+                    {% if event.picture %}
+                    <img class="img-thumbnail mx-auto d-block" src="{{ MEDIA_URL }}{{ event.picture }}" alt="image of {{ event.name }}">
+                    {% else %}
+                    <img class="img-thumbnail mx-auto d-block" src="/media/images/placeholder.png" alt="placeholder image">
+                    {% endif %}            
+                </div>
+            </div>
+        </div>
+    </div>
+</section>    
+    
+    
+<section class="container d-block d-lg-none pt-3 mb-5">
+    <div class="row my-3">
+        <div class="col-12">
+        {% if event.date %}
+            <h5>{{ event.date }}</h5>
+        {% endif %}                      
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            {{ event.description }}
+        </div>
+        <hr>
+    </div>
+</section>
+
+{% endblock %}
+
+
+

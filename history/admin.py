@@ -6,11 +6,6 @@ import calendar
 
 class EventForm(forms.ModelForm):
     
-    """class Meta:
-        model = Event
-        
-        exclude = ['sort_year']
-    """    
     MONTH_CHOICES = [(str(i), calendar.month_name[i]) for i in range (0,13)]
     month = forms.ChoiceField(label='Month', choices=MONTH_CHOICES, required=False, initial=None)
     
@@ -19,6 +14,7 @@ class EventForm(forms.ModelForm):
     
 class EventAdmin(admin.ModelAdmin):
     form = EventForm
+    exclude = ('url_description', 'sort_year', 'date')
     
 # Register your models here.
 admin.site.register(Owner)
