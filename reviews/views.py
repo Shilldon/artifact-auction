@@ -4,8 +4,9 @@ from .models import Review
 from artifacts.models import Artifact
 
 def add_review(request, id):
+    artifact = get_object_or_404(Artifact, pk=id)
+
     if request.method == "POST":
-        artifact = get_object_or_404(Artifact, pk=id)
         review_form = ReviewForm(request.POST)
         print(review_form['rating'].value())
         if review_form.is_valid:
@@ -28,7 +29,7 @@ def add_review(request, id):
         except:
             review_form = ReviewForm()
     
-        return render(request, "add_review.html", { "review_form" : review_form })
+        return render(request, "add_review.html", { "review_form" : review_form, "artifact" : artifact })
 
 def delete_review(request, id):
     artifact = get_object_or_404(Artifact, pk=id)
