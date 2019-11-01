@@ -81,7 +81,7 @@ class UserRegistrationForm(UserCreationForm):
 class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
-        fields = ('remain_anonymous', 'profile_picture')
+        fields = ('description', 'remain_anonymous', 'profile_picture')
 
     def name(self):
         self.fields['profile_picture'].label = "Choose file"
@@ -95,12 +95,10 @@ class UserEditProfileForm(UserChangeForm):
             'first_name', 
             'last_name', 
             'email',
-            'password',
         )
 
     def clean_email(self):
         email = self.cleaned_data.get('email')
-        print(User.objects.filter(email=email))
         if not email:
             raise forms.ValidationError(u'Please enter an email address')
         if User.objects.exclude(pk=self.instance.pk).filter(email=email):

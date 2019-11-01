@@ -68,7 +68,15 @@
                                 {% render_field registration_form.password2 %}
                             </div>
                         </div>    
-                    </div>     
+                    </div>    
+                     <div class="row">
+                        <div class="col-12">
+                            <label for="id_description">Bio</label>
+                            <div class="styled-box">
+                                {% render_field profile_form.description style="width:100%; border:none; outline: none" %}
+                            </div>
+                        </div>    
+                    </div>                     
                     <hr>
                     <div class="row">
                         <div class="col-6 offset-3 text-center">

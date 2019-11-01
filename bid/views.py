@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import json, datetime
 from django.shortcuts import render, get_object_or_404, reverse, redirect
 from django.contrib import messages

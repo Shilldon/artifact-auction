@@ -4,11 +4,11 @@
 
 <div class="container mt-3 mb-5">
     <div class="row justify-content-center ">
-        <div class="col-10 col-sm-8 accounts--form-container py-3">
-        <div class="row">
-            <div class="col-12 col-sm-6">
+        <div class="col-12 col-md-8 accounts--form-container py-3">
+        <div class="row container mx-auto">
+            <div class="col-12 col-md-6">
                 <div class="row justify-content-center">
-                    <div class="col-8 col-sm-6 col-lg-4 text-center">
+                    <div class="col-6 col-md-8 text-center my-auto">
                         {% if user.profile.profile_picture %}
                         <img class="img-thumbnail mx-auto d-block" src="{{MEDIA_URL}}{{user.profile.profile_picture}}" alt="User's Profile Picture">
                         {% else %}
@@ -17,20 +17,20 @@
                     </div>                    
                 </div>
             </div>
-            <div class="col-12 col-sm-6 my-auto">
+            <div class="col-12 col-md-6 styled-box">
                 <div class="row">
-                    <div class="col-12 text-center text-sm-left">
-                        <span>{{ user.first_name }} {{ user.last_name }}</span>    
+                    <div class="col-12 text-left">
+                        <strong>Name </strong><span>{{ user.first_name }} {{ user.last_name }}</span>    
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-12 text-center text-sm-left">
-                        <span>{{ user.username }}</span>
+                    <div class="col-12 text-left">
+                        <span><strong>Username </strong>{{ user.username }}</span>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-12 text-center text-sm-left">
-                        <span>{{ user.email }}</span>    
+                    <div class="col-12 text-left">
+                        <span><strong>Email </strong>{{ user.email }}</span>    
                     </div>
                 </div>  
                 {% if user.profile.remain_anonymous %}
@@ -42,6 +42,16 @@
                 </div> 
                 {% endif %}
             </div>
+            {% if user.profile.description %}
+            <div class="col-12  styled-box mt-1">
+                <span><strong>About</strong></span>
+                <div class="row">
+                    <div class="col-12">
+                        <p> {{ user.profile.description }}</p>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
         </div>
         <div class="row justify-content-around">
             <div class="col-6 col-sm-3 text-center">

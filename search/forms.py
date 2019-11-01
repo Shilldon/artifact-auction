@@ -5,9 +5,12 @@ from artifacts.models import Category
 
 class SearchArtifactsForm(forms.Form):
     
-    queryset = Category.objects.all()
-    CATEGORY_CHOICES = [ (int(category.id), category.name) for category in queryset]
-
+    try:
+        queryset = Category.objects.all()
+        CATEGORY_CHOICES = [ (int(category.id), category.name) for category in queryset]
+    except:
+        CATEGORY_CHOICES = []
+    
     default_category_choices = []
     for category in CATEGORY_CHOICES:
         default_category_choices.append(category[0])
@@ -54,5 +57,5 @@ class SearchArtifactsForm(forms.Form):
                 )
         
         return min_price, max_price
-        
+     
         

@@ -52,12 +52,18 @@
                             <div>
                                {% render_field edit_user_form.errors.email %}     
                             </div>                           
-                        </div>    
+                        </div>   
+                        <div class="col-12">
+                            <label for="id_description">Bio</label>
+                            <div class="styled-box pl-2">
+                            {% render_field edit_profile_form.description style="width:100%; outline:none; border:none" %}
+                            </div>
+                        </div>
                     </div>   
                     <div class="row">
-                    <div class="col-12 text-center">
-                        <button class="btn"><a href="{% url 'password_reset' %}">Change Password</a></button>
-                    </div>                         
+                        <div class="col-12 text-center">
+                            <button class="btn"><a href="{% url 'password_reset' %}">Change Password</a></button>
+                        </div>                         
                     </div>
                     <hr>
                     <div class="row justify-content-center">
@@ -129,15 +135,6 @@
                         </div>
                     </div>                
                 </div>
-                {% if messages %}
-                <div class="alert alert-success">
-                    <div class="messages">
-                    {% for message in messages %}
-                    <p>{{ message }}</p>
-                    {% endfor %}
-                    </div>
-                </div>
-                {% endif %}
             </form>
         </div>
     </div>

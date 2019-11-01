@@ -21,7 +21,7 @@ class Auction(models.Model):
         if self.end_date is not None and self.start_date is None:
             raise ValidationError('Enter start date or remove auction end date.')
         if self.artifact.sold is True:
-            raise ValidationError('that artifact has been sold.')
+            raise ValidationError('That artifact has been sold.')
     
     def __str__(self):
         return self.artifact.name+" Auction"

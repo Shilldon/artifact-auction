@@ -36,7 +36,7 @@ class Artifact(models.Model):
         if self.owner == None and self.sold == True:
             raise ValidationError('No owner, set sold to false or set owner.')
         if self.sold == False and self.owner is not None:
-            raise ValidationError('Marked as sold, set owner to none or mark as sold.')
+            raise ValidationError('Not marked as sold, set owner to none or mark as sold.')
 
     def __str__(self):
         return self.name
