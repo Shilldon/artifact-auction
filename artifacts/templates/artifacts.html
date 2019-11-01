@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-
+{% load humanize %}
 {% load static from staticfiles %}
 {% load widget_tweaks %}
 {% block head_js %}
@@ -79,7 +79,7 @@
                 <span class="auction-timer"></span>
             </span>
                 <div class="auction-bid-status">
-                    <span>Buy now for: £{{ artifact.buy_now_price }}<br></span>                
+                    <span>Buy now for: £{{ artifact.buy_now_price|floatformat:2|intcomma }}<br></span>                
                     <span class="auction-current-bid">Current bid: £{{ auction_bids|get_item:artifact }}</span>
                 </div>
             {% endif %}

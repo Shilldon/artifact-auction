@@ -19,9 +19,9 @@ def checkout(request):
     if request.method=="POST":
         order_form = OrderForm(request.POST)
         payment_form = MakePaymentForm(request.POST)
-        
+        print("posted")
         if order_form.is_valid() and payment_form.is_valid():
-
+            print("form valid")
             order = order_form.save(commit=False)
             order.date = timezone.now()
             order.save()
@@ -83,23 +83,25 @@ def checkout(request):
                         artifact.save()                    
                         auction = get_object_or_404(Auction, artifact=artifact)
                         auction.delete()
-                    request.session['collection'] = []
+                    request.session['collection'] = {}
                         
                     #create a string of the artifacts purchased to email to
                     #purchaser
                     if len(artifacts_purchased) > 1:
-                        last_artifact = artifacts_purchased[-1:]
-                        last_artifact = "and "+last_artifact
-                        artifacts_purchased[-1:] = last_artifact
-                    
-                    email_artifacts_purchased = ' '.join(artifacts_purchased)
-                    email_title = 'Artifact Auctions - '+artifact.name
+                        list_of_artifacts = []
+                        for artifact in artifacts_purchased[:-1]:
+                            list_of_artifacts.append(artifact.name+",")
+                        last_artifact = artifacts_purchased[-1]
+                        list_of_artifacts.append("and "+last_artifact.name)
+                        
+                    email_artifacts_purchased = ' '.join(list_of_artifacts).lstrip()
+                    email_title = 'Artifact Auctions - Your purchase'
                     email_message_purchase = 'Thank you for purchasing '+email_artifacts_purchased+'. Your purchase will be delivered to you in 3-4 working days.'
                     send_mail(
                         email_title,
                         email_message_purchase,
                         'admin@artifact-auction.com',
-                        [artifact.owner],
+                        [artifact.owner.email],
                         fail_silently=False,)  
                         
                     messages.success(request, "You have successfully paid")
@@ -108,6 +110,7 @@ def checkout(request):
                     messages.error(request, "Unable to take payment")
                 
         else:
+            print("unable to take payment")
             messages.error(request, "We were unable to take payment with that card.")
     else:
         payment_form = MakePaymentForm()
@@ -150,7 +153,6 @@ def buy_one(request, id, buy_now):
     """
     artifact = get_object_or_404(Artifact, pk=id)
     auction = get_object_or_404(Auction, artifact=artifact)
-    print(artifact)
     price = 0
     collection = {}
     """
@@ -165,7 +167,6 @@ def buy_one(request, id, buy_now):
 
     collection[id] = collection.get(id, price)
     request.session['collection']=collection
-    print("collection in checkout=", collection)
 
 
     return redirect(reverse('checkout'))    

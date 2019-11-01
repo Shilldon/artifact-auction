@@ -54,8 +54,6 @@ def artifacts_list(request, index_search):
             auction_bids[auction.artifact] = str(bids.order_by('-bid_amount')[0].bid_amount)
         else:
             auction_bids[auction.artifact] = 0 
-    print(auction_bids)
-    #print(auction_bids[2])    
     return render(request, "artifacts.html", {"artifacts_list": artifacts, "auctions" : auctions, "search_form" : search_form, "auction_bids" : auction_bids, "results": results})
 
 """ Display a single artifact """

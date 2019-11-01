@@ -9,7 +9,6 @@ def collection_contents(request):
     collection = request.session.get('collection', {})
     total = 0
     purchase = []
-    print("collection in context=", collection)
     for id, price in collection.items():
         artifact = get_object_or_404(Artifact, pk=id)
         total += price

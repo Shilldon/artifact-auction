@@ -1,5 +1,6 @@
 from django.shortcuts import render, reverse, redirect, get_object_or_404
 from django.utils import timezone
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from artifacts.models import Artifact
 from auctions.models import Auction
 from bid.models import Bids
@@ -24,6 +25,17 @@ def view_collection(request):
             
     artifacts_owned = Artifact.objects.filter(owner=request.user)
 
-    return render(request, "collection.html", { "artifacts_owned" : artifacts_owned, "artifacts_won" : artifacts_won, 'total' : total })
+    results = artifacts_owned.count()
+    page = request.GET.get('page', 1)
+
+    paginator = Paginator(artifacts_owned, 10)
+    try:
+        artifacts_owned_list = paginator.page(page)
+    except PageNotAnInteger:
+        artifacts_owned_list = paginator.page(1)
+    except EmptyPage:
+        artifacts_owned_list = paginator.page(paginator.num_pages)
+
+    return render(request, "collection.html", { "artifacts_owned" : artifacts_owned_list, "artifacts_won" : artifacts_won, 'total' : total })
 
 

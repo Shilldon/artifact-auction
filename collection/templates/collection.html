@@ -4,24 +4,23 @@
 {% block content %}
 
 
+{% if artifacts_won|length > 0 %}
 <section class="container">
-    {% if artifacts_won|length > 0 %}
-    <div class="row" style="margin-top:20px">
-        <div class="col-8 offset-2 text-left">
+    <div class="row mt-3 justify-content-center" >
+        <div class="col-8 text-center">
             <h5>Artifacts won</h5>
         </div>
     </div>
-    {% endif %}
-        
+
     {% for id, item in artifacts_won.items %}
     <a href="{% url 'display_artifact' id=item.artifact.id %}">  
-        <div class="row justify-content-around d-flex flex-wrap align-items-center artifact-information mt-3 mx-1">
+        <div class="row justify-content-around d-flex flex-wrap align-items-center mt-3 mx-1">
             {% if item.artifact.image %}
-            <div class="col-4 col-sm-2 col-lg-1 d-inline-block artifact-image text-center">
+            <div class="col-4 col-sm-2 d-inline-block artifact-image text-center">
                 <img class="img-fluid" src="{{ MEDIA_URL }}{{ item.artifact.image }}" alt="image of {{item.artifact.name}}">
             </div>
             {% else %}
-            <div class="col-4 col-sm-2 col-lg-1 d-inline-block artifact-image text-center">
+            <div class="col-4 col-sm-2 d-inline-block artifact-image text-center">
                 <img class="img-fluid" src="/media/images/placeholder.png" alt="placeholder image">
             </div>    
             {% endif %}    
@@ -35,7 +34,7 @@
     {% endfor %}
     <div class="row" >
         <div class="col-12 text-right">
-            <h6>Total: {{ total }}</h6>
+            <h6>Total: £{{ total }}</h6>
         </div>
     </div>    
     <div class="row">
@@ -44,6 +43,7 @@
         </div>
     </div>
 </section>
+{% endif %}    
 
 {% if artifacts_owned|length > 0 and artifacts_won|length > 0 %}
 <section>
@@ -61,25 +61,23 @@
 </section>
 {% endif %}
 
-<section class="container">
-
-        {% if artifacts_owned|length > 0 %}
-        <div class="row" style="margin-top:20px">
-            <div class="col-8 offset-2 text-left">
-                <h5>Artifacts owned</h5>
-            </div>
+{% if artifacts_owned|length > 0 %}
+<section class="container my-3">
+    <div class="row justify-content-center">
+        <div class="col-8 text-center">
+            <h5>Artifacts owned</h5>
         </div>
-        {% endif %}
+    </div>
 
     {% for artifact in artifacts_owned %}
     <a href="{% url 'display_artifact' id=artifact.id %}">  
         <div class="row justify-content-around d-flex flex-wrap align-items-center artifact-information mt-3 mx-1">
             {% if artifact.image %}
-            <div class="col-4 col-sm-2 col-lg-1 d-inline-block artifact-image text-center">
+            <div class="col-4 col-sm-2 col-lg-2 d-inline-block artifact-image text-center">
                 <img class="img-fluid" src="{{ MEDIA_URL }}{{ artifact.image }}" alt="image of {{artifact.name}}">
             </div>
             {% else %}
-            <div class="col-4 col-sm-2 col-lg-1 d-inline-block artifact-image text-center">
+            <div class="col-4 col-sm-2 col-lg-2 d-inline-block artifact-image text-center">
                 <img class="img-fluid" src="/media/images/placeholder.png" alt="placeholder image">
             </div>
             {% endif %}    
@@ -89,7 +87,53 @@
         </div>
     </a>
     <hr>    
-
     {% endfor %}
 </section>
+{% else %}
+<section class="container my-3">
+    <div class="row justify-content-center">
+        <div class="col-8 text-center">
+            <h6>You do not have any artifacts in your collection.</h6>
+            <p>Why not purchase one in one of our auctions?</p>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<nav class="pb-5">
+    {% if artifacts_owned.has_other_pages %}
+    <ul class="pagination justify-content-center">
+        {% if artifacts_owned.has_previous %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ artifacts_owned.previous_page_number }}">&laquo;</a>
+        </li>
+        {% else %}
+        <li class="page-item disabled">
+            <a class="page-link" href="#"><span>&laquo;</span></a>
+        </li>
+    {% endif %}
+    {% for i in artifacts_owned.paginator.page_range %}
+        {% if artifacts_owned.number == i %}
+        <li class="page-item active">
+            <a class="page-link" href="#"><span>{{ i }}</span></a>
+        </li>
+        {% else %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ i }}">{{ i }}</a>
+        </li>
+        {% endif %}
+    {% endfor %}
+    {% if artifacts_owned.has_next %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ artifacts_owned.next_page_number }}">&raquo;</a>
+        </li>
+    {% else %}
+        <li class="page-item disabled">
+            <a class="page-link" href="#"><span>&raquo;</span></a>
+        </li>
+    {% endif %}
+  </ul>
+{% endif %}
+
+
 {% endblock %}

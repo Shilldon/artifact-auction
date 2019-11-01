@@ -90,7 +90,9 @@
         </div>
     </nav>
 
-    {% block content %} {% endblock %}
+    {% block content %} 
+    
+    {% endblock %}
 
 
     <!-- Footer -->
@@ -134,33 +136,32 @@
             </div>
             <div class="modal-body p-4">
                 <ul class="navbar-nav">
-                        <li class="nav-item">
-                            <a href="{% url 'index' %}"><span>Home</span></a>
-                        </li>                    
+                    <li class="nav-item">
+                        <a href="{% url 'index' %}"><span>Home</span></a>
+                    </li>    
+                    {% if user.is_superuser %}
+                    <li class="nav-item">
+                        <a href="{% url 'admin:index' %}"><span>Admin panel</span></a>
+                    </li>
+                    {% endif %}                 
                     <li class="nav-item">
                         <a href="{% url 'artifacts_list' %}"><span>View Artifacts</span></a>
                     </li>
                     {% if user.is_authenticated %}
                     <li class="nav-item">
-                        <a href="{% url 'view_profile' %}"><span>View {{ user }}'s Profile</span></a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{% url 'logout' %}"><span>Logout {{ user }}</span></a>
-                    </li>
-                    <li class="nav-item">
                         <a href="{% url 'view_collection' %}"><span>View Collection</span></a>
                     </li>
+                    {% if purchase|length > 0 %}
                     <li class="nav-item">
                         <a href="{% url 'checkout' %}"><span>Checkout</span></a>
-                    </li>
-                    {% if user.is_superuser %}
+                    </li>           
+                    {% endif %}
                     <li class="nav-item">
-                        <a href="{% url 'admin:index' %}"><span>Admin panel</span></a>
+                        <a href="{% url 'view_profile' %}"><span>Profile</span></a>
                     </li>
                     <li class="nav-item">
-                        <a href="#adminHelpModal" data-toggle="modal" data-target="#adminHelpModal"><span>Admin Help</span></a>
-                    </li>                    
-                    {% endif %} 
+                        <a href="{% url 'logout' %}"><span>Logout</span></a>
+                    </li>
                     {% else %}
                     <li class="nav-item">
                         <a href="{% url 'register' %}"><span>Register</span></a>

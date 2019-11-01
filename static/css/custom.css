@@ -115,8 +115,7 @@ a:hover {
 .btn-primary {
   color: #003273 !important;
   background-color: #FFB938 !important;
-  border: #734D07 solid 2px !important;
-  width: 125px; }
+  border: #734D07 solid 2px !important; }
   .btn-primary a {
     color: #003273 !important; }
 
@@ -127,8 +126,7 @@ a:hover {
 .btn-dark {
   color: white !important;
   background-color: #003273 !important;
-  border: #1761BF solid 2px !important;
-  width: 125px; }
+  border: #1761BF solid 2px !important; }
   .btn-dark a {
     color: white !important; }
 
