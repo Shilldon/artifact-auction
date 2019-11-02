@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django import forms
-from .models import Owner, Event
+from .models import Historical_Figure, Event
 
 import calendar
 
@@ -17,5 +17,5 @@ class EventAdmin(admin.ModelAdmin):
     exclude = ('url_description', 'sort_year', 'date')
     
 # Register your models here.
-admin.site.register(Owner)
+admin.site.register(Historical_Figure)
 admin.site.register(Event, EventAdmin)

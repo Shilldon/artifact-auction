@@ -13,11 +13,11 @@ body {
 
 a {
     text-decoration:none !important;
-    color: $font-base;
+    color: $dark-base;
     cursor: pointer;
 }
 a:hover {
-    color: $dark-base;    
+    color: $light-base;    
 }
 
 //----- NAVBAR -----//

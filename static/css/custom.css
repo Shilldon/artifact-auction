@@ -3,11 +3,11 @@ body {
 
 a {
   text-decoration: none !important;
-  color: #444444;
+  color: #003273;
   cursor: pointer; }
 
 a:hover {
-  color: #003273; }
+  color: #1761BF; }
 
 .navbar {
   background-color: #003273 !important; }

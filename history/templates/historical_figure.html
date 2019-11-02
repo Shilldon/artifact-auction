@@ -105,7 +105,7 @@
         {% for artifact in artifacts %}
         <div class="row">
             <div class="col-12">
-                <a href="{% url 'display_artifact' id=artifact.id %}"><span>{{ artifact.name }}</span></a>
+                <a href="{% url 'display_artifact' id=artifact.id %}">{{ artifact.name }}</a>
             </div>
         </div>
         {% endfor %}

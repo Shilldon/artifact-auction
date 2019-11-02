@@ -25,7 +25,7 @@ class Artifact(models.Model):
     name = models.CharField(max_length=100, default='')
     type = models.CharField(max_length=10, choices=TYPE_CHOICES, default='')
     category = models.ForeignKey(Category, on_delete=models.PROTECT)
-    description = models.CharField(max_length=500, default='An artifact')
+    description = models.TextField(default='An artifact')
     image = models.ImageField(upload_to='images', null=True, blank=True)
     buy_now_price = models.DecimalField(max_digits=11, decimal_places=2, default=0.00)
     sold = models.BooleanField(default=False)

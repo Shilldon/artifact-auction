@@ -8,10 +8,12 @@ from auctions.views import get_bidder
 from bid.forms import BiddingForm
 from bid.views import check_bid
 from bid.models import Bids
-from history.models import Event
+from history.models import Event, Historical_Figure
 from reviews.models import Review
 from search.forms import SearchArtifactsForm
 from search.views import search_artifacts
+
+from django.core.mail import send_mail
 
 # Create your views here.
 
@@ -58,13 +60,19 @@ def artifacts_list(request, index_search):
 
 """ Display a single artifact """
 def display_artifact(request, id):
+    
     artifact = get_object_or_404(Artifact, pk=id)
 
     try:
         events = Event.objects.filter(artifact=artifact).order_by('sort_year', 'month', 'day')
-
     except:
         events = None
+
+    try:
+        owners = Historical_Figure.objects.filter(artifact_possessed=artifact)
+    except:
+        owners = None
+
 
     try:
         auction = get_object_or_404(Auction, artifact=artifact)
@@ -112,6 +120,7 @@ def display_artifact(request, id):
                     'current_bidder' : current_bidder,
                     'review' : review,
                     'rating' : rating,
-                    'events' : events
+                    'events' : events,
+                    'owners' : owners
         })
             

@@ -24,8 +24,7 @@
             {% if event.date %}
             <h5>{{ event.date }}</h5>
             {% endif %}                      
-            <p class="text-justify">{{ event.description }}</p>
-
+            <p class="text-justify">{{ event.url_description|safe }}</p>
         </div>
     </div>    
     
@@ -55,7 +54,7 @@
     </div>
     <div class="row">
         <div class="col-12">
-            {{ event.description }}
+            {{ event.url_description|safe }}
         </div>
         <hr>
     </div>

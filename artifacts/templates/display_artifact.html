@@ -53,6 +53,7 @@
             {% if artifact.sold is False %}
             <div class="row mt-3" >
                 <div class="col-12 text-left">
+                    <h6>Auction Status</h6>
                     <span class="auction-status"></span>   
                     <span class="auction-timer auction-timer-container" style="display:none"></span>            
                 </div>
@@ -133,7 +134,8 @@
                                 <span>Won by {{ current_bidder }}</span>
                             {% endif %}
                         {% endif %}
-                    {% else %}
+                    {% elif auction %}
+                    <h6>Auction Status</h6>
                     <span>This item did not meet the reserve price - not sold.</span>
                     {% endif %}
                 {% else %} 
@@ -244,11 +246,38 @@
             </div>
         </div>        
         {% endif %}
+        {% if not forloop.last %}
         <hr>
+        {% endif %}
         {% endfor %}
     </div>
     <hr>
     {% endif %}
+    
+    {% if owners %}
+    <div class="row  my-3">
+        <div class="col-10">
+            <h6>Historical Figures</h6>
+        </div>
+        <div class="col-2">
+            <span class="collapse-button" data-toggle="collapse" data-target="#historical-figures-collapse"><i class="fas fa-caret-down"></i></span>
+        </div>
+    </div>   
+    <div class="collapse" id="historical-figures-collapse">
+        {% for owner in owners %}
+        <div class="row">
+            <div class="col-12">
+                <a href="{% url 'display_owner' owner.id %}">{{ owner.name }}</a>   
+            </div>
+        </div>
+        {% if not forloop.last %}
+        <hr>
+        {% endif %}
+        {% endfor %}
+    </div>
+    <hr>
+    {% endif %}
+    
 </section>
 
 {% endblock %}

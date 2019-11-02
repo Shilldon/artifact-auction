@@ -1,8 +1,8 @@
 from django.shortcuts import render, get_object_or_404
-from .models import Owner, Event
+from .models import Historical_Figure, Event
 
 def display_owner(request, id):
-    owner = get_object_or_404(Owner, pk=id)
+    owner = get_object_or_404(Historical_Figure, pk=id)
     events = Event.objects.filter(owner=owner).order_by('sort_year', 'month', 'day')
 
     artifacts=[]
