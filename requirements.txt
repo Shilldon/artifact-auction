@@ -9,6 +9,7 @@ django-forms-bootstrap==3.1.0
 django-storages==1.7.2
 django-widget-tweaks==1.4.5
 docutils==0.14
+gunicorn==19.9.0
 ikp3db==1.1.4
 isort==4.3.21
 jedi==0.11.1
