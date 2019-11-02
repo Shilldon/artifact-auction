@@ -1,1 +1,1 @@
-web: gunicorn blog.wsgi:application
+web: gunicorn artifact_auction.wsgi:application
