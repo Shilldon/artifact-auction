@@ -12,7 +12,6 @@ django-storages==1.7.2
 django-widget-tweaks==1.4.5
 docutils==0.15.2
 gunicorn==19.9.0
-ikpdb==1.2.3
 Inflector==2.0.12
 isort==4.3.21
 jedi==0.11.1
