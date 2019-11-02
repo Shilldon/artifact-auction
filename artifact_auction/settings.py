@@ -27,7 +27,7 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['d715926ab42743bbbceb4cdc0dba0269.vfs.cloud9.us-east-1.amazonaws.com']
+ALLOWED_HOSTS = ['d715926ab42743bbbceb4cdc0dba0269.vfs.cloud9.us-east-1.amazonaws.com', 'shilldons-artifactauction.herokuapp.com']
 
 
 # Application definition
