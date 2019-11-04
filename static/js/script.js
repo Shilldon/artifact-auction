@@ -21,6 +21,7 @@ function initialisePage(artifactId, startTime, endTime, currentBid, artifactCont
     var auctionBidStatus=$(".auction-bid-status", artifactContainer);
     var auctionButtons=$(".auction-buttons", artifactContainer);
     var auctionSoldStatus=$(".auction-sold-status", artifactContainer);        
+    var auctionStatus=$(".auction-status", artifactContainer)
     
     var auctionText;
     
@@ -29,7 +30,7 @@ function initialisePage(artifactId, startTime, endTime, currentBid, artifactCont
             auctionTimer.show();
             auctionBidStatus.show();
             auctionButtons.show();
-            //auctionSoldStatus.hide();
+            auctionSoldStatus.hide();
             auctionText = "Time left: ";
             displayTimer(artifactContainer, artifactId, endTime, auctionText, true);
             checkBid(artifactId, currentBid, artifactContainer);
@@ -38,7 +39,7 @@ function initialisePage(artifactId, startTime, endTime, currentBid, artifactCont
             auctionTimer.show();
             auctionBidStatus.hide();
             auctionButtons.hide();
-            //auctionSoldStatus.hide();
+            auctionSoldStatus.hide();
             auctionText = "Starts in: ";
             displayTimer(artifactContainer, artifactId, startTime, auctionText, false);
         }
@@ -57,7 +58,7 @@ function initialisePage(artifactId, startTime, endTime, currentBid, artifactCont
         auctionSoldStatus.show();
         auctionText="Not yet listed for auction.";
     }
-    $(".auction-status", artifactContainer).text(auctionText);
+    auctionStatus.text(auctionText);
 }
 
 function displayTimer(artifactContainer, artifactId, referenceTime, auctionText, auctionStarted) {

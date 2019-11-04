@@ -75,10 +75,10 @@
                 {% endif %}
             {% else %}
             <span class="auction-status"></span>
-            <span class="auction-timer-container">
+            <span class="auction-timer-container" style="display: none">
                 <span class="auction-timer"></span>
             </span>
-                <div class="auction-bid-status">
+                <div class="auction-bid-status" style="display: none">
                     <span>Buy now for: £{{ artifact.buy_now_price|floatformat:2|intcomma }}<br></span>                
                     <span class="auction-current-bid">Current bid: £{{ auction_bids|get_item:artifact }}</span>
                 </div>
