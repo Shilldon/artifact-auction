@@ -12,9 +12,14 @@ class Historical_Figure(models.Model):
     picture = models.ImageField(upload_to='images', null=True, blank=True)
 
     def clean(self):
+        if self.artifact_possessed is None:
+            raise ValidationError(
+                "Please enter the artifact associated with this person."
+                )        
+        
         """ review description and replace all references to the artifact name with a url link to the artifact """       
         artifact_name = re.compile(self.artifact_possessed.name, re.IGNORECASE)
-        artifact_link_string=artifact_name.sub("<a href='/artifacts/artifact/"+str(self.artifact_possessed.id)+"'>"+self.artifact.name+"</a>", self.description)
+        artifact_link_string=artifact_name.sub("<a href='/artifacts/artifact/"+str(self.artifact_possessed.id)+"'>"+self.artifact_possessed.name+"</a>", self.description)
         """review the amended description and replace all references to the artifact owner with a url link to the owner """
         self.url_description=artifact_link_string
 
@@ -42,6 +47,11 @@ class Event(models.Model):
     date = models.CharField(max_length=25, blank=True)
     
     def clean(self):
+        
+        if self.artifact is None:
+            raise ValidationError(
+                "Please enter the artifact associated with this event."
+                )
         
         day = self.day
         if self.month:

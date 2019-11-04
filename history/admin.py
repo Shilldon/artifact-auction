@@ -17,9 +17,8 @@ class EventAdmin(admin.ModelAdmin):
     exclude = ('url_description', 'sort_year', 'date')
    
 class Historical_FigureAdmin(admin.ModelAdmin):
-    class Meta:
-        model = Historical_Figure
-        exclude = ('url_description')
+    model = Historical_Figure
+    exclude = ('url_description',)
     
 # Register your models here.
 admin.site.register(Historical_Figure, Historical_FigureAdmin)
