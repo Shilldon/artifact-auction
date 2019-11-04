@@ -19,8 +19,6 @@
             <div class="col-5 pl-0">
             {% if owner.picture %}
             <img class="img-thumbnail img-responsive float-left mr-3" src="{{ MEDIA_URL }}{{ owner.picture }}" alt="Picture of {{ owner.name }}">
-            {% else %}
-            <img class="img-thumbnail img-responsive float-left mr-3" src="/media/images/default_profile_picture.png" alt="placeholder image">
             {% endif %}
             </div>
             {% if owner.url_description %}

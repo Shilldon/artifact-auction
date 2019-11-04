@@ -17,8 +17,6 @@
             <div class="col-6 pl-0">
                 {% if event.picture %}
                 <img class="img-thumbnail img-responsive float-left mr-3" src="{{ MEDIA_URL }}{{ event.picture }}" alt="Picture of {{ event.name }}">
-                {% else %}
-                <img class="img-thumbnail img-responsive float-left mr-3" src="/media/images/default_profile_picture.png" alt="placeholder image">
                 {% endif %}
             </div>
             {% if event.date %}
