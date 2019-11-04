@@ -23,7 +23,7 @@
             </div>
             {% if owner.url_description %}
             <h5>About</h5>    
-            <p class="text-justify">{{ owner.url_description }}</p>
+            <p class="text-justify">{{ owner.url_description|safe }}</p>
             {% endif %}
         </div>
     </div>    
@@ -54,7 +54,7 @@
     </div>
     <div class="row collapse" id="about-collapse">
         <div class="col-12">
-            {{ owner.url_description }}
+            {{ owner.url_description|safe }}
         </div>
         <hr>
     </div>
