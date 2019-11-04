@@ -18,9 +18,13 @@ Moses - https://commons.wikimedia.org/wiki/File:Rembrandt_-_Moses_with_the_Ten_C
 Ark of covenant - https://commons.wikimedia.org/wiki/File:Royal_Arch_Room_Ark_replica_2.jpg  
 Building of the ark - https://commons.wikimedia.org/wiki/File:The_Phillip_Medhurst_Picture_Torah_472._Building_the_ark_of_the_covenant._Exodus_cap_37._Mortier.jpg  
 Indiana Jones - https://indianajones.fandom.com/wiki/Indiana_Jones  
+Sword in the Stone - https://pxhere.com/en/photo/865608
+Professor de Solla - https://en.wikipedia.org/wiki/Antikythera_mechanism#/media/File:DerekdeSollaPrice.jpg
+Antikythera Mechanism - https://commons.wikimedia.org/wiki/File:The_Antikythera_Mechanism_(3471161471).jpg
 
 ### Information
 
 Ark of the covenant - https://en.wikipedia.org/wiki/Ark_of_the_Covenant  
 Moses - https://en.wikipedia.org/wiki/Moses  
 Indiana Jones -  https://indianajones.fandom.com/wiki/Indiana_Jones  
+Antikythera Mechanism - https://en.wikipedia.org/wiki/Antikythera_mechanism

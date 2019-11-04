@@ -27,20 +27,18 @@
             {% endif %}
         </div>
     </div>    
-    
+
+    {% if owner.picture %}    
     <div class="row d-block d-lg-none">
-        <div class="col-12 col-lg-6">
+        <div class="col-12">
             <div class="row justify-content-center">
-                <div class="col-8 col-sm-6 col-lg-8">
-                    {% if owner.picture %}
+                <div class="col-8 col-sm-6">
                     <img class="img-thumbnail mx-auto d-block" src="{{ MEDIA_URL }}{{ owner.picture }}" alt="image of {{ owner.name }}">
-                    {% else %}
-                    <img class="img-thumbnail mx-auto d-block" src="/media/images/default_profile_picture.png" alt="placeholder image">
-                    {% endif %}            
                 </div>
             </div>
         </div>
     </div>
+    {% endif %}    
 </section>    
     
     
