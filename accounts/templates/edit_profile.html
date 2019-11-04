@@ -122,7 +122,7 @@
                     </div>    
                     <div class="row">
                         <div class="col-10 offset-2 pl-0">
-                            {% if edit_profile_form.remain_anonymous is true %}
+                            {% if user.profile.remain_anonymous is True %}
                             <p id="remain-anonymous-text">Your username will not be displayed on bids or artifact ownership.</p>
                             {% else %}
                             <p id="remain-anonymous-text">Select this option to ensure that your username is not displayed on bids or artifact ownership.</p>
