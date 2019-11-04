@@ -21,6 +21,7 @@ Indiana Jones - https://indianajones.fandom.com/wiki/Indiana_Jones
 Sword in the Stone - https://pxhere.com/en/photo/865608
 Professor de Solla - https://en.wikipedia.org/wiki/Antikythera_mechanism#/media/File:DerekdeSollaPrice.jpg
 Antikythera Mechanism - https://commons.wikimedia.org/wiki/File:The_Antikythera_Mechanism_(3471161471).jpg
+Dead Sea Scrolls - https://en.wikipedia.org/wiki/Dead_Sea_Scrolls#/media/File:Psalms_Scroll.jpg
 
 ### Information
 
@@ -28,3 +29,4 @@ Ark of the covenant - https://en.wikipedia.org/wiki/Ark_of_the_Covenant
 Moses - https://en.wikipedia.org/wiki/Moses  
 Indiana Jones -  https://indianajones.fandom.com/wiki/Indiana_Jones  
 Antikythera Mechanism - https://en.wikipedia.org/wiki/Antikythera_mechanism
+Dead Sea Scrolls - https://en.wikipedia.org/wiki/Dead_Sea_Scrolls

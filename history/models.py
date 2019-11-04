@@ -12,16 +12,17 @@ class Historical_Figure(models.Model):
     picture = models.ImageField(upload_to='images', null=True, blank=True)
 
     def clean(self):
-        if self.artifact_possessed is None:
+        try:
+            """ review description and replace all references to the artifact name with a url link to the artifact """       
+            artifact_name = re.compile(self.artifact_possessed.name, re.IGNORECASE)
+            artifact_link_string=artifact_name.sub("<a href='/artifacts/artifact/"+str(self.artifact_possessed.id)+"'>"+self.artifact_possessed.name+"</a>", self.description)
+            """review the amended description and replace all references to the artifact owner with a url link to the owner """
+            self.url_description=artifact_link_string
+
+        except:
             raise ValidationError(
                 "Please enter the artifact associated with this person."
-                )        
-        
-        """ review description and replace all references to the artifact name with a url link to the artifact """       
-        artifact_name = re.compile(self.artifact_possessed.name, re.IGNORECASE)
-        artifact_link_string=artifact_name.sub("<a href='/artifacts/artifact/"+str(self.artifact_possessed.id)+"'>"+self.artifact_possessed.name+"</a>", self.description)
-        """review the amended description and replace all references to the artifact owner with a url link to the owner """
-        self.url_description=artifact_link_string
+                )                
 
     def __str__(self):
         return self.name    
@@ -47,12 +48,7 @@ class Event(models.Model):
     date = models.CharField(max_length=25, blank=True)
     
     def clean(self):
-        
-        if self.artifact is None:
-            raise ValidationError(
-                "Please enter the artifact associated with this event."
-                )
-        
+
         day = self.day
         if self.month:
             month = calendar.month_name[self.month]
@@ -82,16 +78,20 @@ class Event(models.Model):
             date_list = [str(i or '') for i in date]
             self.date = ' '.join(map(str, date_list)).lstrip()
         
-        """ review description and replace all references to the artifact name with a url link to the artifact """       
-
-        artifact_name = re.compile(self.artifact.name, re.IGNORECASE)
-        artifact_link_string=artifact_name.sub("<a href='/artifacts/artifact/"+str(self.artifact.id)+"'>"+self.artifact.name+"</a>", self.description)
-        """review the amended description and replace all references to the artifact owner with a url link to the owner """
-        if self.owner:
-            owner_name = re.compile(self.owner.name, re.IGNORECASE)
-            self.url_description=owner_name.sub("<a href='/history/historical_figure/"+str(self.owner.id)+"'>"+self.owner.name+"</a>", artifact_link_string)
-        else:
-            self.url_description=artifact_link_string
+        """ review description and replace all references to the artifact name with a url link to the artifact """
+        try:
+            artifact_name = re.compile(self.artifact.name, re.IGNORECASE)
+            artifact_link_string=artifact_name.sub("<a href='/artifacts/artifact/"+str(self.artifact.id)+"'>"+self.artifact.name+"</a>", self.description)
+            """review the amended description and replace all references to the artifact owner with a url link to the owner """
+            if self.owner:
+                owner_name = re.compile(self.owner.name, re.IGNORECASE)
+                self.url_description=owner_name.sub("<a href='/history/historical_figure/"+str(self.owner.id)+"'>"+self.owner.name+"</a>", artifact_link_string)
+            else:
+                self.url_description=artifact_link_string
+        except:
+            raise ValidationError(
+                "Please enter the artifact associated with this event."
+                )  
             
     def __str__(self):
         return self.name    

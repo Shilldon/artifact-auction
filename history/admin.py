@@ -11,6 +11,7 @@ class EventForm(forms.ModelForm):
     
     DAY_CHOICES = [(str(i), str(i)) if i > 0 else (str(i), " " ) for i in range (0,32)]
     day = forms.ChoiceField(label='Day', choices=DAY_CHOICES, required=False)
+   
     
 class EventAdmin(admin.ModelAdmin):
     form = EventForm
