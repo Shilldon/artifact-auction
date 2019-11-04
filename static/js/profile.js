@@ -6,11 +6,20 @@ $(document).ready(function() {
     
     $('#id_remain_anonymous').change(function(e){
         if($('input[name="remain_anonymous"]').prop('checked')) {
-            $("#remain-anonymous-text").text("Your username will not be displayed on bids or artifact ownership");   
+            $("#remain-anonymous-text").text("Your username and profile picture will not be displayed on bids or artifact ownership");   
         }
         else {
-            $("#remain-anonymous-text").text("Select this option to ensure that your username is not displayed on bids or artifact ownership.");   
+            $("#remain-anonymous-text").text("Select this option to ensure that your username and profile picture are not displayed on bids or artifact ownership.");   
         }
-    });    
+    });   
+    
+    $('#id_profile_picture-clear').change(function(e){
+        if($('input[name="profile_picture-clear"]').prop('checked')) {
+            $("#profile-picture").hide();
+        }    
+        else {
+            $("#profile-picture").show();    
+        }
+    })
     
 })    

@@ -66,10 +66,10 @@
                         </div>                         
                     </div>
                     <hr>
-                    <div class="row justify-content-center">
+                    <div class="row justify-content-center" id="profile-picture">
                         <div class="col-6 col-sm-4 col-lg-3 text-center">
                             {% if user.profile.profile_picture %}
-                            <img class="img-thumbnail mx-auto d-block artifact-image" src="{{MEDIA_URL}}{{user.profile.profile_picture}}" class="img-fluid my-auto" alt="User's Profile Picture">
+                            <img id="profile-picture" class="img-thumbnail mx-auto d-block artifact-image" src="{{MEDIA_URL}}{{user.profile.profile_picture}}" class="img-fluid my-auto" alt="User's Profile Picture">
                             {% else %}
                             <img class="img-thumbnail mx-auto d-block artifact-image" src="/media/images/default_profile_picture.png" alt="User's Profile Picture">
                             {% endif %}  
@@ -78,7 +78,7 @@
                     {% if user.profile.profile_picture %}
                     <div class="row">
                         <div class="col-2">
-                            {% render_field edit_profile_form.remain_anonymous %}
+                            <input type="checkbox" name="profile_picture-clear" id="id_profile_picture-clear">
                         </div>                         
                         <div class="col-10 col-sm-6 pl-0 text-left">
                             <span>Remove picture</span>    
