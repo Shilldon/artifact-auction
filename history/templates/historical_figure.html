@@ -23,9 +23,9 @@
             <img class="img-thumbnail img-responsive float-left mr-3" src="/media/images/default_profile_picture.png" alt="placeholder image">
             {% endif %}
             </div>
-            {% if owner.description %}
+            {% if owner.url_description %}
             <h5>About</h5>    
-            <p class="text-justify">{{ owner.description }}</p>
+            <p class="text-justify">{{ owner.url_description }}</p>
             {% endif %}
         </div>
     </div>    
@@ -47,7 +47,7 @@
     
     
 <section class="container pt-3 mb-5">
-    {% if owner.description %}
+    {% if owner.url_description %}
     <div class="row d-flex d-lg-none my-3">
         <div class="col-10">
             <h5>About</h5>
@@ -58,7 +58,7 @@
     </div>
     <div class="row collapse" id="about-collapse">
         <div class="col-12">
-            {{ owner.description }}
+            {{ owner.url_description }}
         </div>
         <hr>
     </div>

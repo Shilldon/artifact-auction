@@ -8,7 +8,16 @@ class Historical_Figure(models.Model):
     artifact_possessed = models.ForeignKey(Artifact, on_delete=models.CASCADE, default=None) 
     name = models.CharField(max_length=30, default="")
     description = models.TextField(default="")
+    url_description = models.TextField(default="", blank=True)
     picture = models.ImageField(upload_to='images', null=True, blank=True)
+
+    """ review description and replace all references to the artifact name with a url link to the artifact """       
+
+    artifact_name = re.compile(self.artifact_possessed.name, re.IGNORECASE)
+    artifact_link_string=artifact_name.sub("<a href='/artifacts/artifact/"+str(self.artifact_possessed.id)+"'>"+self.artifact.name+"</a>", self.description)
+    """review the amended description and replace all references to the artifact owner with a url link to the owner """
+    self.url_description=artifact_link_string
+
 
     def __str__(self):
         return self.name    
@@ -74,6 +83,7 @@ class Event(models.Model):
             self.url_description=owner_name.sub("<a href='/history/historical_figure/"+str(self.owner.id)+"'>"+self.owner.name+"</a>", artifact_link_string)
         else:
             self.url_description=artifact_link_string
+            
     def __str__(self):
         return self.name    
     
