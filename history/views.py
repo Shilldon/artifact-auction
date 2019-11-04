@@ -14,6 +14,10 @@ def display_owner(request, id):
 
 def display_event(request, id):
     event = get_object_or_404(Event, pk=id)
-
-    return render(request, 'historical_event.html', { "event" : event })
+    try:
+        other_events = Event.objects.filter(artifact=event.artifact).order_by('sort_year', 'month', 'day')
+    except:
+        other_events = None
+        
+    return render(request, 'historical_event.html', { "event" : event, "other_events" : other_events })
 

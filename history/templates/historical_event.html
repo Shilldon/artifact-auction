@@ -32,7 +32,6 @@
             <div class="row justify-content-center">
                 <div class="col-8 col-sm-6 col-lg-8">
                     <img class="img-thumbnail mx-auto d-block" src="{{ MEDIA_URL }}{{ event.picture }}" alt="image of {{ event.name }}">
-                               
                 </div>
             </div>
         </div>
@@ -57,6 +56,44 @@
     </div>
 </section>
 
+{% if other_events|length > 1 %}
+<section>
+    <div class="container">
+        <div class="row  my-3">
+            <div class="col-10">
+                <h6>Other events</h6>
+            </div>
+        </div>    
+        {% for other_event in other_events %}
+        {% if other_event.id != event.id %}
+            {% if other_event.date %}
+            <div class="row">
+                <div class="col-12">
+                    <span>{{ other_event.date }}</span>
+                </div>
+            </div>
+            {% endif %}
+            <div class="row">
+                <div class="col-12">
+                    <a href="{% url 'display_event' other_event.id %}">{{ other_event.name }}</a>   
+                </div>
+            </div>     
+            {% if other_event.owner %}
+            <div class="row">
+                <div class="col-12">
+                    <span>Held by <a href="{% url 'display_owner' other_event.owner.id %}">{{ other_event.owner.name }}</a></span>
+                </div>
+            </div>        
+            {% endif %}
+            {% if not forloop.last %}
+            <hr>
+            {% endif %}
+        {% endif %}    
+        {% endfor %}        
+    </div>
+
+</section>
+{% endif %}
 {% endblock %}
 
 
