@@ -28,7 +28,8 @@ from search import urls as urls_search
 from .settings import MEDIA_ROOT
 
 urlpatterns = [
-    url(r'^/', include(urls_accounts)),
+    url(r'^$', index, name="index"),
+    url(r'^accounts/', include(urls_accounts)),
     url(r'^admin/', admin.site.urls),
     url(r'^artifacts/', include(urls_artifacts)),
     url(r'^collection/', include(urls_collection)),
@@ -36,6 +37,5 @@ urlpatterns = [
     url(r'^history/', include(urls_history)),
     url(r'^search/', include(urls_search)),    
     url(r'^add_review/', include(urls_reviews)),  
-    url(r'^$', index, name="index"),
     url(r'^media/(?P<path>.*)$', static.serve, {'document_root': MEDIA_ROOT}),
 ]

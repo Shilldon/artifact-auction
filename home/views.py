@@ -6,9 +6,8 @@ from artifacts.models import Artifact
 from auctions.models import Auction
 
 
-# Create your views here.
 def index(request):
-    
+
     auctions = Auction.objects.filter(start_date__lte=timezone.now(),end_date__gt=timezone.now())
     if auctions:
         if auctions.count()==1:

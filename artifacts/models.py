@@ -25,18 +25,18 @@ class Artifact(models.Model):
     name = models.CharField(max_length=100, default='')
     type = models.CharField(max_length=10, choices=TYPE_CHOICES, default='')
     category = models.ForeignKey(Category, on_delete=models.PROTECT)
-    description = models.TextField(default='An artifact')
+    description = models.TextField(default='')
     image = models.ImageField(upload_to='images', null=True, blank=True)
-    buy_now_price = models.DecimalField(max_digits=11, decimal_places=2, default=0.00)
-    sold = models.BooleanField(default=False)
     owner = models.ForeignKey(User, null=True, blank=True, on_delete=models.SET_NULL)
+    sold = models.BooleanField(default=False)
+    buy_now_price = models.DecimalField(max_digits=11, decimal_places=2, default=0.00)
     reserve_price = models.DecimalField(max_digits=11, decimal_places=2, default=0.00, blank=True) 
 
     def clean(self):
         if self.owner == None and self.sold == True:
-            raise ValidationError('No owner, set sold to false or set owner.')
+            raise ValidationError('Marked as sold but no owner provided: set owner or uncheck "sold".')
         if self.sold == False and self.owner is not None:
-            raise ValidationError('Not marked as sold, set owner to none or mark as sold.')
+            raise ValidationError('Not marked as sold but owner given: set owner to none or check "sold".')
 
     def __str__(self):
         return self.name

@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.template.defaulttags import register
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.core.cache import cache
 from django.utils import timezone
 from .models import Artifact
 from auctions.models import Auction
@@ -30,7 +31,9 @@ def artifacts_list(request, index_search):
         artifacts_list = search_artifacts(request, search_form)
     else:
         search_form = SearchArtifactsForm()
-        artifacts_list = Artifact.objects.all()
+        artifacts_list = cache.get('sorted_list')
+        if not artifacts_list:
+            artifacts_list = Artifact.objects.all()
  
     if index_search:
         auctions = Auction.objects.filter(end_date__gte=timezone.now())
@@ -47,7 +50,7 @@ def artifacts_list(request, index_search):
     except EmptyPage:
         artifacts = paginator.page(paginator.num_pages)
  
-        
+    """get the highest bid for each artifact displayed"""
     auctions = Auction.objects.all()
     auction_bids = {}
     for auction in auctions:
@@ -60,19 +63,9 @@ def artifacts_list(request, index_search):
 
 """ Display a single artifact """
 def display_artifact(request, id):
-    
     artifact = get_object_or_404(Artifact, pk=id)
-
-    try:
-        events = Event.objects.filter(artifact=artifact).order_by('sort_year', 'month', 'day')
-    except:
-        events = None
-
-    try:
-        owners = Historical_Figure.objects.filter(artifact_possessed=artifact)
-    except:
-        owners = None
-
+    events = Event.objects.filter(artifact=artifact).order_by('sort_year', 'month', 'day')
+    historical_figures = Historical_Figure.objects.filter(artifact_possessed=artifact)
 
     try:
         auction = get_object_or_404(Auction, artifact=artifact)
@@ -121,6 +114,6 @@ def display_artifact(request, id):
                     'review' : review,
                     'rating' : rating,
                     'events' : events,
-                    'owners' : owners
+                    'historical_figures' : historical_figures
         })
             

@@ -8,7 +8,10 @@ def get_bidder(request, auction):
 
     if auction is not None:
         bids = Bids.objects.filter(auction=auction)
-        current_bidder = bids.order_by('-bid_amount')[0].bidder
+        try:
+            current_bidder = bids.order_by('-bid_amount')[0].bidder
+        except:
+            current_bidder = None
         if current_bidder is not None:
             bidder_name = current_bidder
             if current_bidder != request.user:
