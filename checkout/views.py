@@ -87,12 +87,11 @@ def checkout(request):
                         
                     #create a string of the artifacts purchased to email to
                     #purchaser
-                    if len(artifacts_purchased) > 1:
-                        list_of_artifacts = []
-                        for artifact in artifacts_purchased[:-1]:
-                            list_of_artifacts.append(artifact.name+",")
-                        last_artifact = artifacts_purchased[-1]
-                        list_of_artifacts.append("and "+last_artifact.name)
+                    list_of_artifacts = []
+                    for artifact in artifacts_purchased[:-1]:
+                        list_of_artifacts.append(artifact.name+",")
+                    last_artifact = artifacts_purchased[-1]
+                    list_of_artifacts.append("and "+last_artifact.name)
                         
                     email_artifacts_purchased = ' '.join(list_of_artifacts).lstrip()
                     email_title = 'Artifact Auctions - Your purchase'
