@@ -38,7 +38,7 @@
             <div class="row justify-content-center">
                 <div class="col-8 col-sm-6 col-lg-8">
                     {% if artifact.image %}
-                    <img class="img-thumbnail mx-auto d-block" src="{{ MEDIA_URL }}{{ artifact.image }}" alt="image of {{ owner.name }}">
+                    <img class="img-thumbnail mx-auto d-block" src="{{ MEDIA_URL }}{{ artifact.image }}" alt="image of {{ artifact.name }}">
                     {% else %}
                     <img class="img-thumbnail mx-auto d-block" src="/media/images/placeholder.png" alt="placeholder image">
                     {% endif %}            
@@ -264,10 +264,10 @@
         </div>
     </div>   
     <div class="collapse" id="historical-figures-collapse">
-        {% for owner in owners %}
+        {% for historical_figure in historical_figures %}
         <div class="row">
             <div class="col-12">
-                <a href="{% url 'display_owner' owner.id %}">{{ owner.name }}</a>   
+                <a href="{% url 'display_owner' historical_figure.id %}">{{ historical_figure.name }}</a>   
             </div>
         </div>
         {% if not forloop.last %}
@@ -277,7 +277,16 @@
     </div>
     <hr>
     {% endif %}
-    
+</section>
+
+<section>
+    <div class="container pt-3 mb-5">
+        <div class="row">
+            <div class="col-3">
+                <div class="btn btn-primary"><a href="{{request.META.HTTP_REFERER}}">Back</a></div>
+            </div>
+        </div>
+    </div>
 </section>
 
 {% endblock %}

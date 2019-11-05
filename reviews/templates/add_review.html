@@ -8,6 +8,7 @@
 
 {% block content %}
 
+<section>
 <form method="POST">
 <div class="container mt-3 mb-5">
     <div class="row justify-content-center">
@@ -58,6 +59,17 @@
     </div>    
 </div>    
 </form>
+</section>
+
+<section>
+    <div class="container pt-3 mb-5">
+        <div class="row">
+            <div class="col-3">
+                <div class="btn btn-primary"><a href="{{request.META.HTTP_REFERER}}">Back</a></div>
+            </div>
+        </div>
+    </div>
+</section>
 
 
 {% endblock %}
