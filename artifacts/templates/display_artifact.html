@@ -88,12 +88,12 @@
             <div class="auction-buttons" style="display:none">    
                 {% if user.is_authenticated %}
                 <form method="POST" class="button-bid" >
-                <div class="row justify-content-center">
+                <div class="row pb-2">
+                        {% if current_bidder != user %}
                         <div class="col-6 col-sm-4 col-lg-6 text-left">
-                            {% if current_bidder != user %}
                                 <button class="btn btn-primary" type="submit">Place Bid</button>
-                            {% endif %}
                         </div>
+                        {% endif %}
                         {% if artifact.buy_now_price > 0 %}
                         <div class="col-6 col-sm-4 col-lg-6  text-right text-sm-left">
                             <button class="btn btn-dark"><a href="{% url 'buy_one' artifact.id 1 %}">Buy Now</a></button>
@@ -101,7 +101,7 @@
                         {% endif %}
                     </div>
                     <div class="row">
-                        <div class="col-6 col-sm-4 offset-sm-2 offset-lg-0">
+                        <div class="col-6 col-sm-4 offset-lg-0">
                         {% if current_bidder != user %}
                             {% csrf_token %}
                             {{ bid_form | as_bootstrap }}
