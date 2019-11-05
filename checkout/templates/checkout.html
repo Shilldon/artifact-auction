@@ -71,8 +71,16 @@
         {% endif %}                            
         </div>
     </div>    
-     
-    
+</section>
+
+<section>
+    <div class="container pt-3 mb-5">
+        <div class="row">
+            <div class="col-3">
+                <div class="btn btn-primary"><a href="{{request.META.HTTP_REFERER}}">Back</a></div>
+            </div>
+        </div>
+    </div>
 </section>
 
 {% endblock %}
@@ -180,13 +188,13 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-4">
+                        <div class="col-6 col-sm-4">
                             <label for="id_expiry_month">Month</label>
                             <div class="styled-box pl-2">
                                 {% render_field payment_form.expiry_month style="outline:none; border:none"%}    
                             </div>     
                         </div>
-                        <div class="col-3">
+                        <div class="col-6 col-sm-3">
                             <label for="id_expiry_year">Year</label>
                             <div class="styled-box pl-2">
                                 {% render_field payment_form.expiry_year style="outline: none; border:none" %}    
