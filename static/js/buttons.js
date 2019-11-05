@@ -8,20 +8,33 @@ $(".collapse-button").click(function() {
     else {
         $("i", this).addClass("fa-caret-up");    
         $("i", this).removeClass("fa-caret-down"); 
-        console.log("clicked")
-        $("html, body").animate({ scrollTop: $(collapsible).height()+"50px" }, 250);
+         $("html, body").animate({ scrollTop: $(collapsible).height()+"50px" }, 250);
     }
         
 
 })
 
 $("#resetSearch").click(function() {
+    console.log("blob8")
     $('#filterModal input[name="category"]').each(function() {
         $(this).attr("checked",true);
     });
     $('#filterModal input[name="type"]').each(function() {
         $(this).attr("checked",true);
     });  
+})
+
+$('#filterModal input[id="id_sold"]').change(function() {
+    if($(this).prop("checked") == true) {
+        $('#filterModal input[id="id_unsold"]').prop("checked",false);
+    }
+})
+
+
+$('#filterModal input[id="id_unsold"]').change(function() {
+    if($(this).prop("checked") == true) {
+        $('#filterModal input[id="id_sold"]').prop("checked",false);
+    }
 })
 
 

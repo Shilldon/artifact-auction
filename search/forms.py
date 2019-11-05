@@ -37,6 +37,7 @@ class SearchArtifactsForm(forms.Form):
     sort_by = forms.ChoiceField(label='Sort by:', choices=SORT_CHOICES, initial=3, required=False)
     description = forms.CharField(label="Description contains:", initial="", required=False)
     sold = forms.BooleanField(initial=False, required=False)
+    unsold = forms.BooleanField(initial=False, required=False)
     in_auction = forms.BooleanField(label="Listed for auction", initial=False, required=False)
     category = forms.MultipleChoiceField(choices=CATEGORY_CHOICES, widget=forms.CheckboxSelectMultiple, required=False, initial=default_category_choices)
     type = forms.MultipleChoiceField(choices=TYPE_CHOICES, widget=forms.CheckboxSelectMultiple, required=False, initial=default_type_choices)

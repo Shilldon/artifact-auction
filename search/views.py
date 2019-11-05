@@ -14,6 +14,7 @@ def search_artifacts(request, search_form):
         name = search_form['name'].value()
         description = search_form['description'].value()
         sold = search_form['sold'].value()
+        unsold = search_form['unsold'].value()
         in_auction =  search_form['in_auction'].value() 
         categories = search_form['category'].value()
         artifact_type = search_form['type'].value()
@@ -24,6 +25,7 @@ def search_artifacts(request, search_form):
         artifacts_list = artifacts.filter(**filter_by("description__icontains", description)) \
                                   .filter(**filter_by("name__icontains", name)) \
                                   .filter(**filter_by("sold", sold)) \
+                                  .filter(**filter_by("unsold", unsold)) \
                                   .filter(category__id__in=categories) \
                                   .filter(type__in=artifact_type) \
                                   .filter(**filter_by("buy_now_price__lte", max_price)) \
@@ -46,7 +48,12 @@ def search_artifacts(request, search_form):
         return sorted_list
 
 def filter_by(query_name, query_value):
-    if query_value:
+    if query_name=="unsold":
+        if query_value:
+            return { "sold" : False }
+        else:
+            return {}
+    elif query_value:
         return { query_name : query_value}
     else:
         return {}
