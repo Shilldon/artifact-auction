@@ -1,12 +1,14 @@
 from django.shortcuts import get_object_or_404
 from django.contrib import messages
 from django.utils import timezone
+from django.core.cache import cache
 from .forms import SearchArtifactsForm
 from artifacts.models import Artifact, Category
 from auctions.models import Auction
 
 # Create your views here.
 def search_artifacts(request, search_form):
+    sorted_list = cache.get('sorted_list')
     if search_form.is_valid:
         artifacts = Artifact.objects.all()
         name = search_form['name'].value()
@@ -40,7 +42,7 @@ def search_artifacts(request, search_form):
         elif sort_by==4:
             sorted_list = artifacts_list.order_by('-name')
 
-
+        cache.set('sorted_list', sorted_list)
         return sorted_list
 
 def filter_by(query_name, query_value):
