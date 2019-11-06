@@ -12,7 +12,6 @@ from auctions.models import Auction
 
 """ Take a bid from the user and check if higher than current bid """
 def check_bid(request, bid_form, artifact):
-    print("checking")
     auction = get_object_or_404(Auction, artifact=artifact)
     
     if bid_form.is_valid():

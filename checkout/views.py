@@ -19,9 +19,7 @@ def checkout(request):
     if request.method=="POST":
         order_form = OrderForm(request.POST)
         payment_form = MakePaymentForm(request.POST)
-        print("posted")
         if order_form.is_valid() and payment_form.is_valid():
-            print("form valid")
             order = order_form.save(commit=False)
             order.date = timezone.now()
             order.save()
@@ -35,6 +33,8 @@ def checkout(request):
             artifacts_purchased = []
             
             total = 0
+            an_artifact_was_sold = False
+            
             for id, price in collection.items():
                 artifact = get_object_or_404(Artifact, pk=id)
                 if artifact.sold is not True:
@@ -48,8 +48,8 @@ def checkout(request):
                 else:
                     #if the artifact has sold add it to the list of sold
                     #artifacts
-                    messages.error(request, "Sorry "+artifact.name+" has been \
-                                   already been purchased by another user.")    
+                    an_artifact_was_sold = True
+                    messages.error(request, "Sorry "+artifact.name+" has been already been purchased by another user.")    
                     artifacts_already_sold.append(id)
             
             #iterate through the artifacts already sold to another user and
@@ -60,10 +60,12 @@ def checkout(request):
                 request.collection = collection
             
             #after removing sold artifacts check if there are any remaining and,
-            #if so, take payment
+            #if so, let the user know the purchase order has been updated
+            #else proceed with purchase
             if bool(collection) is False:
-                messages.error(request, "You have no artifacts in your \
-                               collection to purchase")    
+                messages.error(request, "You have no artifacts in your collection to purchase")    
+            elif an_artifact_was_sold:
+                messages.error(request, "Your purchase order has been updated.")
             else:
                 try:
                     customer = stripe.Charge.create(
@@ -102,19 +104,16 @@ def checkout(request):
                         'admin@artifact-auction.com',
                         [artifact.owner.email],
                         fail_silently=False,)  
-                        
-                    messages.success(request, "You have successfully paid")
+                    messages.error(request, "You have successfully paid")
                     return redirect(reverse('artifacts_list'))
                 else:
-                    messages.error(request, "Unable to take payment")
-                
+                    messages.error(request, "We were unable to take payment with that card.")
         else:
-            print("unable to take payment")
-            messages.error(request, "We were unable to take payment with that card.")
+            messages.error(request, "Unable to take payment. Please try again.")
     else:
         payment_form = MakePaymentForm()
         order_form = OrderForm()
-        
+
     return render(request, "checkout.html", {'order_form' : order_form, 'payment_form' : payment_form, 'publishable': settings.STRIPE_PUBLISHABLE })
     
 
@@ -150,6 +149,7 @@ def buy_one(request, id, buy_now):
     Get the user's collection of artifacts and, if not already in the collection 
     add the selected artifact to the collection
     """
+    print("HERE")
     artifact = get_object_or_404(Artifact, pk=id)
     auction = get_object_or_404(Auction, artifact=artifact)
     price = 0
