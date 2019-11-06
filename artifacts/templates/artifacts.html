@@ -7,8 +7,22 @@
 {% endblock %}
 
 {% block content %}
-<section class="container">
 
+    <div class="row pt-3">
+        <div class="col-12">
+        {% if messages %}
+        <div class="alert alert-success">
+            <div class="messages">
+            {% for message in messages %}
+                <p>{{ message }}</p>
+            {% endfor %}
+            </div>
+        </div>
+        {% endif %}                            
+        </div>
+    </div> 
+
+<section class="container">
 <form method="POST">
     <div class="row search-bar-container justify-content-center my-4">
         <div class="col-9 col-sm-7 col-md-5 search-bar">
@@ -167,12 +181,20 @@
                     </div>
                     <div class="row">
                         <div class="col-8">
-                            <span>Sold</span>
+                            <span>Show only sold artifacts</span>
                         </div>
                         <div class="col-2">
                             {% render_field search_form.sold %}
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col-8">
+                            <span>Show only unsold artifacts</span>
+                        </div>
+                        <div class="col-2">
+                            {% render_field search_form.unsold %}
+                        </div>
+                    </div>                    
                     <div class="row">
                         <div class="col-8">
                             <span>Listed for auction</span>
