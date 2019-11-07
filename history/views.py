@@ -15,7 +15,7 @@ def display_historical_figure(request, id):
 def display_event(request, id):
     event = get_object_or_404(Event, pk=id)
     try:
-        other_events = Event.objects.filter(artifact=event.artifact).order_by('sort_year', 'month', 'day')
+        other_events = Event.objects.filter(artifact=event.artifact).order_by('sort_year', 'month', 'day').exclude(pk=id)
     except:
         other_events = None
         
