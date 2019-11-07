@@ -239,10 +239,10 @@
                 <a href="{% url 'display_event' event.id %}">{{ event.name }}</a>   
             </div>
         </div>     
-        {% if event.owner %}
+        {% if event.historical_figure %}
         <div class="row">
             <div class="col-12">
-                <span>Held by <a href="{% url 'display_owner' event.owner.id %}">{{ event.owner.name }}</a></span>
+                <span>Held by <a href="{% url 'display_historical_figure' event.historical_figure.id %}">{{ event.historical_figure.name }}</a></span>
             </div>
         </div>        
         {% endif %}
@@ -254,7 +254,7 @@
     <hr>
     {% endif %}
     
-    {% if owners %}
+    {% if historical_figures %}
     <div class="row  my-3">
         <div class="col-10">
             <h6>Historical Figures</h6>
@@ -267,7 +267,7 @@
         {% for historical_figure in historical_figures %}
         <div class="row">
             <div class="col-12">
-                <a href="{% url 'display_owner' historical_figure.id %}">{{ historical_figure.name }}</a>   
+                <a href="{% url 'display_historical_figure' historical_figure.id %}">{{ historical_figure.name }}</a>   
             </div>
         </div>
         {% if not forloop.last %}

@@ -78,10 +78,10 @@
                     <a href="{% url 'display_event' other_event.id %}">{{ other_event.name }}</a>   
                 </div>
             </div>     
-            {% if other_event.owner %}
+            {% if other_event.historical_figure %}
             <div class="row">
                 <div class="col-12">
-                    <span>Held by <a href="{% url 'display_owner' other_event.owner.id %}">{{ other_event.owner.name }}</a></span>
+                    <span>Held by <a href="{% url 'display_historical_figure' other_event.historical_figure.id %}">{{ other_event.historical_figure.name }}</a></span>
                 </div>
             </div>        
             {% endif %}

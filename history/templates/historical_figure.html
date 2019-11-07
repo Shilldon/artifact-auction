@@ -10,30 +10,30 @@
 <section class="container artifact-single">
     <div class="row py-3">
         <div class="col-12 text-center">
-            <h5>{{ owner.name }}</h5>
+            <h5>{{ historical_figure.name }}</h5>
         </div>
     </div> 
  
    <div class="row h-100 d-none d-lg-flex">
         <div class="col-lg-12 pull-right">
             <div class="col-5 pl-0">
-            {% if owner.picture %}
-            <img class="img-thumbnail img-responsive float-left mr-3" src="{{ MEDIA_URL }}{{ owner.picture }}" alt="Picture of {{ owner.name }}">
+            {% if historical_figure.picture %}
+            <img class="img-thumbnail img-responsive float-left mr-3" src="{{ MEDIA_URL }}{{ historical_figure.picture }}" alt="Picture of {{ historical_figure.name }}">
             {% endif %}
             </div>
-            {% if owner.url_description %}
+            {% if historical_figure.url_description %}
             <h5>About</h5>    
-            <p class="text-justify">{{ owner.url_description|safe }}</p>
+            <p class="text-justify">{{ historical_figure.url_description|safe }}</p>
             {% endif %}
         </div>
     </div>    
 
-    {% if owner.picture %}    
+    {% if historical_figure.picture %}    
     <div class="row d-block d-lg-none">
         <div class="col-12">
             <div class="row justify-content-center">
                 <div class="col-8 col-sm-6">
-                    <img class="img-thumbnail mx-auto d-block" src="{{ MEDIA_URL }}{{ owner.picture }}" alt="image of {{ owner.name }}">
+                    <img class="img-thumbnail mx-auto d-block" src="{{ MEDIA_URL }}{{ historical_figure.picture }}" alt="image of {{ historical_figure.name }}">
                 </div>
             </div>
         </div>
@@ -43,7 +43,7 @@
     
     
 <section class="container pt-3 mb-5">
-    {% if owner.url_description %}
+    {% if historical_figure.url_description %}
     <div class="row d-flex d-lg-none my-3">
         <div class="col-10">
             <h5>About</h5>
@@ -54,7 +54,7 @@
     </div>
     <div class="row collapse" id="about-collapse">
         <div class="col-12">
-            {{ owner.url_description|safe }}
+            {{ historical_figure.url_description|safe }}
         </div>
         <hr>
     </div>

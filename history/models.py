@@ -16,7 +16,7 @@ class Historical_Figure(models.Model):
             """ review description and replace all references to the artifact name with a url link to the artifact """       
             artifact_name = re.compile(self.artifact_possessed.name, re.IGNORECASE)
             artifact_link_string=artifact_name.sub("<a href='/artifacts/artifact/"+str(self.artifact_possessed.id)+"'>"+self.artifact_possessed.name+"</a>", self.description)
-            """review the amended description and replace all references to the artifact owner with a url link to the owner """
+            """review the amended description and replace all references to the artifact historical_figure with a url link to the historical_figure """
             self.url_description=artifact_link_string
 
         except:
@@ -43,7 +43,7 @@ class Event(models.Model):
     month = models.PositiveSmallIntegerField(default=None, null=True, blank=True)
     day = models.PositiveSmallIntegerField(default=None, null=True, blank=True)
     artifact = models.ForeignKey(Artifact, on_delete=models.CASCADE, default=None) 
-    owner = models.ForeignKey(Historical_Figure, on_delete=models.SET_NULL, default=None, blank=True, null=True)
+    historical_figure = models.ForeignKey(Historical_Figure, on_delete=models.SET_NULL, default=None, blank=True, null=True)
     picture = models.ImageField(upload_to='images', null=True, blank=True)
     date = models.CharField(max_length=25, blank=True)
     
@@ -82,10 +82,10 @@ class Event(models.Model):
         try:
             artifact_name = re.compile(self.artifact.name, re.IGNORECASE)
             artifact_link_string=artifact_name.sub("<a href='/artifacts/artifact/"+str(self.artifact.id)+"'>"+self.artifact.name+"</a>", self.description)
-            """review the amended description and replace all references to the artifact owner with a url link to the owner """
-            if self.owner:
-                owner_name = re.compile(self.owner.name, re.IGNORECASE)
-                self.url_description=owner_name.sub("<a href='/history/historical_figure/"+str(self.owner.id)+"'>"+self.owner.name+"</a>", artifact_link_string)
+            """review the amended description and replace all references to the artifact historical_figure with a url link to the historical_figure """
+            if self.historical_figure:
+                historical_figure_name = re.compile(self.historical_figure.name, re.IGNORECASE)
+                self.url_description=historical_figure_name.sub("<a href='/history/historical_figure/"+str(self.historical_figure.id)+"'>"+self.historical_figure.name+"</a>", artifact_link_string)
             else:
                 self.url_description=artifact_link_string
         except:
