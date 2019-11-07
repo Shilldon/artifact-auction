@@ -39,8 +39,9 @@ class SearchArtifactsForm(forms.Form):
     sold = forms.BooleanField(initial=False, required=False)
     unsold = forms.BooleanField(initial=False, required=False)
     in_auction = forms.BooleanField(label="Listed for auction", initial=False, required=False)
-    category = forms.MultipleChoiceField(choices=CATEGORY_CHOICES, widget=forms.CheckboxSelectMultiple, required=False, initial=default_category_choices)
-    type = forms.MultipleChoiceField(choices=TYPE_CHOICES, widget=forms.CheckboxSelectMultiple, required=False, initial=default_type_choices)
+    not_in_auction = forms.BooleanField(label="Not listed for auction", initial=False, required=False)
+    category = forms.MultipleChoiceField(choices=CATEGORY_CHOICES, widget=forms.CheckboxSelectMultiple, required=True, initial=default_category_choices)
+    type = forms.MultipleChoiceField(choices=TYPE_CHOICES, widget=forms.CheckboxSelectMultiple, required=True, initial=default_type_choices)
     min_buy_now_price=forms.DecimalField(decimal_places=2, required=False)
     max_buy_now_price=forms.DecimalField(decimal_places=2, required=False)
     

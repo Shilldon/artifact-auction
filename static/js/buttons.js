@@ -15,7 +15,6 @@ $(".collapse-button").click(function() {
 })
 
 $("#resetSearch").click(function() {
-    console.log("blob8")
     $('#filterModal input[name="category"]').each(function() {
         $(this).attr("checked",true);
     });
@@ -24,19 +23,14 @@ $("#resetSearch").click(function() {
     });  
 })
 
-$('#filterModal input[id="id_sold"]').change(function() {
-    if($(this).prop("checked") == true) {
-        $('#filterModal input[id="id_unsold"]').prop("checked",false);
-    }
+$('.opposite-switch').change(function() {
+    var checked = $(this).prop("checked"); 
+    var thisId = $(this).attr("id")
+    var oppositeButton=$("input[value="+thisId+"]");
+    if(checked==true && oppositeButton.prop("checked")==true) {
+        oppositeButton.prop("checked",false);
+    }    
 })
-
-
-$('#filterModal input[id="id_unsold"]').change(function() {
-    if($(this).prop("checked") == true) {
-        $('#filterModal input[id="id_sold"]').prop("checked",false);
-    }
-})
-
 
 $(function () {
   $('[data-toggle="tooltip"]').tooltip()

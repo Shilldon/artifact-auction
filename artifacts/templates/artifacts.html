@@ -160,7 +160,7 @@
 <!-- filter search Modal -->
 <div class="modal fade" id="filterModal" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-dialog-scrollable" role="document">
-                <form method="POST">
+        <form method="POST">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Filter results</h5>
@@ -172,7 +172,7 @@
                 {% csrf_token %}
                 {{ search_form.name.as_hidden }}
                 {{ search_form.sort_by.as_hidden }}
-                <div class="container">
+                <div class="container filtermodal-visible">
                     <div class="row">
                         <div class="col-12">
                             <span>Description contains:</span>
@@ -180,29 +180,42 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-8">
-                            <span>Show only sold artifacts</span>
-                        </div>
-                        <div class="col-2">
-                            {% render_field search_form.sold %}
+                        <div class="col-10">
+                            <span>Show only artifacts that are:</span>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-8">
-                            <span>Show only unsold artifacts</span>
+                        <div class="col-8 offset-1">
+                            <span>Sold</span>
                         </div>
                         <div class="col-2">
-                            {% render_field search_form.unsold %}
+                            {% render_field search_form.sold class="opposite-switch" value="id_unsold"%}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-8 offset-1">
+                            <span>Not sold</span>
+                        </div>
+                        <div class="col-2">
+                            {% render_field search_form.unsold class="opposite-switch" value="id_sold"%}
                         </div>
                     </div>                    
                     <div class="row">
-                        <div class="col-8">
+                        <div class="col-8 offset-1">
                             <span>Listed for auction</span>
                         </div>
                         <div class="col-2">
-                            {% render_field search_form.in_auction %}
+                            {% render_field search_form.in_auction class="opposite-switch" value="id_not_in_auction" %}
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col-8 offset-1">
+                            <span>Not listed for auction</span>
+                        </div>
+                        <div class="col-2">
+                            {% render_field search_form.not_in_auction class="opposite-switch" value="id_in_auction" %}
+                        </div>
+                    </div>                    
                     <div class="row">
                         <div class="col-8">
                             <span>Categories</span>
@@ -260,10 +273,8 @@
                         </div>
                     </div>                       
             </div>
-
-            
         </div>
-                </form>        
+        </form>        
     </div>
 </div>
 
@@ -283,6 +294,7 @@
                     {{ search_form.name.as_hidden }}
                     {{ search_form.sold.as_hidden }}
                     {{ search_form.in_auction.as_hidden }}
+                    {{ search_form.not_in_auction.as_hidden }}
                     {{ search_form.category.as_hidden }}
                     {{ search_form.type.as_hidden }}
                     {{ search_form.min_buy_now_price.as_hidden }}
