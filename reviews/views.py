@@ -8,11 +8,9 @@ def add_review(request, id):
 
     if request.method == "POST":
         review_form = ReviewForm(request.POST)
-        print(review_form['rating'].value())
         if review_form.is_valid:
             try:
                 review = get_object_or_404(Review, artifact=id)
-                #review.rating = review_form['rating']
                 review.rating = review_form['rating'].value()
                 review.description = review_form['description'].value()
             except:
@@ -20,8 +18,6 @@ def add_review(request, id):
                 
             review.save()
             return redirect(reverse('display_artifact', kwargs={'id':artifact.id}))
-        else:
-            print("not valid")
     else:
         try:
             review = get_object_or_404(Review, artifact=id)        

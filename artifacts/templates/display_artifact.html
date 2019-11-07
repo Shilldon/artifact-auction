@@ -150,7 +150,14 @@
                     {% endif %}
                 {% endif %}
                 </div>
-            </div>  
+            </div> 
+            {% if user == artifact.owner and not review%}
+            <div class="row">
+                <div class="col-12 text-left">
+                    <button class="btn btn-primary"><a href="{% url 'add_review' artifact.id %}">Add Review</a></button>
+                </div>
+            </div>
+            {% endif %}
         </div>  
     </div>   
 </section>
@@ -199,21 +206,18 @@
             </div>
         </div>
         {% if user == artifact.owner %}
-        <div class="row text-left">
-            <div class="col-12">
+        <div class="row">
+            <div class="col-6 text-left">
                 <button class="btn btn-primary"><a href="{% url 'add_review' artifact.id %}">Edit Review</a></button>
             </div>
+            <div class="col-6 text-left">
+                <button class="btn btn-dark"><a href="{% url 'delete_review' artifact.id %}">Delete Review</a></button>
+            </div>
         </div>  
+        <hr>         
         {% endif %}         
     </div>
     <hr>        
-    {% elif user == artifact.owner %}
-    <div class="row pt-3">
-        <div class="col-12 text-left">
-            <button class="btn"><a href="{% url 'add_review' artifact.id %}">Add Review</a></button>
-        </div>
-    </div>     
-    <hr>
     {% endif %}  
     
     {% if events %}
