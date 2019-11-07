@@ -149,7 +149,6 @@ def buy_one(request, id, buy_now):
     Get the user's collection of artifacts and, if not already in the collection 
     add the selected artifact to the collection
     """
-    print("HERE")
     artifact = get_object_or_404(Artifact, pk=id)
     auction = get_object_or_404(Auction, artifact=artifact)
     price = 0
