@@ -1,10 +1,12 @@
 from django.shortcuts import render, reverse, redirect, get_object_or_404
 from django.utils import timezone
+from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from artifacts.models import Artifact
 from auctions.models import Auction
 from bid.models import Bids
 
+@login_required()
 def view_collection(request):
     """A view that renders the collection contents page"""
     collection = request.session.get('collection')
@@ -25,7 +27,6 @@ def view_collection(request):
             
     artifacts_owned = Artifact.objects.filter(owner=request.user)
 
-    results = artifacts_owned.count()
     page = request.GET.get('page', 1)
 
     paginator = Paginator(artifacts_owned, 10)

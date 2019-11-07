@@ -16,8 +16,8 @@ class Order(models.Model):
         return "{0}-{1}-{2}".format(self.id, self.date, self.full_name)
         
 class PurchasedArtifact(models.Model):
-    order = models.ForeignKey(Order, null=False)
-    artifact = models.ForeignKey(Artifact, null=False)
+    order = models.ForeignKey(Order, on_delete=models.CASCADE, null=False)
+    artifact = models.ForeignKey(Artifact, on_delete=models.CASCADE, null=False)
     
     def __str__(self):
         return "{0} @ {1}".format(self.artifact.name, self.artifact.price)
