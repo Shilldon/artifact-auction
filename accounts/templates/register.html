@@ -22,14 +22,14 @@
                     <div class="row">
                         <div class="col-12 col-sm-6">
                             <label for="id_first_name">First Name</label>
-                            <div class="styled-box pl-2">
-                                {% render_field registration_form.first_name %}    
+                            <div class="styled-box pl-2" >
+                                {% render_field registration_form.first_name tabindex="1" autofocus="autofocus"%}    
                             </div>     
                         </div>
                         <div class="col-12 col-sm-6">
                             <label for="id_last_name">Last Name</label>
                             <div class="styled-box pl-2">
-                                {% render_field registration_form.last_name %}
+                                {% render_field registration_form.last_name tabindex="2" %}
                             </div>
                         </div>    
                     </div>   
@@ -37,7 +37,7 @@
                         <div class="col-12 col-sm-6">
                             <label for="id_user_name">Username</label>
                             <div class="styled-box pl-2">
-                                {% render_field registration_form.username %}
+                                {% render_field registration_form.username tabindex="3" %}
                             </div>
                             <div>
                                {% render_field registration_form.errors.username %}     
@@ -46,7 +46,7 @@
                         <div class="col-12 col-sm-6">
                             <label for="id_email">Email Address</label>
                             <div class="styled-box pl-2">
-                            {% render_field registration_form.email %}
+                            {% render_field registration_form.email tabindex="4" %}
                             </div>
                             <div>
                                {% render_field registration_form.errors.email %}     
@@ -57,70 +57,51 @@
                         <div class="col-12 col-sm-6">
                             <label for="id_password1">Enter password</label>
                             <div class="styled-box pl-2">
-                                {% render_field registration_form.password1 %}
+                                {% render_field registration_form.password1 tabindex="5" %}
                             </div>
                         </div>
                     </div>  
                     <div class="row">
                         <div class="col-12 col-sm-6">
-                            <label for="id_password2 pl-2">Re-enter password</label>
-                            <div class="styled-box">
-                                {% render_field registration_form.password2 %}
+                            <label for="id_password2">Re-enter password</label>
+                            <div class="styled-box pl-2">
+                                {% render_field registration_form.password2 tabindex="6" %}
                             </div>
                         </div>    
                     </div>    
                      <div class="row">
                         <div class="col-12">
                             <label for="id_description">Bio</label>
-                            <div class="styled-box">
-                                {% render_field profile_form.description style="width:100%; border:none; outline: none" %}
+                            <div class="styled-box pl-2">
+                                {% render_field profile_form.description style="width:100%; border:none; outline: none" tabindex="7" %}
                             </div>
                         </div>    
                     </div>                     
                     <hr>
                     <div class="row">
-                        <div class="col-6 offset-3 text-center">
-                            {% if user.profile.profile_picture %}
-                            <img class="img-thumbnail mx-auto d-block artifact-image" src="{{MEDIA_URL}}{{user.profile.profile_picture}}" class="img-fluid my-auto" alt="User's Profile Picture">
-                            {% else %}
-                            <img class="img-thumbnail mx-auto d-block artifact-image" src="/media/images/default_profile_picture.png" alt="User's Profile Picture">
-                            {% endif %}  
-                        </div>
-                    </div>
-                    {% if user.profile.profile_picture %}
-                    <div class="row">
-                        <div class="col-2">
-                            {% render_field profile_form.remain_anonymous %}
-                        </div>                         
-                        <div class="col-10 pl-0 text-left">
-                            <span>Remove picture</span>    
-                        </div>
-                    </div>
-                    
-                    <div class="row">
-                        <div class="col-12 text-center">
-                            <p>or upload a new profile picture</p>
-                        </div>
-                    </div>    
-                    
-                    {% else %}
-                    <div class="row">
                         <div class="col-12 text-center">
                             <p>Upload a profile picture</p>
                         </div>
                     </div> 
-                    {% endif %}
                     <div class="row">         
                         <div class="col-12 text-center">
                             <div class="btn btn-dark">
                                 <label for="id_profile_picture" style="margin-bottom:0">Choose file</label>
-                                <input type="file" name="profile_picture" style="display:none" id="id_profile_picture">
+                                <input type="file" name="profile_picture" style="display:none" id="id_profile_picture" tabindex="9">
                             </div>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-12 text-center">
-                             <p id="profile-picture-selected"></p>
+                        <div class="col-12 text-left">
+                            <p id="profile-picture-selected"></p>
+                            <div class="row">
+                            <div class="col-2">
+                                <input type="checkbox" style="display:none" name="profile--clear-image-selection" id="id_profile--clear-image-selection">
+                            </div>
+                            <div class="col-8 pl-0 text-left" id="id_profile--clear-image-selection-label" style="display:none">
+                                <p>Remove file</p>
+                            </div>
+                            </div>
                         </div>
                     </div>
                     <hr>
