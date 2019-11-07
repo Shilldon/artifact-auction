@@ -72,7 +72,7 @@ def logout(request):
     request.session['collection'] = {}
     auth.logout(request)
     messages.success(request, "You have logged out")
-    return redirect(reverse('index'))
+    return redirect(reverse('login'))
     
 """ Profile Page """
 """ Render profile page if the user is logged in """
