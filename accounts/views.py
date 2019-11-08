@@ -51,11 +51,13 @@ def login(request):
                                      password=request.POST['password'])
         
         if user:
-            #display success message if correctly logged in and return to 
-            #index page
-            messages.success(request, "You have logged in.")
+            """
+            display success message if correctly logged in and go to 
+            collection page
+            """
+            messages.success(request, "Welcome %s." % (user.username))
             auth.login(user=user, request=request)
-            return redirect(reverse('index'))
+            return redirect(reverse('view_collection'))
         else:
             messages.error(request,"Your username or password is incorrect")
     

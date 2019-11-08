@@ -128,17 +128,22 @@
                         </div>
                     </div>                
                 </div>
-                {% if messages %}
-                <div class="alert alert-success pt-3">
-                    <div class="messages">
-                    {% for message in messages %}
-                    <p>{{ message }}</p>
-                    {% endfor %}
-                    </div>
-                </div>
-                {% endif %}
             </form>
         </div>
     </div>
 </div>
+
+<section class="container">
+    <div class="row pt-3">
+        <div class="col-12">
+            <ul class="list-unstyled">
+                {% if messages %}
+                {% for message in messages %}
+                    <li class="alert {{ message.tags }}" >{{ message }}</li>
+                {% endfor %}
+                {% endif %}  
+            </ul>
+        </div>
+    </div> 
+</section>                
 {% endblock %}

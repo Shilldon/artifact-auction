@@ -3,6 +3,19 @@
 
 {% block content %}
 
+<section class="container">
+    <div class="row pt-3">
+        <div class="col-12">
+            <ul class="list-unstyled">
+            {% if messages %}
+                {% for message in messages %}
+                <li class="alert {{ message.tags }}" >{{ message }}</li>
+                {% endfor %}
+            {% endif %}  
+            </ul>
+        </div>
+    </div>     
+</section>
 
 {% if artifacts_won|length > 0 %}
 <section class="container">
@@ -11,7 +24,6 @@
             <h5>Artifacts won</h5>
         </div>
     </div>
-
     {% for id, item in artifacts_won.items %}
     <a href="{% url 'display_artifact' id=item.artifact.id %}">  
         <div class="row justify-content-around d-flex flex-wrap align-items-center mt-3 mx-1">

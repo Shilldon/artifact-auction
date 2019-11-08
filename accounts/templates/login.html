@@ -5,63 +5,61 @@
         <div class="col-10 col-sm-6 accounts--form-container py-3">
             <form method="POST">
                 {% csrf_token %}
-                    <div class="row">
-                        <div class="col-12">
-                            <h6>Log in to your account</h6>
-                        </div>
+                <div class="row">
+                    <div class="col-12">
+                        <h6>Log in to your account</h6>
                     </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <p>Username</p>
-                        </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <p>Username</p>
                     </div>
-                    <div class="row">
-                        <div class="col-10 offset-1 styled-box index--option">
-                            <div class="row h-100">
-                                <div class="col-12" tabindex="0">
-                                    {% render_field login_form.username %}
-                                </div>
+                </div>
+                <div class="row">
+                    <div class="col-10 offset-1 styled-box index--option">
+                        <div class="row h-100">
+                            <div class="col-12" tabindex="0">
+                                {% render_field login_form.username %}
                             </div>
                         </div>
                     </div>
-                     <div class="row" >
-                        <div class="col-4">
-                            <p>Password</p>
-                        </div>
-                        <div class="col-8 col-sm-7 text-right">
-                            <p><a href="{% url 'password_reset' %}" tabindex="2">Forgot Password</a></p>
-                        </div>
-                    </div>                
-                    <div class="row ">
-                        <div class="col-10 offset-1 styled-box index--option">
-                            <div class="row h-100">
-                                <div class="col-12" tabindex="1">
-                                    {% render_field login_form.password %}
-                                </div>
+                </div>
+                 <div class="row" >
+                    <div class="col-4">
+                        <p>Password</p>
+                    </div>
+                    <div class="col-8 col-sm-7 text-right">
+                        <p><a href="{% url 'password_reset' %}" tabindex="2">Forgot Password</a></p>
+                    </div>
+                </div>                
+                <div class="row ">
+                    <div class="col-10 offset-1 styled-box index--option">
+                        <div class="row h-100">
+                            <div class="col-12" tabindex="1">
+                                {% render_field login_form.password %}
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-12 text-center">
-                            <button class="btn btn-primary" type="submit">Sign-In</button>        
-                        </div>
-                    </div>                
-                    <div class="row pt-3">
-                        <div class="col-12">
-                        {% if messages %}
-                        <div class="alert alert-success">
-                            <div class="messages">
-                            {% for message in messages %}
-                            <p>{{ message }}</p>
-                            {% endfor %}
-                            </div>
-                        </div>
-                        {% endif %}                            
-                        </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 text-center">
+                        <button class="btn btn-primary" type="submit">Sign-In</button>        
                     </div>
+                </div>                
             </form>
         </div>
     </div>
+    <div class="row pt-3">
+        <div class="col-12">
+            <ul class="list-unstyled">
+            {% if messages %}
+                {% for message in messages %}
+                <li class="alert {{ message.tags }}" >{{ message }}</li>
+                {% endfor %}
+            {% endif %}  
+            </ul>
+        </div>
+    </div>  
 </div>
 
 

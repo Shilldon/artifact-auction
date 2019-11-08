@@ -60,17 +60,15 @@
     </div>
     <div class="row pt-3">
         <div class="col-12">
-        {% if messages %}
-        <div class="alert alert-success">
-            <div class="messages">
-            {% for message in messages %}
-            <p class="my-2">{{ message }}</p>
-            {% endfor %}
+            <ul class="list-unstyled">
+                {% if messages %}
+                    {% for message in messages %}
+                    <li class="alert {{ message.tags }}" >{{ message }}</li>
+                    {% endfor %}
+                {% endif %}  
+                </ul>
             </div>
-        </div>
-        {% endif %}                            
-        </div>
-    </div>    
+    </div> 
 </section>
 
 <section>

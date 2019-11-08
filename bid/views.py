@@ -36,7 +36,7 @@ def check_bid(request, bid_form, artifact):
                 artifact.save()
 
             messages.success(request, 
-                             "You have successfully placed your bid on %s" %artifact.name)
+                             "Thank you for your bid on %s. You will be notified by email if you are outbid." % (artifact.name))
             return True
             
         else:
