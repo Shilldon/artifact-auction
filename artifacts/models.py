@@ -35,7 +35,7 @@ class Artifact(models.Model):
     def clean(self):
         if self.owner == None and self.sold == True:
             raise ValidationError('Marked as sold but no owner provided: set owner or uncheck "sold".')
-        if self.sold == False and self.owner is not None:
+        elif self.sold == False and self.owner is not None:
             raise ValidationError('Not marked as sold but owner given: set owner to none or check "sold".')
 
     def __str__(self):
