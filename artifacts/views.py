@@ -1,4 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
+from django.http import HttpResponseRedirect
 from django.template.defaulttags import register
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.cache import cache
@@ -101,7 +102,7 @@ def display_artifact(request, id):
         rating = range(0)
     
     if successful_bid:
-        return redirect(artifacts_list)
+        return HttpResponseRedirect(request.path_info)
     else:
         return render(request,"display_artifact.html", {
                     'artifact' : artifact, 
