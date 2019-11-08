@@ -50,10 +50,7 @@ class Event(models.Model):
     def clean(self):
 
         day = self.day
-        if self.month:
-            month = calendar.month_name[self.month]
-        else:
-            month = None
+        month = self.month
         year = self.year
         if month is None and day: 
             raise ValidationError(
@@ -72,9 +69,14 @@ class Event(models.Model):
                 self.sort_year=-year
             else:
                 self.sort_year=year
+
+        if self.month:
+            self.month = calendar.month_name[self.month]
+        else:
+            self.month = None
             
         if day or month or year:
-            date = [day, month, year, self.bc]
+            date = [day, self.month, year, self.bc]
             date_list = [str(i or '') for i in date]
             self.date = ' '.join(map(str, date_list)).lstrip()
         
