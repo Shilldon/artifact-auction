@@ -71,12 +71,11 @@ class Event(models.Model):
                 self.sort_year=year
 
         if self.month:
-            self.month = calendar.month_name[self.month]
-        else:
-            self.month = None
+            month = calendar.month_name[self.month]
+
             
         if day or month or year:
-            date = [day, self.month, year, self.bc]
+            date = [day, month, year, self.bc]
             date_list = [str(i or '') for i in date]
             self.date = ' '.join(map(str, date_list)).lstrip()
         
