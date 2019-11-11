@@ -15,7 +15,13 @@ $(".collapse-button").click(function() {
 })
 
 $("#resetSearch").click(function() {
-    $('#filterModal input').trigger("reset");
+    $('#filterModal textarea').each(function() {
+        $(this).text('');
+    })
+    $('#filterModal input[type="number"]').each(function() {
+        $(this).attr("value", "");
+        console.log("clearing "+$(this).attr("id"))
+    })    
     $('#filterModal input[type="checkbox"]').attr("checked", false);
     $('#filterModal input[name="category"]').each(function() {
         $(this).attr("checked",true);
@@ -23,7 +29,6 @@ $("#resetSearch").click(function() {
     $('#filterModal input[name="type"]').each(function() {
         $(this).attr("checked",true);
     });  
-    console.log($("#filterModal form"))
 })
 
 $('.opposite-switch').change(function() {

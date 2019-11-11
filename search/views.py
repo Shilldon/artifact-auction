@@ -24,6 +24,20 @@ def search_artifacts(request, search_form):
         min_price = search_form['min_buy_now_price'].value()
         sort_by = search_form["sort_by"].value()
 
+        """ set min_price or max_price to none to prevent filter on either of 
+        these categories if not entered or entered as 0 on form"""
+        try:
+            if int(max_price) == 0:
+                max_price = None
+        except:
+            max_price = None
+            
+        try:
+            if int(min_price) == 0:
+                min_price = None
+        except:
+            min_price = None
+
         if categories:
             category_filter = {'category__id__in' : categories }
         else:
