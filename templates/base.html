@@ -93,8 +93,18 @@
     {% block content %} 
     
     {% endblock %}
-
-
+    
+    {% if request.path != "/" %}
+    <section>
+        <div class="container pt-3 mb-5">
+            <div class="row">
+                <div class="col-3">
+                    <a class="btn btn-primary" href="{{request.META.HTTP_REFERER}}">Back</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    {% endif %}
     <!-- Footer -->
     <footer class="footer d-block d-lg-none fixed-bottom py-1 py-sm-2 py-lg-3">
         <div class="container">
