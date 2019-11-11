@@ -27,13 +27,17 @@ def get_item(dictionary, key):
 
 """ Display list of all artifacts """
 def artifacts_list(request, index_search):
+    artifacts_list = cache.get('sorted_list')
     if request.method == "POST":
         search_form = SearchArtifactsForm(request.POST)
-        artifacts_list = search_artifacts(request, search_form)
+        if search_form.is_valid():
+            artifacts_list = search_artifacts(request, search_form)
+        if artifacts_list is None:
+            artifacts_list = Artifact.objects.all()
     else:
         search_form = SearchArtifactsForm()
         artifacts_list = cache.get('sorted_list')
-        if not artifacts_list:
+        if artifacts_list is None:
             artifacts_list = Artifact.objects.all()
  
     if index_search:

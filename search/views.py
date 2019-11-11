@@ -42,9 +42,7 @@ def search_artifacts(request, search_form):
                                   .filter(**type_filter) \
                                   .filter(**filter_by("buy_now_price__lte", max_price)) \
                                   .filter(**filter_by("buy_now_price__gte", min_price))
-        #except:
-        #    artifacts_list = Artifact.objects.none()
-
+                                  
         if in_auction:
             auctions = Auction.objects.filter(end_date__gte=timezone.now())
             artifacts_in_auctions = artifacts_list.filter(id__in=auctions.values('artifact'))
@@ -71,6 +69,8 @@ def search_artifacts(request, search_form):
         return sorted_list
     else:
         return None
+
+
 
 def filter_by(query_name, query_value):
     if query_name=="unsold":

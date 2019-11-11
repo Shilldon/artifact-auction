@@ -150,7 +150,7 @@ class TestEventModel(SetUpData, TestCase):
             month = 12
         )
         instance.clean()
-        self.assertEqual(instance.month, "December")    
+        self.assertEqual(instance.month, 12)    
 
         
     """Test date text properly processed"""

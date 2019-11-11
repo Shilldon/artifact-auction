@@ -15,12 +15,15 @@ $(".collapse-button").click(function() {
 })
 
 $("#resetSearch").click(function() {
+    $('#filterModal input').trigger("reset");
+    $('#filterModal input[type="checkbox"]').attr("checked", false);
     $('#filterModal input[name="category"]').each(function() {
         $(this).attr("checked",true);
     });
     $('#filterModal input[name="type"]').each(function() {
         $(this).attr("checked",true);
     });  
+    console.log($("#filterModal form"))
 })
 
 $('.opposite-switch').change(function() {
