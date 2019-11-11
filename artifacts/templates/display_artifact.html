@@ -91,12 +91,12 @@
                 <div class="row pb-2">
                         {% if current_bidder != user %}
                         <div class="col-6 col-sm-4 col-lg-6 text-left">
-                                <button class="btn btn-primary" type="submit">Place Bid</button>
+                            <button class="btn btn-primary" type="submit">Place Bid</button>
                         </div>
                         {% endif %}
                         {% if artifact.buy_now_price > 0  and current_bidder != user %}
                         <div class="col-6 col-sm-4 col-lg-6  text-right text-sm-left">
-                            <button class="btn btn-dark"><a href="{% url 'buy_one' artifact.id 1 %}">Buy Now</a></button>
+                            <button class="btn btn-dark" type="button"><a href="{% url 'buy_one' artifact.id 1 %}">Buy Now</a></button>
                         </div>
                         {% endif %}
                     </div>

@@ -35,11 +35,12 @@ def checkout(request):
             total = 0
             an_artifact_was_sold = False
             
-            for id, price in collection.items():
+            for id, value in collection.items():
                 artifact = get_object_or_404(Artifact, pk=id)
+                print("Artifact= ", artifact)
                 if artifact.sold is not True:
-                    total += price
-                    artifacts_purchased.append(artifact)
+                    total += value['price']
+                    artifacts_purchased.append({'artifact' : artifact, 'buy_now' :value['buy_now']})
                     order_line_item = PurchasedArtifact(
                         order = order,
                         artifact = artifact,
@@ -77,22 +78,48 @@ def checkout(request):
                 except stripe.error.CardError:
                     customer = None
                     messages.error(request, "Your card was declined")
-                
+                print("artifacts purchased ", artifacts_purchased)
                 if customer.paid:
-                    for artifact in artifacts_purchased:
+                    for item in artifacts_purchased:
+                        artifact = item['artifact']
                         artifact.sold = True
                         artifact.owner = request.user
-                        artifact.save()                    
+                        artifact.buy_now_price = 0
+                        artifact.save()    
                         auction = get_object_or_404(Auction, artifact=artifact)
+                        if int(item['buy_now']) == 1:
+                            """
+                            send email to the highest bidder to inform them
+                            that the artifact has been purchased
+                            """
+                            bids = Bids.objects.filter(auction=auction)
+                            try:
+                                bids = Bids.objects.filter(auction=auction).exclude(bidder=request.user)
+                                highest_bid = bids.order_by('-bid_amount')[0]
+                                bidder = highest_bid.bidder
+                                email_title = 'Artifact Auctions - Your Bid'
+                                email_message_sold = 'Thank you for your interest in '+artifact.name+'. Unfortunately another user has directly purchased this artifact.'
+                                send_mail(
+                                    email_title,
+                                    email_message_sold,
+                                    'admin@artifact-auction.com',
+                                    [bidder.email],
+                                    fail_silently=False,)                                 
+                            except:
+                                None
                         auction.delete()
+                    
+                    """clear the user's basket"""
                     request.session['collection'] = {}
                         
-                    #create a string of the artifacts purchased to email to
-                    #purchaser
+                    """
+                    create a string of the artifacts purchased to email to
+                    purchaser
+                    """
                     list_of_artifacts = []
-                    for artifact in artifacts_purchased[:-1]:
-                        list_of_artifacts.append(artifact.name+",")
-                    last_artifact = artifacts_purchased[-1]
+                    for item in artifacts_purchased[:-1]:
+                        list_of_artifacts.append(item['artifact'].name+",")
+                    last_artifact = artifacts_purchased[-1]['artifact']
                     list_of_artifacts.append("and "+last_artifact.name)
                         
                     email_artifacts_purchased = ' '.join(list_of_artifacts).lstrip()
@@ -104,7 +131,7 @@ def checkout(request):
                         'admin@artifact-auction.com',
                         [artifact.owner.email],
                         fail_silently=False,)  
-                    messages.error(request, "You have successfully paid")
+                    messages.success(request, 'Thank you for purchasing '+email_artifacts_purchased+'.')
                     return redirect(reverse('artifacts_list'))
                 else:
                     messages.error(request, "We were unable to take payment with that card.")
@@ -122,7 +149,7 @@ def buy_all(request):
     On selecting pay for all won artifacts. Cycle through artifacts won
     and add to collection then proceed to checkout
     """
-    collection = {}
+    basket = {}
     finished_auctions = Auction.objects.filter(end_date__lte=timezone.now())
     highest_bids = []
     
@@ -139,20 +166,21 @@ def buy_all(request):
             artifact = bid.auction.artifact
             id = artifact.id
             price = float(bid.bid_amount)
-            collection[id] = collection.get(id, price)
-            request.session['collection'] = collection        
+            basket[id] = basket.get(id, { 'price' : price, 'buy_now' : 0 })
+            print('basket=', basket)
+            request.session['collection'] = basket        
 
     return redirect(reverse('checkout'))    
     
 def buy_one(request, id, buy_now):
     """
-    Get the user's collection of artifacts and, if not already in the collection 
-    add the selected artifact to the collection
+    Clear the user's basket add this artifact to the basket then proceed to 
+    the checkout.
     """
     artifact = get_object_or_404(Artifact, pk=id)
     auction = get_object_or_404(Auction, artifact=artifact)
     price = 0
-    collection = {}
+    basket = {}
     """
     On selecting pay now or buy now for a single artifact determine the
     price and proceed to checkout just for that artifact
@@ -163,8 +191,8 @@ def buy_one(request, id, buy_now):
         last_bid = Bids.objects.filter(auction=auction).order_by('-bid_amount')[0].bid_amount
         price = float(last_bid)
 
-    collection[id] = collection.get(id, price)
-    request.session['collection']=collection
+    basket[id] = basket.get(id, { 'price' : price, 'buy_now' : buy_now })
+    request.session['collection']=basket
 
 
     return redirect(reverse('checkout'))    
