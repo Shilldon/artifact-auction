@@ -146,7 +146,11 @@
                     <h6>This artifact has been purchased. The owner wishes to remain anonymous</h6>
                     {% else %}
                     <h6>Owned by                     
+                        {% if user.is_authenticated %}
                         <a href="{% url 'view_profile' id=artifact.owner.id %}">{{ artifact.owner }}</a>
+                        {% else %}
+                        {{ artifact.owner }}
+                        {% endif %}                    
                     </h6>
                     {% endif %}
                 {% endif %}
