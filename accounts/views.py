@@ -79,8 +79,9 @@ def logout(request):
 """ Profile Page """
 """ Render profile page if the user is logged in """
 @login_required()
-def view_profile(request):
-    return render(request, "profile.html")
+def view_profile(request, id):
+    user_profile = get_object_or_404(User, pk=id)
+    return render(request, "profile.html", {"user_profile" : user_profile})
 
 """ Render a form to edit the user's profile """
 """ Log in check should not be required as link to edit profile is through

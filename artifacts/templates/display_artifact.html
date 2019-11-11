@@ -145,7 +145,9 @@
                     {% elif artifact.owner.profile.remain_anonymous %}
                     <h6>This artifact has been purchased. The owner wishes to remain anonymous</h6>
                     {% else %}
-                    <h6>Owned by {{ artifact.owner }}</h6>
+                    <h6>Owned by                     
+                        <a href="{% url 'view_profile' id=artifact.owner.id %}">{{ artifact.owner }}</a>
+                    </h6>
                     {% endif %}
                 {% endif %}
                 </div>

@@ -2,6 +2,7 @@
 
 {% block content %}
 
+<section>
 <div class="container mt-3 mb-5">
     <div class="row justify-content-center ">
         <div class="col-12 col-md-8 accounts--form-container py-3">
@@ -9,8 +10,8 @@
             <div class="col-12 col-md-6 pb-2">
                 <div class="row justify-content-center">
                     <div class="col-6 col-md-8 text-center my-auto">
-                        {% if user.profile.profile_picture %}
-                        <img class="img-thumbnail mx-auto d-block" src="{{MEDIA_URL}}{{user.profile.profile_picture}}" alt="User's Profile Picture">
+                        {% if user_profile.profile.profile_picture %}
+                        <img class="img-thumbnail mx-auto d-block" src="{{MEDIA_URL}}{{user_profile.profile.profile_picture}}" alt="User's Profile Picture">
                         {% else %}
                         <img class="img-thumbnail mx-auto d-block" src="/media/images/default_profile_picture.png" alt="User's Profile Picture">
                         {% endif %}                
@@ -20,20 +21,20 @@
             <div class="col-12 col-md-6 styled-box">
                 <div class="row">
                     <div class="col-12 text-left">
-                        <strong>Name </strong><span>{{ user.first_name }} {{ user.last_name }}</span>    
+                        <strong>Name </strong><span>{{ user_profile.first_name }} {{ user_profile.last_name }}</span>    
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-12 text-left">
-                        <span><strong>Username </strong>{{ user.username }}</span>
+                        <span><strong>Username </strong>{{ user_profile.username }}</span>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-12 text-left">
-                        <span><strong>Email </strong>{{ user.email }}</span>    
+                        <span><strong>Email </strong>{{ user_profile.email }}</span>    
                     </div>
                 </div>  
-                {% if user.profile.remain_anonymous %}
+                {% if request.user == user_profile and user_profile.profile.remain_anonymous %}
                 <div class="row">
                     <div class="col-12">
                         <p>You have chosen to remain anonymous.</p>
@@ -42,17 +43,18 @@
                 </div> 
                 {% endif %}
             </div>
-            {% if user.profile.description %}
+            {% if user_profile.profile.description %}
             <div class="col-12  styled-box mt-1">
                 <span><strong>About</strong></span>
                 <div class="row">
                     <div class="col-12">
-                        <p> {{ user.profile.description }}</p>
+                        <p> {{ user_profile.profile.description }}</p>
                     </div>
                 </div>
             </div>
             {% endif %}
         </div>
+        {% if request.user == user_profile %}
         <div class="row justify-content-around">
             <div class="col-6 col-sm-3 text-center">
                 <button class="btn btn-dark"><a href="{% url 'logout' %}">Logout</a></button>
@@ -61,18 +63,19 @@
                 <button class="btn btn-primary"><a href="{% url 'edit_profile' %}">Edit</a></button>
             </div>            
         </div>
+        {% endif %}
         </div>
     </div>
 </div>    
-            
-            
-<!--            
-<h3>{{ user }}'s profile</h3>
-<h4>Email address: {{ user.email }}</h4>
-<h4>Name: {{ user.first_name }} {{ user.last_name }}</h4>
-<h4>Remain anonymous: {{ user.profile.remain_anonymous }}</h4>
-<form method="GET" action="/accounts/edit_profile/"><input type="submit" value="Edit"></form>
-<img src="{{ user.profile_picture }}">
-<a href="{% url 'logout' %}">Logout</a>
--->
+</section>           
+<section>
+    <div class="container pt-3 mb-5">
+        <div class="row">
+            <div class="col-3">
+                <div class="btn btn-primary"><a href="{{request.META.HTTP_REFERER}}">Back</a></div>
+            </div>
+        </div>
+    </div>
+</section>
+
 {% endblock %}

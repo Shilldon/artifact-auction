@@ -47,22 +47,31 @@
 <section>
 <div class="container-fluid artifact-list" >
 {% for artifact in artifacts_list %}
-<a href="{% url 'display_artifact' id=artifact.id %}">  
     <div class="row justify-content-around d-flex flex-wrap align-items-center artifact-information mt-3 mx-1">
         <div class="auction-artifactid" data-artifactid="{{ artifact.id }}"></div>
+        
         {% if artifact.image %}
         <div class="col-4 col-sm-2 col-lg-1 d-inline-block artifact-image text-center">
+            <a href="{% url 'display_artifact' id=artifact.id %}">  
             <img class="img-fluid" src="{{ MEDIA_URL }}{{ artifact.image }}" alt="image of {{artifact.name}}">
+            </a>
         {% else %}
         <div class="col-4 col-sm-2 col-lg-1 d-inline-block artifact-image text-center">
+            <a href="{% url 'display_artifact' id=artifact.id %}">  
             <img class="img-fluid" src="/media/images/placeholder.png" alt="placeholder image">
-        {% endif %}        
+            </a>
             {% if artifact.sold is True %}
-            <img class="artifact-sold-image img-fluid" src="/media/images/sold.png" alt="sold stamp"></img>    
+            <a href="{% url 'display_artifact' id=artifact.id %}">  
+            <img class="artifact-sold-image img-fluid" src="/media/images/sold.png" alt="sold stamp"></img> 
+            </a>    
             {% endif %}           
         </div>
+        {% endif %} 
+                 
         <div class="col-8">
+            <a href="{% url 'display_artifact' id=artifact.id %}">  
             <h6>{{ artifact.name }}</h6>
+            </a>
             {% if artifact.sold is True %}
                 {% if artifact.owner == None %}
                 <p>Sold</p>
@@ -71,7 +80,9 @@
                 {% elif artifact.owner.profile.remain_anonymous %}
                 <p>This artifact has been purchased. The owner wishes to remain anonymous</p>
                 {% else %}
-                <p>Owned by {{ artifact.owner }}</p>
+                <p>Owned by 
+                    <a href="{% url 'view_profile' id=artifact.owner.id %}">{{ artifact.owner }}</a>
+                </p>
                 {% endif %}
             {% else %}
             <span class="auction-status"></span>
@@ -87,7 +98,7 @@
             {% endif %}
         </div>
     </div>
-</a>        
+       
 <hr>
 {% endfor %}
 </div>
