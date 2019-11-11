@@ -88,7 +88,7 @@
             <div class="auction-buttons" style="display:none">    
                 {% if user.is_authenticated %}
                 <form method="POST" class="button-bid" >
-                <div class="row pb-2">
+                    <div class="row pb-2">
                         {% if current_bidder != user %}
                         <div class="col-6 col-sm-4 col-lg-6 text-left">
                             <button class="btn btn-primary" type="submit">Place Bid</button>
@@ -108,17 +108,18 @@
                         {% endif %}
                         </div>
                     </div>
-                </div>    
                 </form>                 
                 {% endif %}  
     
-            {% if current_bidder is not None %}
-            <div class="row">
-                <div class="col-12">
-                    <button class="bid-history-btn" data-toggle="modal" data-target="#bidsModal">Bid history</button>
+                {% if current_bidder is not None %}
+                <div class="row">
+                    <div class="col-12">
+                        <button class="bid-history-btn" data-toggle="modal" data-target="#bidsModal">Bid history</button>
+                    </div>
                 </div>
+                {% endif %}
             </div>
-            {% endif %}
+            
             <div class="row auction-sold-status mt-3" style="display:none">
                 <div class="col-12">
                 {% if artifact.sold is False %}
@@ -167,19 +168,19 @@
     </div>   
 </section>
 
+{% if messages %}
 <section class="container">
     <div class="row pt-3">
         <div class="col-12">
             <ul class="list-unstyled">
-            {% if messages %}
                 {% for message in messages %}
                 <li class="alert {{ message.tags }}" >{{ message }}</li>
                 {% endfor %}
-            {% endif %}  
             </ul>
         </div>
     </div>  
 </section>  
+{% endif %}  
 
 <section class="container artifact-single pt-3 mb-5">
     {% if artifact.description %}
