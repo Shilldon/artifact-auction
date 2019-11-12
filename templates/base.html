@@ -97,34 +97,35 @@
     
     {% endblock %}
     
-    {% if request.path != "/" %}
     <section>
         <div class="container pt-3 mb-5">
+    {% if request.path != "/" %}
             <div class="row">
                 <div class="col-3">
                     <a class="btn btn-primary" href="{{request.META.HTTP_REFERER}}">Back</a>
                 </div>
             </div>
+    {% endif %}            
         </div>
     </section>
-    {% endif %}
+
     <!-- Footer -->
-    <footer class="footer d-block fixed-bottom py-1 py-sm-2 py-lg-3">
+    <footer class="footer d-block fixed-bottom position-relative">
         <div class="container">
             <div class="row ">
-                <div class="col-12 col-sm-6">
-                    <ul class="list-unstyled list-group list-group-horizontal">
-                        <li>
-                            <a href="{% url 'index' %}"><span>Home</span></a>
+                <div class="col-12 col-sm-6 ">
+                    <ul class="my-auto list-unstyled list-group list-group-horizontal">
+                        <li >
+                            <a href="{% url 'index' %}"><p class="my-3">Home</p></a>
                         </li>
                         <li>
-                            <a href="#!">Contact</a>
+                            <a href="#!"><p class="my-3">Contact</p></a>
                         </li>
                         <li>
-                            <a href="#!">About</a>
+                            <a href="#!"><p class="my-3">About</p></a>
                         </li>
                         <li>
-                            <a href="#!">Terms</a>
+                            <a href="#!"><p class="my-3">Terms</p></a>
                         </li>                        
                     </ul>
                 </div>
