@@ -69,7 +69,7 @@
                             {% elif current_bidder.profile.remain_anonymous %}
                             <span>The current bidder wishes to remain anonymous</span>
                             {% else %}
-                            <span>Highest bidder - {{ current_bidder }}</span>
+                            <span>Highest bidder - <a href="{% url 'view_profile' id=current_bidder.id %}">{{ current_bidder }}</a></span>
                             {% endif %}
                         {% endif %}
                     </div>    
@@ -334,9 +334,9 @@
                 </div>    
                 <div class="col-l-4 col-sm-12">
                     {% if user == bid.bidder %}
-                    <span>Bidder: {{ bid.bidder }}</span> 
+                    <span>Bidder: {{ bid.bidder.username }}</span> 
                     {% elif bid.bidder.profile.remain_anonymous is False %}
-                    <span>Bidder: {{ bid.bidder }}</span> 
+                    <span>Bidder: <a href="{% url 'view_profile' id=bid.bidder.id %}">{{ bid.bidder.username }}</span> 
                     {% else %}
                     <span>Bidder: Anonymous</span>
                     {% endif %}

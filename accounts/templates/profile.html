@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load widget_tweaks %}
 
 {% block content %}
 
@@ -48,7 +49,7 @@
                 <span><strong>About</strong></span>
                 <div class="row">
                     <div class="col-12">
-                        <p> {{ user_profile.profile.description }}</p>
+                        <p style="word-wrap: break-word"> {{ user_profile.profile.description }}</p>
                     </div>
                 </div>
             </div>
