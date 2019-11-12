@@ -97,7 +97,7 @@ def edit_profile(request):
         if edit_user_form.is_valid() and edit_profile_form.is_valid():
             edit_user_form.save()
             edit_profile_form.save()
-            return redirect('view_profile')
+            return redirect('view_profile', request.user.id)
     else:
         edit_user_form = UserEditProfileForm(instance=user)
         edit_profile_form = ProfileForm(instance=user.profile)
