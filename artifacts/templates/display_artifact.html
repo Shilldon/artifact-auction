@@ -137,30 +137,29 @@
                                 <p>Congratulations you won this artifact for £{{ current_bid }}.</p>
                                 <button class="btn btn-primary"><a href="{% url 'buy_one' artifact.id 0 %}">Pay Now</a></button>
                             {% elif current_bidder.profile.remain_anonymous %}
-                                <span>This artifact has been won. The winner wishes to remain anonymous</span>
+                                <span>This artifact has been won. <br>The winner wishes to remain anonymous</span>
                             {% else %}
-                                <span>Won by {{ current_bidder }}</span>
+                                <span>Won by <a href="{% url 'view_profile' id=current_bidder.id %}">{{ current_bidder }}</a></span>
                             {% endif %}
                         {% endif %}
                     {% elif auction %}
-                    <h6>Auction Status</h6>
                     <span>This item did not meet the reserve price - not sold.</span>
                     {% endif %}
                 {% else %} 
                     {% if artifact.owner == None %}
-                    <h6>Sold</h6>
+                    <span>Sold</span>
                     {% elif artifact.owner == user %}
-                    <h6>You own this artifact.</h6>
+                    <span>You own this artifact.</span>
                     {% elif artifact.owner.profile.remain_anonymous %}
-                    <h6>This artifact has been purchased. The owner wishes to remain anonymous</h6>
+                    <span>This artifact has been purchased. <br>The owner wishes to remain anonymous</span>
                     {% else %}
-                    <h6>Owned by                     
+                    <span>Owned by                     
                         {% if user.is_authenticated %}
                         <a href="{% url 'view_profile' id=artifact.owner.id %}">{{ artifact.owner }}</a>
                         {% else %}
                         {{ artifact.owner }}
                         {% endif %}                    
-                    </h6>
+                    </span>
                     {% endif %}
                 {% endif %}
                 </div>

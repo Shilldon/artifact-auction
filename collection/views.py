@@ -19,7 +19,7 @@ def view_collection(request):
         try:
             highest_bid = bids.order_by('-bid_amount')[0].bid_amount
             highest_bidder = bids.order_by('-bid_amount')[0].bidder
-            if highest_bidder==request.user:
+            if highest_bidder==request.user and highest_bid>=auction.artifact.reserve_price:
                 total+=highest_bid
                 artifacts_won[auction.artifact.id]={ 'artifact' : auction.artifact, 'bid' : highest_bid }
         except:

@@ -37,7 +37,6 @@ def checkout(request):
             
             for id, value in basket.items():
                 artifact = get_object_or_404(Artifact, pk=id)
-                print("Artifact= ", artifact)
                 if artifact.sold is not True:
                     total += value['price']
                     artifacts_purchased.append({'artifact' : artifact, 'buy_now' :value['buy_now']})
