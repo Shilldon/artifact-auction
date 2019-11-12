@@ -9,6 +9,7 @@ from accounts.forms import UserRegistrationForm, UserLoginForm, UserEditProfileF
 def register(request):
     if request.method == "POST":
         registration_form = UserRegistrationForm(request.POST)
+        profile_form = ProfileForm()
         
         if registration_form.is_valid():
             registration_form.save()
