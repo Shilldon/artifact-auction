@@ -33,6 +33,10 @@ class Auction(models.Model):
         """
         if self.artifact.sold is True:
             raise ValidationError('That artifact has been sold.')
+            
+        if self.start_date < timezone.now():
+             raise ValidationError('The start date of the auction may not be in the past.')
+           
     
     def __str__(self):
         return self.artifact.name+" Auction"

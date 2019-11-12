@@ -30,13 +30,17 @@ class Artifact(models.Model):
     owner = models.ForeignKey(User, null=True, blank=True, on_delete=models.SET_NULL)
     sold = models.BooleanField(default=False)
     buy_now_price = models.DecimalField(max_digits=11, decimal_places=2, default=0.00)
-    reserve_price = models.DecimalField(max_digits=11, decimal_places=2, default=0.00, blank=True) 
+    reserve_price = models.DecimalField(max_digits=11, decimal_places=2, default=0.00, null=True, blank=True) 
 
     def clean(self):
         if self.owner == None and self.sold == True:
             raise ValidationError('Marked as sold but no owner provided: set owner or uncheck "sold".')
         elif self.sold == False and self.owner is not None:
             raise ValidationError('Not marked as sold but owner given: set owner to none or check "sold".')
+        
+        if self.reserve_price and self.reserve_price > self.buy_now_price:
+            raise ValidationError('The buy now price must be more than the reserve price.')
+            
 
     def __str__(self):
         return self.name

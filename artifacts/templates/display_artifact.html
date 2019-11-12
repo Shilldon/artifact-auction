@@ -94,9 +94,9 @@
                             <button class="btn btn-primary" type="submit">Place Bid</button>
                         </div>
                         {% endif %}
-                        {% if artifact.buy_now_price > 0  and current_bidder != user %}
+                        {% if artifact.buy_now_price > 0 and current_bidder != user %}
                         <div class="col-6 col-sm-4 col-lg-6  text-right text-sm-left">
-                            <button class="btn btn-dark" type="button"><a href="{% url 'buy_one' artifact.id 1 %}">Buy Now</a></button>
+                            <a class="btn btn-dark" href="{% url 'buy_one' artifact.id 1 %}">Buy Now</a>
                         </div>
                         {% endif %}
                     </div>
@@ -110,6 +110,14 @@
                     </div>
                 </form>                 
                 {% endif %}  
+    
+                {% if current_bid < artifact.reserve_price %}
+                <div class="row">
+                    <div class="col-12">
+                        <p>Please note there is a reserve on this artifact.</p>
+                    </div>
+                </div>
+                {% endif %}
     
                 {% if current_bidder is not None %}
                 <div class="row">

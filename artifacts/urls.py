@@ -1,6 +1,6 @@
 from django.conf.urls import url
 from .views import artifacts_list, display_artifact
-from bid.views import get_bid
+from bids.views import get_bid
 
 urlpatterns = [
     url(r'^list/(?P<index_search>\d+)?$', artifacts_list, name="artifacts_list"),

@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 
 from .models import Category, Artifact
 from auctions.models import Auction
-from bid.models import Bids
+from bids.models import Bid
 from history.models import Historical_Figure, Event
 from reviews.models import Review
 
@@ -59,7 +59,7 @@ class TestViews(TestCase):
                 )
             number_of_bids = auction_id+1
             for bid_id in range(number_of_bids):
-                Bids.objects.create(
+                Bid.objects.create(
                     bid_amount = bid_id+1,
                     bidder = bidder,
                     auction = auction,
@@ -106,7 +106,7 @@ class TestViews(TestCase):
         auction=get_object_or_404(Auction, pk=2)
         self.assertTrue(page.context['auction']==auction)
         self.assertTrue(len(page.context['bids'])==2)
-        self.assertQuerysetEqual(page.context['bids'], ["<Bids: Name 1: 1.00>", "<Bids: Name 1: 2.00>"], ordered=False)
+        self.assertQuerysetEqual(page.context['bids'], ["<Bid: Name 1: 1.00>", "<Bid: Name 1: 2.00>"], ordered=False)
         self.assertEqual(page.context['bidder_name'].username, 'TestName')
         self.assertEqual(page.context['current_bidder'].username, 'TestName')
         self.assertEqual(page.context['current_bid'], 2.00)

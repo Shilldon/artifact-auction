@@ -2,7 +2,6 @@ from django.shortcuts import get_object_or_404
 from django.contrib import messages
 from django.utils import timezone
 from django.core.cache import cache
-from django.db.models import Q 
 from .forms import SearchArtifactsForm
 from artifacts.models import Artifact, Category
 from auctions.models import Auction

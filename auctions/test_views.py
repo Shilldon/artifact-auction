@@ -7,7 +7,7 @@ from datetime import timedelta
 from .models import Auction
 from .views import get_bidder
 from artifacts.models import Artifact, Category
-from bid.models import Bids
+from bids.models import Bid
 
 class TestViews(TestCase):
 
@@ -42,7 +42,7 @@ class TestViews(TestCase):
         """create 5 bids for the auction"""
         number_of_bids = 5
         for bid_id in range(number_of_bids):
-            Bids.objects.create(
+            Bid.objects.create(
                 bid_amount = bid_id+1,
                 bidder = user,
                 auction = auction,

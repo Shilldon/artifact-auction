@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail
 from artifacts.models import Artifact
 from auctions.models import Auction
-from bid.models import Bids
+from bids.models import Bid
 from .forms import MakePaymentForm, OrderForm
 from .models import PurchasedArtifact
 import stripe
@@ -92,9 +92,9 @@ def checkout(request):
                             send email to the highest bidder to inform them
                             that the artifact has been purchased
                             """
-                            bids = Bids.objects.filter(auction=auction)
+                            bids = Bid.objects.filter(auction=auction)
                             try:
-                                bids = Bids.objects.filter(auction=auction).exclude(bidder=request.user)
+                                bids = Bid.objects.filter(auction=auction).exclude(bidder=request.user)
                                 highest_bid = bids.order_by('-bid_amount')[0]
                                 bidder = highest_bid.bidder
                                 email_title = 'Artifact Auctions - Your Bid'
@@ -155,7 +155,7 @@ def buy_all(request):
     
     for auction in finished_auctions:
         try:
-            bids = Bids.objects.filter(auction=auction)
+            bids = Bid.objects.filter(auction=auction)
             highest_bid = bids.order_by('-bid_amount')[0]
             highest_bids.append(highest_bid)
         except:
@@ -188,7 +188,7 @@ def buy_one(request, id, buy_now):
     if int(buy_now)==1:
         price = float(artifact.buy_now_price)
     else:
-        last_bid = Bids.objects.filter(auction=auction).order_by('-bid_amount')[0].bid_amount
+        last_bid = Bid.objects.filter(auction=auction).order_by('-bid_amount')[0].bid_amount
         price = float(last_bid)
 
     basket[id] = basket.get(id, { 'price' : price, 'buy_now' : buy_now })

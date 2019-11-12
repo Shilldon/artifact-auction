@@ -6,7 +6,7 @@ from django.core.mail import send_mail
 from django.http import HttpResponse
 from decimal import Decimal
 from .forms import BiddingForm
-from .models import Bids
+from .models import Bid
 from artifacts.models import Artifact
 from auctions.models import Auction
 
@@ -16,7 +16,7 @@ def check_bid(request, bid_form, artifact):
     
     if bid_form.is_valid():
         new_bid = Decimal(request.POST['amount_bid'])
-        bids = Bids.objects.filter(auction=auction)
+        bids = Bid.objects.filter(auction=auction)
         try:
             current_bid = bids.order_by('-bid_amount')[0].bid_amount
         except:
@@ -27,7 +27,7 @@ def check_bid(request, bid_form, artifact):
             
             """check if there are any existing bids in the auction by artifact look up"""
             """auction and bid have the artifact model in common"""
-            bid = Bids(bid_amount=new_bid, bidder=request.user, auction=auction)
+            bid = Bid(bid_amount=new_bid, bidder=request.user, auction=auction)
             bid.time = datetime.datetime.now()
             bid.save()
             
@@ -48,7 +48,7 @@ def bid_email(request, artifact, new_bid):
     auction = get_object_or_404(Auction, artifact=artifact)
     email_title = 'Artifact Auctions - '+artifact.name
     email_message = 'You have been outbid on '+artifact.name+'. The current bid is now £'+str(new_bid)+'.'
-    bids = Bids.objects.filter(auction=auction)
+    bids = Bid.objects.filter(auction=auction)
     try:
         current_bidder = bids.order_by('-bid_amount')[0].bidder
     except:
@@ -70,7 +70,7 @@ def get_bid(request):
         if artifact.sold is False:
             try:
                 auction = get_object_or_404(Auction, artifact=artifact)
-                bids = Bids.objects.filter(auction=auction)
+                bids = Bid.objects.filter(auction=auction)
                 try:
                     current_bid = bids.order_by('-bid_amount')[0].bid_amount               
                 except:

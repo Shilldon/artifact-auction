@@ -36,16 +36,16 @@ class Event(models.Model):
     
     name = models.CharField(max_length=50, default="")
     description = models.TextField(default="")
+    artifact = models.ForeignKey(Artifact, on_delete=models.CASCADE, default=None) 
     url_description = models.TextField(default="", blank=True)
+    day = models.PositiveSmallIntegerField(default=None, null=True, blank=True)
+    month = models.PositiveSmallIntegerField(default=None, null=True, blank=True)
     year = models.PositiveIntegerField(default=0)
     sort_year = models.IntegerField(default=0)
     bc = models.CharField(max_length=2, choices=BCAD_CHOICE, default='BC')
-    month = models.PositiveSmallIntegerField(default=None, null=True, blank=True)
-    day = models.PositiveSmallIntegerField(default=None, null=True, blank=True)
-    artifact = models.ForeignKey(Artifact, on_delete=models.CASCADE, default=None) 
+    date = models.CharField(max_length=25, blank=True)
     historical_figure = models.ForeignKey(Historical_Figure, on_delete=models.SET_NULL, default=None, blank=True, null=True)
     picture = models.ImageField(upload_to='images', null=True, blank=True)
-    date = models.CharField(max_length=25, blank=True)
     
     def clean(self):
 

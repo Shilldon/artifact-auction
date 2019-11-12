@@ -94,10 +94,13 @@
                 <span class="auction-timer"></span>
             </span>
                 <div class="auction-bid-status" style="display: none">
+                    <span class="auction-current-bid">Current bid: £{{ auction_bids|get_item:artifact }}<br></span>
                     {% if artifact.buy_now_price > 0 %}
                     <span>Buy now for: £{{ artifact.buy_now_price|floatformat:2|intcomma }}<br></span>    
                     {% endif %}
-                    <span class="auction-current-bid">Current bid: £{{ auction_bids|get_item:artifact }}</span>
+                    {% if artifact.reserve_price > auction_bids|get_item:artifact %}
+                    <span>There is a reserve on this artifact.<br></span>
+                    {% endif %}
                 </div>
             {% endif %}
         </div>

@@ -1,6 +1,6 @@
 from django.conf.urls import url
 from .views import display_historical_figure, display_event
-from bid.views import get_bid
+from bids.views import get_bid
 
 urlpatterns = [
     url(r'^historical_figure/(?P<id>\d+)$', display_historical_figure, name="display_historical_figure"),

@@ -59,6 +59,9 @@
                 <li class="nav-item mx-3 my-auto text-center text-wrap">
                     <a href="{% url 'admin:index' %}"><span>Admin panel</span></a>
                 </li>
+                <li class="nav-item mx-3 my-auto text-center text-wrap">
+                    <a href="#" data-toggle="modal" data-target="#adminHelpModal"><span>Admin Help</span></a>
+                </li>                
                 {% endif %}                 
                 <li class="nav-item mx-3 text-center text-wrap">
                     <a href="{% url 'artifacts_list' %}"><span>View Artifacts</span></a>
@@ -153,6 +156,9 @@
                     <li class="nav-item">
                         <a href="{% url 'admin:index' %}"><span>Admin panel</span></a>
                     </li>
+                    <li class="nav-item">
+                        <a href="#" data-toggle="modal" data-target="#adminHelpModal">Admin Help</a>
+                    </li>
                     {% endif %}                 
                     <li class="nav-item">
                         <a href="{% url 'artifacts_list' %}"><span>View Artifacts</span></a>
@@ -190,12 +196,101 @@
     <div class="modal-dialog modal-full" role="document">
         <div class="modal-content">
             <div class="modal-header">
+                <h5>Help and Information</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body p-4">
-                <p>You can add new artifacts to the site through the admin panel. Under the artifact object you can set a reserve price and/or 'buy now' price. Setting a reserve price means that the artifact will not sell if the bids do not exceed the stated price. Setting a buy now price enables purchasers to buy the artifact at the price stated. Please note as bids are received the buy now price will be updated to exceed the current bid by 20%. NB if you do not enter a reserve or buy now price purchasers will be able buy the artifact for 20% more than the initial bid.</p>
+                <h4>Welcome to Jones & Son Artifact Auctions</h5>
+                <h5>Adding Artifacts</h6>
+                <p>You can add new artifacts to the site through the admin panel.</p>
+                <p>When adding a new artifact you must specify:</p>
+                <p>1 - The name of the artifact</p>
+                <p>2 - The type of artifact</p>
+                <p>3 - A category for the artifact</p>
+                <p>4 - A description of the artifact</p>
+                <p>5 - Buy now price</p>
+                <p>In addition you may add a picture of the artifact and also choose to set whether 
+                the artifact has been sold and, if so, to whom (which user of the site). These 
+                fields are updated automatically on a user purchasing an artifact and, therefore, it 
+                is advised these fields are not changed unless an error occurs or a separate agreement 
+                is reached outside of the auction.</p>
+                <p>If an artifact is marked as sold you must provide the username of the owner and
+                vice versa if an owner is specified the artifact must be marked as sold.</p>
+                <p>Finally you may also set a reserve price for the artifact.</p>
+                <h6>Artifact Types</h6>
+                <p>Each artifact must be assigned to one of four types</p>
+                <p>1 - Cultural: Historic and cultural items such as a historic relic or work of art.</p>
+                <p>2 - Media: Media such as film, photographs or digital files that are valued for their creative
+                or information content.</p>
+                <p>3 - Knowledge: Information created by people such as strategies, plans, designs, reports, 
+                models, research, theories and ideas.</p>
+                <p>4 - Data: Data that documents human efforts such as source code that was written by a programmer.</p>
+                <h6>Categories</h6>
+                <p>Each artifact must be given a category. This briefly describes what the artifact is,
+                such as 'clothing' or a sculpture.</p>
+                <p>You can create categories through the admin panel. In doing so you must provide a name
+                and brief description of the category.</p>
+                <h6>Buy now and reserve price</h6>
+                <p>You can choose to specify a price at which users can purchase an artifact immediately.
+                If you do so, once an auction is live, a user may purchase the artifact immediately for 
+                the 'buy now price' specified. If bids are placed on the artifact that exceed the stated
+                'buy now price' the price will automatically be updated to 20% more than the highest bid.</p>
+                <p>If you specify a reserve price then the artifact will not be released for sale until bidding
+                exceeds the reserve price. This does not affect the 'buy now price' and, for that reason,
+                if a reserve price is given the stated 'buy now price' must exceed the reseve.</p>
+                <p>Users will not be informed of the reserve price as this would affect bidding. They will, however
+                be notified that the artifact has a reserve placed on it.</p>
+                <h5>History</h5>
+                <h6>Adding historical events</h6>
+                <p>If you choose you can add historical events associated with an artifact.</p>
+                <p>To add an event you must specify:</p>
+                <p>1 - The name of the event</p>
+                <p>2 - A description of the event</p>
+                <p>3 - The year the event took place</p>
+                <p>4 - BC/AD in relation to the year</p>
+                <p>You may also specify the day and month of the event and an historical figure
+                associated with the event.</p>
+                <p>Finally you may also upload a picture of the event.</p>
+                <p>Please note if the full name of the artifact and/or historical figure is provided in the
+                description a link will be provided to the artifact and/or historical figure when the event 
+                is viewed.</p>
+                <h6>Adding historical figures</h6>
+                <p>In the same manner as historical events you may also add historical figures to the site.
+                To do so you must specify:</p>
+                <p>1 - the artifact they possessed</p>
+                <p>2 - the name of the historical figure</p>
+                <p>3 - a description</p>
+                <p>You may also choose to upload a picture of them.</p>
+                <p>Historical events and figures will be listed below the artifact on the display.</p>
+                <h5>Auctions</h5>
+                <h6>Adding an auction</h6>
+                <p>Auctions may be added for any artifact that has not been sold or is currently in an auction.
+                To add an auction you must specify the artfact being auctioned, and the start and end times of the auction.</p>
+                <p>The auction may be set to start in the future but not, of course, in the past.</p>
+                <p>Although the start and end dates of the auction may be amended while the auction is live
+                this is not advised as it will have ramifications for users bidding in the auction.</p>
+                <p>Once a user has purchased the artifact the auction will be deleted and the artifact's status
+                set to 'sold'. If a user has won an artifact the auction will still be considered 'live'
+                until the user completes their purchase. You may wish to periodically review finished
+                'live' auctions and chase users who have not made payment.</p>
+                <h6>Bids</h6>
+                <p>You may view, amend and delete users' bids through the admin panel. This function
+                is provided to assist if disagreements occur or a user contacts you to let you know
+                they made a mistake in making a bid.</p>
+                <p>If the highest bid is deleted then, if appropriate, the buy now price will also
+                be updated.</p>
+                <h5>Reviews</h5>
+                <p>You can access all reviews uploaded by users who have purchased artifacts.
+                You may edit reviews and the ratings given but this function is only intended
+                to enable you to police reviews provided to remove, for example profanity.</p>
+                <h5>Checkout</h5>
+                <p>In the checkout section of the admin panel you can review all purchase orders
+                for artifacts purchased from the site.</p>
+                <h5>Users</h5>
+                <p>Finally you can edit users, their permissions and profiles through the admin
+                panel.</p>
             </div>
         </div>
     </div>
@@ -208,3 +303,22 @@
 
 
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ Users

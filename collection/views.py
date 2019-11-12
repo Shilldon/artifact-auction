@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from artifacts.models import Artifact
 from auctions.models import Auction
-from bid.models import Bids
+from bids.models import Bid
 
 @login_required()
 def view_collection(request):
@@ -15,7 +15,7 @@ def view_collection(request):
     artifacts_won = {}
     total = 0
     for auction in auctions:
-        bids = Bids.objects.filter(auction=auction)
+        bids = Bid.objects.filter(auction=auction)
         try:
             highest_bid = bids.order_by('-bid_amount')[0].bid_amount
             highest_bidder = bids.order_by('-bid_amount')[0].bidder

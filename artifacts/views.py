@@ -7,9 +7,9 @@ from django.utils import timezone
 from .models import Artifact
 from auctions.models import Auction
 from auctions.views import get_bidder
-from bid.forms import BiddingForm
-from bid.views import check_bid
-from bid.models import Bids
+from bids.forms import BiddingForm
+from bids.views import check_bid
+from bids.models import Bid
 from history.models import Event, Historical_Figure
 from reviews.models import Review
 from search.forms import SearchArtifactsForm
@@ -59,9 +59,9 @@ def artifacts_list(request, index_search):
     auctions = Auction.objects.all()
     auction_bids = {}
     for auction in auctions:
-        bids = Bids.objects.filter(auction=auction)
+        bids = Bid.objects.filter(auction=auction)
         if bids:
-            auction_bids[auction.artifact] = str(bids.order_by('-bid_amount')[0].bid_amount)
+            auction_bids[auction.artifact] = bids.order_by('-bid_amount')[0].bid_amount
         else:
             auction_bids[auction.artifact] = 0 
     return render(request, "artifacts.html", {"artifacts_list": artifacts, "auctions" : auctions, "search_form" : search_form, "auction_bids" : auction_bids, "results": results})
@@ -75,7 +75,7 @@ def display_artifact(request, id):
     try:
         auction = get_object_or_404(Auction, artifact=artifact)
         """Check if the artifact is in a current auction and return the name of the bidder"""
-        bids = Bids.objects.filter(auction=auction)
+        bids = Bid.objects.filter(auction=auction)
         if bids:
             bidder_name = get_bidder(request, auction)
             current_bid = bids.order_by('-bid_amount')[0].bid_amount

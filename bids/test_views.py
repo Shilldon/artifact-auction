@@ -5,7 +5,7 @@ from django.shortcuts import get_object_or_404, reverse
 from django.utils import timezone
 from datetime import timedelta
 
-from .models import Bids
+from .models import Bid
 from artifacts.models import Artifact, Category
 from auctions.models import Auction
 
@@ -55,7 +55,7 @@ class TestViews(TestCase):
         """create 5 bids for the auction"""
         number_of_bids = 5
         for bid_id in range(number_of_bids):
-            Bids.objects.create(
+            Bid.objects.create(
                 bid_amount = bid_id+1,
                 bidder = user,
                 auction = auction,
