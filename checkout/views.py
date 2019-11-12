@@ -24,7 +24,7 @@ def checkout(request):
             order.date = timezone.now()
             order.save()
             
-            collection = request.session.get('collection', {})
+            basket = request.session.get('collection', {})
             #a check list to add artifacts to which might have been purchased
             #by another user before the current user got to the checkout.
             artifacts_already_sold = []
@@ -35,12 +35,13 @@ def checkout(request):
             total = 0
             an_artifact_was_sold = False
             
-            for id, value in collection.items():
+            for id, value in basket.items():
                 artifact = get_object_or_404(Artifact, pk=id)
                 print("Artifact= ", artifact)
                 if artifact.sold is not True:
                     total += value['price']
                     artifacts_purchased.append({'artifact' : artifact, 'buy_now' :value['buy_now']})
+                    artifact.purchase_price = value['price']
                     order_line_item = PurchasedArtifact(
                         order = order,
                         artifact = artifact,
@@ -54,16 +55,16 @@ def checkout(request):
                     artifacts_already_sold.append(id)
             
             #iterate through the artifacts already sold to another user and
-            #remove them from this user's collection.
+            #remove them from this user's basket.
             if len(artifacts_already_sold) > 0:
                 for id in artifacts_already_sold:
-                    collection.pop(id, None)
-                request.collection = collection
+                    basket.pop(id, None)
+                request.session['collection'] = basket
             
             #after removing sold artifacts check if there are any remaining and,
             #if so, let the user know the purchase order has been updated
             #else proceed with purchase
-            if bool(collection) is False:
+            if bool(basket) is False:
                 messages.error(request, "You have no artifacts in your collection to purchase")    
             elif an_artifact_was_sold:
                 messages.error(request, "Your purchase order has been updated.")

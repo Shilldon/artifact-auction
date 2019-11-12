@@ -7,7 +7,7 @@ from auctions.models import Auction
 class ArtifactRegistrationForm(forms.ModelForm):
     class Meta:
         model = Artifact
-        fields = '__all__'
+        exclude = ['purchase_price',]
        
     def clean_sold(self, *args, **kwargs):
         id = self.instance.id 
