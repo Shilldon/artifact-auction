@@ -1,6 +1,5 @@
 from django.db import models
 from artifacts.models import Artifact
-
 class Order(models.Model):
     full_name = models.CharField(max_length=50, blank=False)
     phone_number = models.CharField(max_length=20, blank=False)
@@ -20,5 +19,6 @@ class PurchasedArtifact(models.Model):
     artifact = models.ForeignKey(Artifact, on_delete=models.CASCADE, null=False)
     
     def __str__(self):
-        return "{0} @ {1}".format(self.artifact.name, self.artifact.price)
+        
+        return "{0} @ {1}".format(self.artifact.name, self.artifact.purchase_price)
     
