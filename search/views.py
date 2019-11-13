@@ -1,3 +1,4 @@
+from decimal import Decimal
 from django.shortcuts import get_object_or_404
 from django.contrib import messages
 from django.utils import timezone
@@ -26,13 +27,13 @@ def search_artifacts(request, search_form):
         """ set min_price or max_price to none to prevent filter on either of 
         these categories if not entered or entered as 0 on form"""
         try:
-            if int(max_price) == 0:
+            if max_price == Decimal(0):
                 max_price = None
         except:
             max_price = None
-            
+
         try:
-            if int(min_price) == 0:
+            if min_price == Decimal(0):
                 min_price = None
         except:
             min_price = None

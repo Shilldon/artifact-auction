@@ -170,7 +170,6 @@ def buy_all(request):
             id = artifact.id
             price = float(bid.bid_amount)
             basket[id] = basket.get(id, { 'price' : price, 'buy_now' : 0 })
-            print('basket=', basket)
             request.session['collection'] = basket        
 
     return redirect(reverse('checkout'))    

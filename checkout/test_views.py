@@ -110,8 +110,8 @@ class TestViews(TestCase):
         """
         session = self.client.session
         collection = {}
-        collection[3] = collection.get(3, 10)
-        collection[1] = collection.get(1,20)
+        collection[3] = collection.get(3, {'price' : 10, 'buy_now' : 0 })
+        collection[1] = collection.get(1,{'price' : 20, 'buy_now' : 0 })
         session['collection'] = collection
         session.save() 
 
@@ -178,7 +178,7 @@ class TestViews(TestCase):
         """
         session = self.client.session
         collection = {}
-        collection[1] = collection.get(1,20)
+        collection[1] = collection.get(1,{'price' : 20, 'buy_now' : 0 })
         session['collection'] = collection
         session.save() 
 
@@ -198,7 +198,7 @@ class TestViews(TestCase):
             'stripe_id' : 'tok_visa'
         }, follow=True)
         messages = list(response.context['messages'])
-        self.assertEqual(str(messages[0]), 'You have successfully paid')
+        self.assertEqual(str(messages[0]), 'Thank you for purchasing Name 1.')
     
     """
     test buy_all
@@ -220,7 +220,7 @@ class TestViews(TestCase):
         session = self.client.session
 
         self.assertRedirects(response, expected_url=reverse('checkout'), status_code=302, target_status_code=200)
-        self.assertEqual(session['collection'], {'1': 5.0})
+        self.assertEqual(session['collection'], {'1': {'price': 5.0, 'buy_now': 0}})
 
 
     """
@@ -239,7 +239,7 @@ class TestViews(TestCase):
         session = self.client.session
 
         self.assertRedirects(response, expected_url=reverse('checkout'), status_code=302, target_status_code=200)
-        self.assertEqual(session['collection'], {'1': 10.0})
+        self.assertEqual(session['collection'], {'1': {'price': 10.0, 'buy_now': '1'}})
 
 
     """
@@ -259,6 +259,6 @@ class TestViews(TestCase):
         session = self.client.session
 
         self.assertRedirects(response, expected_url=reverse('checkout'), status_code=302, target_status_code=200)
-        self.assertEqual(session['collection'], {'1': 5.0})
+        self.assertEqual(session['collection'], {'1' : {'price': 5.0, 'buy_now': '0'}})
 
         

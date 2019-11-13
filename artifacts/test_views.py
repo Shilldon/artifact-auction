@@ -1,9 +1,11 @@
+from decimal import Decimal
 from django.test import TestCase, Client
 from django.urls import reverse
 from django.utils import timezone
 from datetime import timedelta
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.models import User
+
 
 from .models import Category, Artifact
 from auctions.models import Auction
@@ -159,7 +161,13 @@ class TestViews(TestCase):
         page = self.client.get(reverse('artifacts_list'))
         self.assertEqual(page.status_code, 200)
         self.assertTrue(len(page.context['artifacts_list']) == 10)
-        
+
+    """check invalid search"""
+    def test_invalid_search_return_all_artifacts(self):
+        page = self.client.post(reverse('artifacts_list'), {"max_buy_now_price" : 0, "min_buy_now_price" : 20.0})
+        self.assertEqual(page.status_code, 200)
+        self.assertTrue(page.context['results']==15)
+
     """check all results are listed by getting second page and checking the
     results are limited to 5"""
     def test_all_artifacts_are_listed(self):
@@ -176,7 +184,7 @@ class TestViews(TestCase):
     def test_only_highest_bids_are_in_context(self):
         page = self.client.get(reverse('artifacts_list'))
         self.assertTrue(len(page.context['auction_bids']) == 6)
-        self.assertTrue(list(page.context['auction_bids'].values()) == ['1.00','2.00','3.00','4.00','5.00', 0])
+        self.assertTrue(list(page.context['auction_bids'].values()) == [Decimal('1.00'),Decimal('2.00'),Decimal('3.00'),Decimal('4.00'),Decimal('5.00'), Decimal(0)])
     
     """check return empty bids list if no bids in auction"""
     def test_no_bids_in_auction(self):
