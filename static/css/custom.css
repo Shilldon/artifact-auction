@@ -1,5 +1,6 @@
 body {
-  font-family: "Montserrat", sans-serif; }
+  font-family: "Montserrat", sans-serif;
+  margin-bottom: 100px; }
 
 a {
   text-decoration: none !important;
@@ -159,6 +160,10 @@ a:hover {
   background-color: transparent;
   outline: none;
   color: #FFB938; }
+.search-bar-container textarea {
+  display: inline-block;
+  vertical-align: middle;
+  border: none; }
 
 .search-bar {
   border: 1px solid #444444; }

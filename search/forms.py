@@ -22,9 +22,9 @@ class SearchArtifactsForm(forms.Form):
         (4, "Name: Z to A")
     ]
 
-    name = forms.CharField(label="Name contains:", required=False, widget=forms.Textarea(attrs= { 'cols':200,'rows':1, 'style': 'width:100%; resize: none;' }))
+    name = forms.CharField(label="Name contains:", required=False, widget=forms.Textarea(attrs= { 'rows':1, 'cols':1, 'style': 'width:100%; outline:none; resize: none;' }))
     sort_by = forms.ChoiceField(label='Sort by:', choices=SORT_CHOICES, initial=3, required=False)
-    description = forms.CharField(label="Description contains:", initial="", required=False, widget=forms.Textarea(attrs= { 'cols':200,'rows':1, 'style': 'width:100%; resize: none;'}))
+    description = forms.CharField(label="Description contains:", initial="", required=False, widget=forms.Textarea(attrs= { 'rows':1, 'style': 'width:100%; resize: none;'}))
     sold = forms.BooleanField(initial=False, required=False)
     unsold = forms.BooleanField(initial=False, required=False)
     in_auction = forms.BooleanField(label="Listed for auction", initial=False, required=False)

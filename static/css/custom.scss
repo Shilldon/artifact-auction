@@ -9,6 +9,7 @@ $font-base: #444444; // Grey
 
 body { 
     font-family: "Montserrat", sans-serif;
+    margin-bottom:100px;
 }    
 
 a {
@@ -229,6 +230,11 @@ a:hover {
         background-color: transparent;
         outline:none;
         color: $light-contrast;
+    }
+    textarea {
+        display:inline-block;
+        vertical-align:middle;
+        border: none;
     }
 }
 

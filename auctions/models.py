@@ -8,9 +8,12 @@ from artifacts.models import Artifact
 
 
 class Auction(models.Model):
+    
+    default_start_date = timezone.now() + timezone.timedelta(minutes=1)
+    
     artifact = models.ForeignKey(Artifact, on_delete=models.CASCADE, default=None)
     name = models.CharField(max_length=20, default='Auction')
-    start_date = models.DateTimeField(default=timezone.now)
+    start_date = models.DateTimeField(default=default_start_date)
     end_date = models.DateTimeField(default=timezone.now)
 
     def clean(self):
