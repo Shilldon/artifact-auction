@@ -37,14 +37,12 @@ def update_buy_now(sender, instance, using, **kwargs):
                 relative to the next highest bid and email the next_highest_bidder
                 that they are back in the running"""
             
-                next_bid = bids.order_by('bid_amount')[1].bid_amount
-                next_bidder = bids.order_by('bid_amount')[1].bidder
+                next_bid = bids.order_by('-bid_amount')[1].bid_amount
+                next_bidder = bids.order_by('-bid_amount')[1].bidder
                 artifact = auction.artifact
                 if artifact.sold==False:
                     email_title = 'Artifact Auctions - Your bid on '+artifact.name
-                    email_message_bid = 'The highest bidder has withdrawn their \
-                                        bid. You are back in the running as the \
-                                        highest bidder on '+artifact.name+'.'
+                    email_message_bid = 'The highest bidder has withdrawn their bid. You are back in the running as the highest bidder on '+artifact.name+'.'
                     send_mail(
                         email_title,
                         email_message_bid,

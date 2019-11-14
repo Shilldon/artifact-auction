@@ -20,8 +20,9 @@ from home.views import index
 
 from accounts import urls as urls_accounts
 from artifacts import urls as urls_artifacts
-from collection import urls as urls_collection
 from checkout import urls as urls_checkout
+from collection import urls as urls_collection
+from contact import urls as urls_contact
 from history import urls as urls_history
 from reviews import urls as urls_reviews
 from search import urls as urls_search
@@ -34,6 +35,7 @@ urlpatterns = [
     url(r'^artifacts/', include(urls_artifacts)),
     url(r'^collection/', include(urls_collection)),
     url(r'^checkout/', include(urls_checkout)),
+    url(r'^contact/', include(urls_contact)),
     url(r'^history/', include(urls_history)),
     url(r'^search/', include(urls_search)),    
     url(r'^review/', include(urls_reviews)),  

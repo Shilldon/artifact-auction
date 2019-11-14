@@ -63,6 +63,11 @@
             <a href="{% url 'display_artifact' id=artifact.id %}"> 
             <img class="img-fluid" src="{{ MEDIA_URL }}{{ artifact.image }}" alt="image of {{artifact.name}}">
             </a>
+            {% if artifact.sold is True %} 
+            <a href="{% url 'display_artifact' id=artifact.id %}"> 
+            <img class="artifact-sold-image img-fluid" src="/media/images/sold.png" alt="sold stamp"></img>
+            </a>
+            {% endif %}                    
         {% else %}
         <div class="col-4 col-sm-2 col-lg-1 d-inline-block artifact-image text-center">
             <a href="{% url 'display_artifact' id=artifact.id %}"> 
