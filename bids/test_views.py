@@ -43,6 +43,15 @@ class TestViews(TestCase):
             category = category,
             sold = True
         )        
+
+        artifact_not_bidded_on = Artifact.objects.create(
+            name = f'Name { 4 }',
+            description = f'Description { 4 }',
+            type = 'DATA',
+            category = category,
+            sold = False
+        )        
+        
         
         """create an auction"""
         auction = Auction.objects.create(
@@ -61,6 +70,15 @@ class TestViews(TestCase):
                 auction = auction,
                 time = timezone.now()
             )  
+
+        """create second auction with no bids"""
+        auction = Auction.objects.create(
+            artifact = get_object_or_404(Artifact, pk=4),
+            name = f'Auction Name {4}',
+            start_date = timezone.now(),
+            end_date = timezone.now() + timedelta(1),
+        )
+
             
     """ 
     Test check bid
@@ -114,3 +132,19 @@ class TestViews(TestCase):
         self.assertEqual(response.status_code, 200)
         content = json.loads(response.content)
         self.assertEqual(content['message'], 'Name 3 has already sold, no auction information')
+        
+    """check get_bid 0 for no bid in auction"""
+    def test_get_bid_zero_bids_reponse_in_auction(self):
+        c = Client()
+        response = c.get('/artifacts/list/get_bid', { "artifact_id" :4 })
+        self.assertEqual(response.status_code, 200)
+        content = json.loads(response.content)
+        self.assertEqual(content['in_auction'], True)
+        self.assertEqual(content['current_bid'], 0)
+
+    """check check_bid 0 for no bid in auction"""
+    def test_check_bid_zero_bids_reponse_in_auction(self):
+        testuser = self.client.login(username='TestName', password='test')
+        page = self.client.post('/artifacts/artifact/4', { "amount_bid" : 10 }, follow=True)
+        self.assertEqual(page.context['current_bid'], 10.0)
+        self.assertRedirects(page, expected_url=reverse('display_artifact', kwargs={ "id" : 4 } ), status_code=302, target_status_code=200)

@@ -1,3 +1,4 @@
+from django import forms
 from django.test import TestCase
 from django.shortcuts import get_object_or_404
 from django.core.exceptions import ValidationError
@@ -31,7 +32,8 @@ class TestAuctionModel(TestCase):
             start_date = timezone.now(),
             end_date = timezone.now() - timedelta(1)
         )
-        self.assertRaises(ValidationError, auction.clean)
+        with self.assertRaisesMessage(ValidationError, 'Auction end date must be after start date.'):
+            auction.clean()
     
     """
     check model raises error if the artifact is already listed as sold
@@ -47,5 +49,23 @@ class TestAuctionModel(TestCase):
             end_date = timezone.now() + timedelta(1)
         )
         self.assertRaises(ValidationError, auction.clean)    
+        with self.assertRaisesMessage(ValidationError, 'That artifact has been sold.'):
+            auction.clean()
 
+    """
+    check model raises error if the auction starts in the past 
+    """
+    def test_start_date_before_now(self):
+        artifact = get_object_or_404(Artifact, pk=1)
+        artifact.sold = False
+        artifact.save()
+        auction = Auction.objects.create(
+            artifact = artifact, 
+            name = "Auction",             
+            start_date = timezone.now() - timedelta(1),
+            end_date = timezone.now() + timedelta(1)
+        )
+        self.assertRaises(ValidationError, auction.clean)    
+        with self.assertRaisesMessage(ValidationError, 'The start date of the auction may not be in the past.'):
+            auction.clean()
         
