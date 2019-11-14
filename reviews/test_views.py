@@ -69,15 +69,37 @@ class TestViews(TestCase):
     """
     Check review can be added
     """
-    def test_valid_review(self):
+    def test_add_review(self):
         testuser = self.client.login(username='TestName', password='test')
         
-        response = self.client.post("/review/add_review/1", { 'description' : 'test', 'rating' : 5})
+        response = self.client.post("/review/add_review/1", { 'description' : 'test', 'rating' : "5"})
         self.assertRedirects(response, expected_url=reverse('display_artifact', kwargs={ 'id' : 1 }), status_code=302, target_status_code=200)
         self.assertTrue(get_object_or_404(Review,pk=1))
         self.assertTrue(get_object_or_404(Review,pk=1).description=="test")
         self.assertTrue(get_object_or_404(Review,pk=1).rating==5)
         
+ 
+    """
+    Check review can be edited
+    """
+    def test_edit_review(self):
+        testuser = self.client.login(username='TestName', password='test')
+        
+        """
+        create an existing review
+        """
+        Review.objects.create(
+            artifact = get_object_or_404(Artifact, pk=1),
+            description = "test",
+            rating = "4",
+            reviewer = get_object_or_404(User, pk=1))
+        """submit the editted review"""
+        
+        response = self.client.post("/review/add_review/1", { 'description' : 'test2', 'rating' : "3"})
+        self.assertRedirects(response, expected_url=reverse('display_artifact', kwargs={ 'id' : 1 }), status_code=302, target_status_code=200)
+        self.assertTrue(get_object_or_404(Review,pk=1))
+        self.assertTrue(get_object_or_404(Review,pk=1).description=="test2")
+        self.assertTrue(get_object_or_404(Review,pk=1).rating==3)
         
     """
     Check delete_review

@@ -51,15 +51,7 @@ class TestViews(TestCase):
             start_date = timezone.now() - timedelta(2),
             end_date = timezone.now() + timedelta(1),
         )
-        number_of_bids = 5
-        for bid_id in range(number_of_bids):
-            Bid.objects.create(
-                bid_amount = bid_id+1,
-                bidder = user,
-                auction = auction,
-                time = timezone.now()
-            )  
-                
+
     """
     check failure on no user logged in
     """
@@ -80,7 +72,18 @@ class TestViews(TestCase):
     """
     def test_artifacts_won_list(self):
         testuser = self.client.login(username='TestName', password='test')
-        
+
+
+        """ create bids """
+        number_of_bids = 5
+        for bid_id in range(number_of_bids):
+            Bid.objects.create(
+                bid_amount = bid_id+1,
+                bidder = get_object_or_404(User, pk=1),
+                auction = get_object_or_404(Auction, pk=1),
+                time = timezone.now()
+            )  
+                        
         """end the auction"""
         auction = get_object_or_404(Auction, pk=1)
         auction.end_date = timezone.now()-timedelta(1)
@@ -96,17 +99,11 @@ class TestViews(TestCase):
     """
     def test_artifacts_not_won_list(self):
         testuser = self.client.login(username='TestName', password='test')
-        
         """end the auction"""
         auction = get_object_or_404(Auction, pk=1)
         auction.end_date = timezone.now()-timedelta(1)
         auction.save()
-        
-        """delete all the bids"""
-        bids = Bid.objects.all()
-        for bid in bids:
-            bid.delete()
-        
+
         response = self.client.get(reverse('view_collection'))
         self.assertTrue(len(response.context['artifacts_won'])==0)
 

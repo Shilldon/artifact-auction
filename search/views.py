@@ -25,35 +25,29 @@ def search_artifacts(request, search_form):
         sort_by = search_form["sort_by"].value()
 
         """ set min_price or max_price to none to prevent filter on either of 
-        these categories if not entered or entered as 0 on form"""
+        these fields if not entered or entered as 0 on form"""
+
         try:
-            if max_price == Decimal(0):
-                max_price = None
+            max_price=Decimal(max_price.strip(' "'))
         except:
+            None
+        try:
+            min_price=Decimal(min_price.strip(' "'))
+        except:
+            None    
+            
+        if max_price == 0:
             max_price = None
 
-        try:
-            if min_price == Decimal(0):
-                min_price = None
-        except:
+        if min_price == 0:
             min_price = None
-
-        if categories:
-            category_filter = {'category__id__in' : categories }
-        else:
-            category_filter = {'category__id' : 0}
-            
-        if artifact_type:
-            type_filter = {'type__in' : artifact_type }
-        else:
-            type_filter = {'type' : 0}
 
         artifacts_list = artifacts.filter(**filter_by("description__icontains", description)) \
                                   .filter(**filter_by("name__icontains", name)) \
                                   .filter(**filter_by("sold", sold)) \
                                   .filter(**filter_by("unsold", unsold)) \
-                                  .filter(**category_filter) \
-                                  .filter(**type_filter) \
+                                  .filter(**filter_by("category__id__in", categories)) \
+                                  .filter(**filter_by("type__in", artifact_type)) \
                                   .filter(**filter_by("buy_now_price__lte", max_price)) \
                                   .filter(**filter_by("buy_now_price__gte", min_price))
                                   

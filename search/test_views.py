@@ -4,7 +4,7 @@ from django.shortcuts import get_object_or_404, reverse
 from django.utils import timezone
 from datetime import timedelta
 from django.core.cache import cache
-
+from decimal import Decimal
 from artifacts.models import Artifact, Category
 from auctions.models import Auction
 from .forms import SearchArtifactsForm
@@ -158,7 +158,7 @@ class TestViews(TestCase):
             for result in search_result:
                 search_results.append(result)
         self.assertEqual(search_results, [get_object_or_404(Artifact, pk=1)])       
-        
+ 
     """
     check type search
     """
@@ -214,6 +214,30 @@ class TestViews(TestCase):
         response = self.client.post('/artifacts/list/', { "min_buy_now_price" : 7.00, "max_buy_now_price" : 2.00, "type" : TYPE_LIST, "category": CATEGORY_LIST}) 
         self.assertFormError(response, 'search_form', '__all__', u'Invalid price range. Maximum price must be more than minimum price.')
 
+
+    """
+    check zero min_price searches return no price filter 
+    """
+    def test_zero_min_price_search(self):
+        self.client.post('/artifacts/list/', { "min_buy_now_price" : 0.00, "type"  : TYPE_LIST, "category": CATEGORY_LIST}) 
+        search_result = cache.get('sorted_list')
+        search_results = []
+        if search_result:
+            for result in search_result:
+                search_results.append(result)
+        self.assertEqual(search_results, [get_object_or_404(Artifact, pk=1), get_object_or_404(Artifact, pk=2), get_object_or_404(Artifact, pk=3)])                                   
+
+    """
+    check zero max_price searches return no price filter 
+    """
+    def test_zero_max_price_search(self):
+        self.client.post('/artifacts/list/', { "max_buy_now_price" : 0.00, "type"  : TYPE_LIST, "category": CATEGORY_LIST}) 
+        search_result = cache.get('sorted_list')
+        search_results = []
+        if search_result:
+            for result in search_result:
+                search_results.append(result)
+        self.assertEqual(search_results, [get_object_or_404(Artifact, pk=1), get_object_or_404(Artifact, pk=2), get_object_or_404(Artifact, pk=3)])                                   
 
     """
     check sort by price ascending 

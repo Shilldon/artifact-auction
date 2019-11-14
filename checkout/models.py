@@ -1,3 +1,4 @@
+from decimal import Decimal
 from django.db import models
 from artifacts.models import Artifact
 class Order(models.Model):
@@ -19,6 +20,6 @@ class PurchasedArtifact(models.Model):
     artifact = models.ForeignKey(Artifact, on_delete=models.CASCADE, null=False)
     
     def __str__(self):
-        
-        return "{0} @ {1}".format(self.artifact.name, self.artifact.purchase_price)
+        price = self.artifact.purchase_price
+        return f'{self.artifact.name} @ £{price:.2f}'
     

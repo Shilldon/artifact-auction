@@ -1,5 +1,6 @@
 from django import forms
 from django.db import models
+from django.core.validators import MinValueValidator
 from decimal import Decimal
 from artifacts.models import Category
 
@@ -31,13 +32,21 @@ class SearchArtifactsForm(forms.Form):
     not_in_auction = forms.BooleanField(label="Not listed for auction", initial=False, required=False)
     category = forms.ModelMultipleChoiceField(queryset=Category.objects.all(), widget=forms.CheckboxSelectMultiple, required=True, initial=Category.objects.all())
     type = forms.MultipleChoiceField(choices=TYPE_CHOICES, widget=forms.CheckboxSelectMultiple, required=True, initial=default_type_choices)
-    min_buy_now_price=forms.DecimalField(decimal_places=2, required=False)
-    max_buy_now_price=forms.DecimalField(decimal_places=2, required=False)
+    min_buy_now_price=forms.DecimalField(decimal_places=2, required=False,validators=[MinValueValidator(Decimal('0.00'))])
+    max_buy_now_price=forms.DecimalField(decimal_places=2, required=False,validators=[MinValueValidator(Decimal('0.00'))])
     
     def clean(self):
         cleaned_data = super().clean()
         min_price = cleaned_data.get('min_buy_now_price')
         max_price = cleaned_data.get('max_buy_now_price')
+        if cleaned_data.get("category")==None:
+            raise forms.ValidationError(
+                "Please select at least one category."
+                )            
+        if cleaned_data.get("type")==None:
+            raise forms.ValidationError(
+                "Please select at least one artifact type."
+                )            
         if min_price and max_price:
             if min_price > max_price:
                 raise forms.ValidationError(

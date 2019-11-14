@@ -40,20 +40,21 @@ def update_buy_now(sender, instance, using, **kwargs):
                 next_bid = bids.order_by('bid_amount')[1].bid_amount
                 next_bidder = bids.order_by('bid_amount')[1].bidder
                 artifact = auction.artifact
-                email_title = 'Artifact Auctions - Your bid on '+artifact.name
-                email_message_bid = 'The highest bidder has withdrawn their \
-                                    bid. You are back in the running as the \
-                                    highest bidder on '+artifact.name+'.'
-                send_mail(
-                    email_title,
-                    email_message_bid,
-                    'admin@artifact-auction.com',
-                    [next_bidder.email],
-                    fail_silently=False,)  
-                 
-                """update the buy_now_price, if appropriate"""
-                if next_bid>artifact.reserve_price:
-                    artifact.buy_now_price = Decimal(next_bid) * Decimal(1.2)
-                    artifact.save()
+                if artifact.sold==False:
+                    email_title = 'Artifact Auctions - Your bid on '+artifact.name
+                    email_message_bid = 'The highest bidder has withdrawn their \
+                                        bid. You are back in the running as the \
+                                        highest bidder on '+artifact.name+'.'
+                    send_mail(
+                        email_title,
+                        email_message_bid,
+                        'admin@artifact-auction.com',
+                        [next_bidder.email],
+                        fail_silently=False,)  
+                     
+                    """update the buy_now_price, if appropriate"""
+                    if next_bid>artifact.reserve_price:
+                        artifact.buy_now_price = Decimal(next_bid) * Decimal(1.2)
+                        artifact.save()
     except:
         None

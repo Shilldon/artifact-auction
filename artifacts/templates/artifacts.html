@@ -258,14 +258,14 @@
                     <div class="row">
                         <div class="col-6">
                             <label for="min_buy_now_price" style="font-size: 0.75rem">Minimum</label>
-                            {% render_field search_form.min_buy_now_price style="width:100%" %}
+                            {% render_field search_form.min_buy_now_price style="width:100%" min="0" %}
                         </div>
                         <div class="col-6">
                             <label for="max_buy_now_price" style="font-size: 0.75rem">Maximum</label>
-                            {% render_field search_form.max_buy_now_price style="width:100%" %}
+                            {% render_field search_form.max_buy_now_price style="width:100%" min="0" %}
                         </div>
                     </div> 
-                    <div class="row">
+                    <div class="row pt2">
                         <div class="col-12">
                             {{ search_form.non_field_errors }}
                         </div>

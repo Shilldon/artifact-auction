@@ -34,7 +34,6 @@ def checkout(request):
             
             total = 0
             an_artifact_was_sold = False
-            
             for id, value in basket.items():
                 artifact = get_object_or_404(Artifact, pk=id)
                 if artifact.sold is not True:
@@ -78,7 +77,6 @@ def checkout(request):
                 except stripe.error.CardError:
                     customer = None
                     messages.error(request, "Your card was declined")
-                print("artifacts purchased ", artifacts_purchased)
                 if customer.paid:
                     for item in artifacts_purchased:
                         artifact = item['artifact']
@@ -104,14 +102,13 @@ def checkout(request):
                                     email_message_sold,
                                     'admin@artifact-auction.com',
                                     [bidder.email],
-                                    fail_silently=False,)                                 
+                                    fail_silently=False,)  
                             except:
                                 None
                         auction.delete()
-                    
+
                     """clear the user's basket"""
                     request.session['collection'] = {}
-                        
                     """
                     create a string of the artifacts purchased to email to
                     purchaser
@@ -124,7 +121,7 @@ def checkout(request):
                         list_of_artifacts.append("and "+last_artifact.name)
                     else:
                         list_of_artifacts.append(artifacts_purchased[0]['artifact'].name)
-                        
+
                     email_artifacts_purchased = ' '.join(list_of_artifacts).lstrip()
                     email_title = 'Artifact Auctions - Your purchase'
                     email_message_purchase = 'Thank you for purchasing '+email_artifacts_purchased+'. Your purchase will be delivered to you in 3-4 working days.'

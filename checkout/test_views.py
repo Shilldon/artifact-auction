@@ -2,6 +2,7 @@ from django.test import TestCase, Client, RequestFactory
 from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404, reverse
 from django.utils import timezone
+from django.core import mail
 from datetime import timedelta
 
 from bids.models import Bid
@@ -18,7 +19,7 @@ class TestViews(TestCase):
         """set the user option to remain anonymous"""
         user.profile.remain_anonymous = True
         user.save()
-        
+
         """create an artifact"""
         category = Category(name="test", description="test")
         category.save()
@@ -44,14 +45,15 @@ class TestViews(TestCase):
             category = category,
             sold = True
         )        
-        
-        """create an auction"""
+
+        """create auction"""
         auction = Auction.objects.create(
             artifact = artifact,
             name = f'Auction Name {1}',
             start_date = timezone.now() - timedelta(2),
             end_date = timezone.now() + timedelta(1),
         )
+
 
         """create 5 bids for the auction"""
         number_of_bids = 5
@@ -169,13 +171,10 @@ class TestViews(TestCase):
   
     
     """    
-    check successful purchase
+    check successful purchase and email to purchaser
     """
     def test_message_on_successful_purchase(self):
         testuser = self.client.login(username='TestName', password='test')
-        """ 
-        set up a session collection with 2 artifacts
-        """
         session = self.client.session
         collection = {}
         collection[1] = collection.get(1,{'price' : 20, 'buy_now' : 0 })
@@ -199,7 +198,147 @@ class TestViews(TestCase):
         }, follow=True)
         messages = list(response.context['messages'])
         self.assertEqual(str(messages[0]), 'Thank you for purchasing Name 1.')
-    
+        self.assertEqual(len(mail.outbox), 1)
+        self.assertEqual(mail.outbox[0].body, 'Thank you for purchasing Name 1. Your purchase will be delivered to you in 3-4 working days.')    
+
+
+    """    
+    check successful purchase more than one item and email to purchaser
+    """
+    def test_message_on_successful_purchase_multiple(self):
+        
+        """create another artifact and auction"""
+        artifact_second_in_basket = Artifact.objects.create(
+            name = f'Name { 4 }',
+            description = f'Description { 4 }',
+            type = 'DATA',
+            category = get_object_or_404(Category, pk=1)
+        )      
+
+        auction = Auction.objects.create(
+            artifact = artifact_second_in_basket,
+            name = f'Auction Name {4}',
+            start_date = timezone.now() - timedelta(2),
+            end_date = timezone.now() + timedelta(1),
+        )        
+        
+        
+        testuser = self.client.login(username='TestName', password='test')
+        session = self.client.session
+        collection = {}
+        collection[1] = collection.get(1, {'price' : 20, 'buy_now' : 0 })
+        collection[4] = collection.get(4, {'price' : 30, 'buy_now' : 0 })
+        session['collection'] = collection
+        session.save() 
+
+        response = self.client.post("/checkout/", {
+            'full_name' : 'test', 
+            'phone_number' : 'test', 
+            'street_address1' : 'test', 
+            'street_address2' : 'test', 
+            'town_or_city' : 'test', 
+            'county' : 'test',
+            'postcode' : 'test', 
+            'country' : 'test',
+            'credit_card_number' : '4242424242424242',
+            'cvv' : '111',
+            'expiry_month' : 12,
+            'expiry_year' : 2019,
+            'stripe_id' : 'tok_visa'
+        }, follow=True)
+        messages = list(response.context['messages'])
+        self.assertEqual(str(messages[0]), 'Thank you for purchasing Name 1, and Name 4.')
+        self.assertEqual(len(mail.outbox), 1)
+        self.assertEqual(mail.outbox[0].body, 'Thank you for purchasing Name 1, and Name 4. Your purchase will be delivered to you in 3-4 working days.')    
+
+
+    """    
+    check successful purchase on buy now and email to second highest bidder
+    """
+    def test_message_on_successful_purchase_buy_now(self):
+        mail.outbox = []
+        """create second user"""
+        user2 = User.objects.create_user(username='TestName2', email='test2@…', password='test')
+        
+        """log in first user"""        
+        testuser = self.client.login(username='TestName', password='test')
+        session = self.client.session
+
+        """create final bid in auction by second user"""
+        Bid.objects.create(
+                bid_amount = 10.0,
+                bidder = user2,
+                auction = get_object_or_404(Auction,pk=1),
+                time = timezone.now()
+            ) 
+        
+        """create a basket"""
+        collection = {}
+        collection[1] = collection.get(1,{'price' : 20, 'buy_now' : 1 })
+        session['collection'] = collection
+        session.save() 
+        auction = get_object_or_404(Auction, pk=1)
+        bids = Bid.objects.filter(auction=auction)
+        response = self.client.post("/checkout/", {
+            'full_name' : 'test', 
+            'phone_number' : 'test', 
+            'street_address1' : 'test', 
+            'street_address2' : 'test', 
+            'town_or_city' : 'test', 
+            'county' : 'test',
+            'postcode' : 'test', 
+            'country' : 'test',
+            'credit_card_number' : '4242424242424242',
+            'cvv' : '111',
+            'expiry_month' : 12,
+            'expiry_year' : 2019,
+            'stripe_id' : 'tok_visa'
+        }, follow=True)
+        messages = list(response.context['messages'])
+        self.assertEqual(str(messages[0]), 'Thank you for purchasing Name 1.')
+        self.assertEqual(len(mail.outbox), 2)
+        self.assertEqual(mail.outbox[0].body, 'Thank you for your interest in Name 1. Unfortunately another user has directly purchased this artifact.')    
+        self.assertEqual(mail.outbox[1].body, 'Thank you for purchasing Name 1. Your purchase will be delivered to you in 3-4 working days.')    
+
+    """    
+    check successful purchase on buy now and no email sent if no other bidders
+    """
+    def test_message_on_successful_purchase_buy_now_no_other_bidders(self):
+        mail.outbox = []
+        """create second user"""
+        user2 = User.objects.create_user(username='TestName2', email='test2@…', password='test')
+        
+        """log in first user"""        
+        testuser = self.client.login(username='TestName', password='test')
+        session = self.client.session
+
+        """create a basket"""
+        collection = {}
+        collection[1] = collection.get(1,{'price' : 20, 'buy_now' : 1 })
+        session['collection'] = collection
+        session.save() 
+        auction = get_object_or_404(Auction, pk=1)
+        bids = Bid.objects.filter(auction=auction)
+        response = self.client.post("/checkout/", {
+            'full_name' : 'test', 
+            'phone_number' : 'test', 
+            'street_address1' : 'test', 
+            'street_address2' : 'test', 
+            'town_or_city' : 'test', 
+            'county' : 'test',
+            'postcode' : 'test', 
+            'country' : 'test',
+            'credit_card_number' : '4242424242424242',
+            'cvv' : '111',
+            'expiry_month' : 12,
+            'expiry_year' : 2019,
+            'stripe_id' : 'tok_visa'
+        }, follow=True)
+        messages = list(response.context['messages'])
+        self.assertEqual(str(messages[0]), 'Thank you for purchasing Name 1.')
+        self.assertEqual(len(mail.outbox), 1)
+        self.assertEqual(mail.outbox[0].body, 'Thank you for purchasing Name 1. Your purchase will be delivered to you in 3-4 working days.')    
+
     """
     test buy_all
     """
@@ -208,7 +347,7 @@ class TestViews(TestCase):
     check the artifact that the user has won is added to the session collection
     """
     
-    def test_check_artifacts_added_to_collection(self):
+    def test_check_artifact_added_to_collection(self):
         testuser = self.client.login(username='TestName', password='test')
 
         """end the auction"""
@@ -222,6 +361,46 @@ class TestViews(TestCase):
         self.assertRedirects(response, expected_url=reverse('checkout'), status_code=302, target_status_code=200)
         self.assertEqual(session['collection'], {'1': {'price': 5.0, 'buy_now': 0}})
 
+
+    """
+    check the artifacts that the user has won is added to the session collection
+    """
+    
+    def test_check_artifacts_added_to_collection(self):
+        testuser = self.client.login(username='TestName', password='test')
+        
+        """create another artifact,  auction and bid"""
+        artifact_second_in_basket = Artifact.objects.create(
+            name = f'Name { 4 }',
+            description = f'Description { 4 }',
+            type = 'DATA',
+            category = get_object_or_404(Category, pk=1)
+        )      
+
+        auction = Auction.objects.create(
+            artifact = artifact_second_in_basket,
+            name = f'Auction Name {4}',
+            start_date = timezone.now() - timedelta(2),
+            end_date = timezone.now() + timedelta(1),
+        )  
+    
+        Bid.objects.create(
+            bid_amount = 20,
+            bidder = get_object_or_404(User, pk=1),
+            auction = auction,
+            time = timezone.now()
+            )
+            
+        """end the auctions"""
+        for auction in Auction.objects.all():
+            auction.end_date = timezone.now()-timedelta(1)
+            auction.save()
+        
+        response = self.client.get("/checkout/buy_all/", follow=True)
+        session = self.client.session
+
+        self.assertRedirects(response, expected_url=reverse('checkout'), status_code=302, target_status_code=200)
+        self.assertEqual(session['collection'], {'1': {'price': 5.0, 'buy_now': 0}, '4': {'price': 20.0, 'buy_now': 0}})
 
     """
     test buy_one
@@ -260,5 +439,3 @@ class TestViews(TestCase):
 
         self.assertRedirects(response, expected_url=reverse('checkout'), status_code=302, target_status_code=200)
         self.assertEqual(session['collection'], {'1' : {'price': 5.0, 'buy_now': '0'}})
-
-        
