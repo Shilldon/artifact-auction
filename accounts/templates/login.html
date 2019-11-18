@@ -2,7 +2,7 @@
 
 <div class="container mt-3 mb-5">
     <div class="row justify-content-center">
-        <div class="col-10 col-sm-6 accounts--form-container py-3">
+        <div class="col-10 col-sm-6 form-container py-3">
             <form method="POST">
                 {% csrf_token %}
                 <div class="row">
@@ -16,7 +16,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-10 offset-1 styled-box index--option">
+                    <div class="col-10 offset-1 styled-box">
                         <div class="row h-100">
                             <div class="col-12" tabindex="0">
                                 {% render_field login_form.username %}
@@ -33,7 +33,7 @@
                     </div>
                 </div>                
                 <div class="row ">
-                    <div class="col-10 offset-1 styled-box index--option">
+                    <div class="col-10 offset-1 styled-box">
                         <div class="row h-100">
                             <div class="col-12" tabindex="1">
                                 {% render_field login_form.password %}

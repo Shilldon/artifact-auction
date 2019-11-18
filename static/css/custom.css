@@ -95,9 +95,6 @@ a:hover {
   color: red;
   font-size: 0.75rem; }
 
-.hvr-sweep-to-right:before {
-  background-color: #FFB938; }
-
 .styled-box {
   margin-top: 5px;
   margin-bottom: 5px;
@@ -107,6 +104,13 @@ a:hover {
   .styled-box input {
     border: none;
     outline: none; }
+
+.bid-history-btn {
+  outline: none;
+  background: transparent;
+  border: none;
+  color: #1761BF;
+  padding: 0; }
 
 .btn {
   margin-top: 10px;
@@ -135,25 +139,59 @@ a:hover {
   outline: 0 !important;
   box-shadow: 0px 0px 0px 2px #1761BF !important; }
 
+.hvr-sweep-to-right:before {
+  background-color: #FFB938; }
+
 .carousel-control-prev-icon {
   background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23734D07' viewBox='0 0 8 8'%3E%3Cpath d='M5.25 0l-4 4 4 4 1.5-1.5-2.5-2.5 2.5-2.5-1.5-1.5z'/%3E%3C/svg%3E") !important; }
 
 .carousel-control-next-icon {
   background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23734D07' viewBox='0 0 8 8'%3E%3Cpath d='M2.75 0l-1.5 1.5 2.5 2.5-2.5 2.5 1.5 1.5 4-4-4-4z'/%3E%3C/svg%3E") !important; }
 
-.accounts--form-container {
+.form-container {
   color: #444444;
   border: #003273 4px solid;
   border-radius: 2%; }
-  .accounts--form-container p {
+  .form-container p {
     font-size: 0.75rem;
     padding: 0;
     margin: 0; }
-  .accounts--form-container input {
+  .form-container input {
     font-size: .8rem;
     border: none;
     outline: none;
     width: 100%; }
+
+.page-link {
+  color: #734D07; }
+
+.page-link:active {
+  box-shadow: 0 0 0 2px #1761BF !important; }
+
+.page-link:focus {
+  box-shadow: 0 0 0 2px #1761BF !important; }
+
+.page-item.active .page-link {
+  color: #FFB938;
+  background-color: #003273;
+  border-color: #1761BF; }
+
+.artifact-list {
+  font-size: 0.75rem; }
+  .artifact-list a {
+    color: #444444; }
+  .artifact-list p {
+    line-height: 1.5; }
+
+.artifact-image {
+  background-size: contain;
+  background-position: center center;
+  background-repeat: no-repeat;
+  max-width: 100%; }
+
+.artifact-sold-image {
+  position: absolute;
+  left: 0; }
 
 .search-bar-container button {
   border: none;
@@ -179,47 +217,8 @@ a:hover {
   background-color: transparent;
   border: none; }
 
-.artifact-list {
-  font-size: 0.75rem; }
-  .artifact-list a {
-    color: #444444; }
-  .artifact-list p {
-    line-height: 1.5; }
-
-.artifact-image {
-  background-size: contain;
-  background-position: center center;
-  background-repeat: no-repeat;
-  max-width: 100%; }
-
-.artifact-sold-image {
-  position: absolute;
-  left: 0;
-  top: 10%; }
-
-.page-link {
-  color: #734D07; }
-
-.page-link:active {
-  box-shadow: 0 0 0 2px #1761BF !important; }
-
-.page-link:focus {
-  box-shadow: 0 0 0 2px #1761BF !important; }
-
-.page-item.active .page-link {
-  color: #FFB938;
-  background-color: #003273;
-  border-color: #1761BF; }
-
 .artifact-single img {
   border: solid #734D07 5px; }
-
-.bid-history-btn {
-  outline: none;
-  background: transparent;
-  border: none;
-  color: #1761BF;
-  padding: 0; }
 
 .review-container {
   line-height: 0; }
@@ -231,10 +230,14 @@ a:hover {
 #id_amount_bid {
   font-size: 0.8rem; }
 
-#history-collapse a {
-  color: #003273;
-  cursor: pointer; }
-
+/*
+#history-collapse {
+    a {
+        color: $dark-base;
+        cursor: pointer;
+    }
+}
+*/
 footer {
   background-color: #003273;
   color: #FFB938; }

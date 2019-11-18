@@ -6,7 +6,7 @@ $light-contrast: #FFB938; // Yellow
 
 $font-base: #444444; // Grey 
 
-
+//-----MAIN STYLES -----//
 body { 
     font-family: "Montserrat", sans-serif;
     margin-bottom:100px;
@@ -17,6 +17,7 @@ a {
     color: $dark-base;
     cursor: pointer;
 }
+
 a:hover {
     color: $light-base;    
 }
@@ -130,7 +131,6 @@ a:hover {
     object-fit:cover;
 }    
 
-
 //-----GENERAL STYLES-----//
 
 //--styling for error lists on form validation --//
@@ -139,10 +139,6 @@ a:hover {
     padding:0;
     color: red;
     font-size:0.75rem;
-}
-
-.hvr-sweep-to-right:before {
-    background-color: $mid-contrast;    
 }
 
 //--Styling for lists and options in grid layout--//
@@ -159,6 +155,14 @@ a:hover {
 }
 
 //--Buttons--//
+.bid-history-btn {
+    outline: none;
+    background: transparent;
+    border: none;
+    color: $light-base;
+    padding:0;
+}
+
 .btn {
     margin-top:10px;
     font-size: 0.8rem;  
@@ -194,7 +198,9 @@ a:hover {
     box-shadow:  0px 0px 0px 2px $light-base !important;    
 }
 
-
+.hvr-sweep-to-right:before {
+    background-color: $mid-contrast;    
+}
 
 .carousel-control-prev-icon {
  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23734D07' viewBox='0 0 8 8'%3E%3Cpath d='M5.25 0l-4 4 4 4 1.5-1.5-2.5-2.5 2.5-2.5-1.5-1.5z'/%3E%3C/svg%3E") !important;
@@ -204,9 +210,8 @@ a:hover {
   background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23734D07' viewBox='0 0 8 8'%3E%3Cpath d='M2.75 0l-1.5 1.5 2.5 2.5-2.5 2.5 1.5 1.5 4-4-4-4z'/%3E%3C/svg%3E") !important;
 }
 
-//-----ACCOUNTS-----//
-
-.accounts--form-container {
+//--Container for forms--//
+.form-container {
     color: $font-base;
     border: $dark-base 4px solid;
     border-radius: 2%;
@@ -223,6 +228,51 @@ a:hover {
     }
     
 }
+
+//--Pagination--//
+.page-link{ 
+    color: $dark-contrast;
+}
+
+.page-link:active {
+    box-shadow: 0 0 0 2px $light-base !important;    
+}
+
+.page-link:focus {
+    box-shadow: 0 0 0 2px $light-base !important;    
+}
+
+.page-item.active .page-link{
+    color: $light-contrast;
+    background-color: $dark-base;
+    border-color: $light-base;
+    
+}
+
+//-----ARTIFACTS LIST-----//
+.artifact-list{
+    font-size:0.75rem;
+    a {    
+        color: $font-base;        
+    }
+    p {
+        line-height:1.5;
+    }    
+}
+
+.artifact-image {
+    background-size: contain;
+    background-position: center center;
+    background-repeat: no-repeat;   
+    max-width:100%;
+}
+
+.artifact-sold-image {
+    position:absolute; 
+    left:0;
+}
+
+//--Search Bar--//
 
 .search-bar-container {
     button {
@@ -258,49 +308,6 @@ a:hover {
 }
 
 
-//-----ARTIFACTS LIST-----//
-
-
-.artifact-list{
-    font-size:0.75rem;
-    a {    
-        color: $font-base;        
-    }
-    p {
-        line-height:1.5;
-    }    
-}
-
-.artifact-image {
-    background-size: contain;
-    background-position: center center;
-    background-repeat: no-repeat;   
-    max-width:100%;
-}
-
-.artifact-sold-image {
-    position:absolute; 
-    left:0;
-}
-
-.page-link{ 
-    color: $dark-contrast;
-}
-
-.page-link:active {
-    box-shadow: 0 0 0 2px $light-base !important;    
-}
-
-.page-link:focus {
-    box-shadow: 0 0 0 2px $light-base !important;    
-}
-
-.page-item.active .page-link{
-    color: $light-contrast;
-    background-color: $dark-base;
-    border-color: $light-base;
-    
-}
 
 
 //-----DISPLAY ARTIFACT-----//
@@ -311,17 +318,8 @@ a:hover {
     }
 }
 
-    .bid-history-btn {
-        outline: none;
-        background: transparent;
-        border: none;
-        color: $light-base;
-        padding:0;
-    }
-
 .review-container {
     line-height:0;
-    
     .review-star  {
         color: $light-contrast;
     }
@@ -334,12 +332,14 @@ a:hover {
     font-size:0.8rem;
 }
 
+/*
 #history-collapse {
     a {
         color: $dark-base;
         cursor: pointer;
     }
 }
+*/
 
 //-----FOOTER-----//
 
