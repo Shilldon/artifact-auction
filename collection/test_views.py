@@ -4,9 +4,8 @@ from django.shortcuts import get_object_or_404, reverse
 from django.utils import timezone
 from datetime import timedelta
 
-from bids.models import Bid
 from artifacts.models import Artifact, Category
-from auctions.models import Auction
+from auctions.models import Auction, Bid
 from checkout.forms import OrderForm, MakePaymentForm
 
 class TestViews(TestCase):

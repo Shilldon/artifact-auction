@@ -5,8 +5,7 @@ from django.utils import timezone
 from datetime import timedelta
 
 from artifacts.models import Artifact, Category
-from auctions.models import Auction
-from bids.models import Bid
+from auctions.models import Auction, Bid
 
 class TestViews(TestCase):
 

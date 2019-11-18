@@ -1,3 +1,4 @@
+import stripe
 from django.shortcuts import render, get_object_or_404, reverse, redirect
 from django.utils import timezone
 from django.conf import settings
@@ -5,11 +6,9 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail
 from artifacts.models import Artifact
-from auctions.models import Auction
-from bids.models import Bid
+from auctions.models import Auction, Bid
 from .forms import MakePaymentForm, OrderForm
 from .models import PurchasedArtifact
-import stripe
 
 stripe.api_key = settings.STRIPE_SECRET
 

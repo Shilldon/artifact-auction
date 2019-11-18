@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Auction
+from .models import Auction, Bid
 from .forms import AuctionForm
 
 class AuctionAdmin(admin.ModelAdmin):
@@ -12,6 +12,7 @@ class AuctionAdmin(admin.ModelAdmin):
     
     form = AuctionForm
     fields = ('artifact', 'start_date', 'end_date')
-    
+  
 admin.site.register(Auction, AuctionAdmin)
+admin.site.register(Bid)
 

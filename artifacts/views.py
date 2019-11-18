@@ -5,11 +5,9 @@ from django.shortcuts import render, get_object_or_404
 from django.template.defaulttags import register
 from django.utils import timezone
 from .models import Artifact
-from auctions.models import Auction
-from auctions.views import get_bidder
-from bids.forms import BiddingForm
-from bids.views import check_bid
-from bids.models import Bid
+from auctions.models import Auction, Bid
+from auctions.views import get_bidder, check_bid
+from auctions.forms import BiddingForm
 from history.models import Event, Historical_Figure
 from reviews.models import Review
 from search.forms import SearchArtifactsForm

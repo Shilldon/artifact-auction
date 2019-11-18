@@ -3,8 +3,7 @@ from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from artifacts.models import Artifact
-from auctions.models import Auction
-from bids.models import Bid
+from auctions.models import Auction, Bid
 
 @login_required()
 def view_collection(request):

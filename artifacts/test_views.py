@@ -8,8 +8,7 @@ from django.contrib.auth.models import User
 
 
 from .models import Category, Artifact
-from auctions.models import Auction
-from bids.models import Bid
+from auctions.models import Auction, Bid
 from history.models import Historical_Figure, Event
 from reviews.models import Review
 

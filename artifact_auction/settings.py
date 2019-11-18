@@ -46,7 +46,6 @@ INSTALLED_APPS = [
     'accounts',
     'artifacts',
     'auctions',
-    'bids',
     'checkout',    
     'collection',
     'contact',

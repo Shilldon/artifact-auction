@@ -1,6 +1,11 @@
 from django import forms
-from .models import Auction
 from artifacts.models import Artifact
+from django import forms
+from .models import Auction, Bid
+
+""" Take a bid from the user """
+class BiddingForm(forms.Form):
+    amount_bid = forms.DecimalField(label="", max_digits=11, decimal_places=2, widget=forms.NumberInput(attrs={'placeholder': 'Amount Bid'}))
 
 class AuctionForm(forms.ModelForm):
     
