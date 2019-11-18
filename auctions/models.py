@@ -1,15 +1,13 @@
-from django.db import models
-from django.contrib.auth.models import User
-from django.db.models.signals import pre_delete
-from django.dispatch import receiver
-from django.db.models import Max
-from django.utils import timezone
-from django.core.mail import send_mail
 from decimal import Decimal
-from django.db import models
-#from datetime import datetime
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
+from django.core.mail import send_mail
+from django.db import models
+from django.db.models.signals import pre_delete
+from django.dispatch import receiver
+from django.utils import timezone
+#from datetime import datetime
+#from django.db.models import Max
 
 from artifacts.models import Artifact
 
@@ -54,8 +52,6 @@ class Auction(models.Model):
     def __str__(self):
         return self.artifact.name+" Auction"
 
-
-
 class Bid(models.Model):
     bid_amount = models.DecimalField(max_digits=11, decimal_places=2, default=0)
     bidder = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -67,8 +63,12 @@ class Bid(models.Model):
 
 @receiver(pre_delete, sender=Bid, dispatch_uid="bid_delete_signal")
 def update_buy_now(sender, instance, using, **kwargs):
-    """a check to, if the Bid has been deleted, make updates to the auction and
-    buy_now_price"""
+    """
+    If admin deletes a bid, check to see if that was the highest bid, if so
+    update the buy_now_price on the relevant artifact to reduce it to 20% 
+    above the next highest bid (if the auction is still live and current_bidder
+    bidding is over the reserve_price)
+    """
     
     auction = instance.auction
     try:
@@ -82,15 +82,19 @@ def update_buy_now(sender, instance, using, **kwargs):
                 
             elif len(bids)>1:
                 """otherwise find the next highest bid and set the buy_now_price 
-                relative to the next highest bid and email the next_highest_bidder
-                that they are back in the running"""
+                relative to the next highest bid and email the 
+                next_highest_bidder that they are back in the running"""
             
                 next_bid = bids.order_by('-bid_amount')[1].bid_amount
                 next_bidder = bids.order_by('-bid_amount')[1].bidder
                 artifact = auction.artifact
                 if artifact.sold==False:
-                    email_title = 'Artifact Auctions - Your bid on '+artifact.name
-                    email_message_bid = 'The highest bidder has withdrawn their bid. You are back in the running as the highest bidder on '+artifact.name+'.'
+                    email_title = 'Artifact Auctions - \
+                                  Your bid on '+artifact.name
+                    email_message_bid = 'The highest bidder has withdrawn \
+                                        their bid. You are back in the running\
+                                         as the highest bidder \
+                                        on '+artifact.name+'.'
                     send_mail(
                         email_title,
                         email_message_bid,
@@ -100,7 +104,8 @@ def update_buy_now(sender, instance, using, **kwargs):
                      
                     """update the buy_now_price, if appropriate"""
                     if next_bid>artifact.reserve_price:
-                        artifact.buy_now_price = Decimal(next_bid) * Decimal(1.2)
+                        artifact.buy_now_price = Decimal(next_bid) * \
+                                                 Decimal(1.2)
                         artifact.save()
     except:
         None

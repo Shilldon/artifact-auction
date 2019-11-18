@@ -1,6 +1,7 @@
 from decimal import Decimal
 from django.db import models
 from artifacts.models import Artifact
+
 class Order(models.Model):
     full_name = models.CharField(max_length=50, blank=False)
     phone_number = models.CharField(max_length=20, blank=False)
@@ -13,7 +14,9 @@ class Order(models.Model):
     date = models.DateField()
     
     def __str__(self):
-        return "{0}-{1}-{2}".format(self.id, self.date, self.full_name)
+        return "Order Number {0} on {1} for {2}".format(self.id, 
+                                                        self.date, 
+                                                        self.full_name)
         
 class PurchasedArtifact(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE, null=False)

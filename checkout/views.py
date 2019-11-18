@@ -1,20 +1,23 @@
 import stripe
-from django.shortcuts import render, get_object_or_404, reverse, redirect
-from django.utils import timezone
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail
-from artifacts.models import Artifact
-from auctions.models import Auction, Bid
+from django.shortcuts import render, get_object_or_404, reverse, redirect
+from django.utils import timezone
+
 from .forms import MakePaymentForm, OrderForm
 from .models import PurchasedArtifact
+from artifacts.models import Artifact
+from auctions.models import Auction, Bid
 
 stripe.api_key = settings.STRIPE_SECRET
 
 @login_required()
 def checkout(request):
-
+    """
+    Only render checkout if the user is logged in
+    """
     if request.method=="POST":
         order_form = OrderForm(request.POST)
         payment_form = MakePaymentForm(request.POST)
@@ -24,20 +27,34 @@ def checkout(request):
             order.save()
             
             basket = request.session.get('collection', {})
-            #a check list to add artifacts to which might have been purchased
-            #by another user before the current user got to the checkout.
+            """
+            Create a list to add artifacts to which might have been 
+            purchased by another user before the current user got to the 
+            checkout (through buy now option).
+            """
             artifacts_already_sold = []
-            #a list of artifacts the current user has successfully purchased
-            #to iterate in order to update the artifacts status.
+            """
+            Create a blank list of artifacts that the current user has 
+            successfully purchased to iterate through in order to update the 
+            artifacts sold status after clearing payment.
+            """
             artifacts_purchased = []
             
             total = 0
             an_artifact_was_sold = False
             for id, value in basket.items():
+                """
+                iterate through basket and check whether artifacts have been 
+                sold. If not total up the price and set the sale price
+                on the artifact model.
+                """
                 artifact = get_object_or_404(Artifact, pk=id)
                 if artifact.sold is not True:
                     total += value['price']
-                    artifacts_purchased.append({'artifact' : artifact, 'buy_now' :value['buy_now']})
+                    artifacts_purchased.append({
+                                                'artifact' : artifact, 
+                                                'buy_now' :value['buy_now']
+                                            })
                     artifact.purchase_price = value['price']
                     order_line_item = PurchasedArtifact(
                         order = order,
@@ -45,24 +62,35 @@ def checkout(request):
                         )
                     order_line_item.save()
                 else:
-                    #if the artifact has sold add it to the list of sold
-                    #artifacts
+                    """
+                    if an artifact has been sold already add it to the list of 
+                    sold artifacts
+                    """
                     an_artifact_was_sold = True
-                    messages.error(request, "Sorry "+artifact.name+" has been already been purchased by another user.")    
+                    messages.error(request, 
+                                   "Sorry "+artifact.name+\
+                                   " has been already been purchased by "
+                                   "another user.")    
                     artifacts_already_sold.append(id)
             
-            #iterate through the artifacts already sold to another user and
-            #remove them from this user's basket.
+            """
+            Iterate through the artifacts already sold to another user and
+            remove them from this user's basket.
+            """
             if len(artifacts_already_sold) > 0:
                 for id in artifacts_already_sold:
                     basket.pop(id, None)
                 request.session['collection'] = basket
             
-            #after removing sold artifacts check if there are any remaining and,
-            #if so, let the user know the purchase order has been updated
-            #else proceed with purchase
+            """
+            After removing sold artifacts check if there are any remaining and,
+            if so, let the user know the purchase order has been updated
+            else proceed with purchase
+            """
             if bool(basket) is False:
-                messages.error(request, "You have no artifacts in your collection to purchase")    
+                messages.error(request, 
+                               "You have no artifacts in your collection"
+                               "to purchase")    
             elif an_artifact_was_sold:
                 messages.error(request, "Your purchase order has been updated.")
             else:
@@ -86,16 +114,23 @@ def checkout(request):
                         auction = get_object_or_404(Auction, artifact=artifact)
                         if int(item['buy_now']) == 1:
                             """
-                            send email to the highest bidder to inform them
+                            Send email to the highest bidder to inform them
                             that the artifact has been purchased
                             """
                             bids = Bid.objects.filter(auction=auction)
                             try:
-                                bids = Bid.objects.filter(auction=auction).exclude(bidder=request.user)
+                                bids = Bid.objects\
+                                          .filter(auction=auction)\
+                                          .exclude(bidder=request.user)
                                 highest_bid = bids.order_by('-bid_amount')[0]
                                 bidder = highest_bid.bidder
                                 email_title = 'Artifact Auctions - Your Bid'
-                                email_message_sold = 'Thank you for your interest in '+artifact.name+'. Unfortunately another user has directly purchased this artifact.'
+                                email_message_sold = 'Thank you for your '\
+                                                     'interest in '+\
+                                                     artifact.name+\
+                                                     '. Unfortunately another '\
+                                                     'user has directly '\
+                                                     'purchased this artifact.'
                                 send_mail(
                                     email_title,
                                     email_message_sold,
@@ -104,9 +139,15 @@ def checkout(request):
                                     fail_silently=False,)  
                             except:
                                 None
+                        """
+                        Now the artifact has been purchased delete the auction
+                        instance
+                        """
                         auction.delete()
 
-                    """clear the user's basket"""
+                    """
+                    Clear the user's basket
+                    """
                     request.session['collection'] = {}
                     """
                     create a string of the artifacts purchased to email to
@@ -119,28 +160,43 @@ def checkout(request):
                         last_artifact = artifacts_purchased[-1]['artifact']
                         list_of_artifacts.append("and "+last_artifact.name)
                     else:
-                        list_of_artifacts.append(artifacts_purchased[0]['artifact'].name)
+                        list_of_artifacts.append(artifacts_purchased[0]\
+                                                 ['artifact'].name)
 
-                    email_artifacts_purchased = ' '.join(list_of_artifacts).lstrip()
+                    email_artifacts_purchased = ' '.join(list_of_artifacts)\
+                                                   .lstrip()
                     email_title = 'Artifact Auctions - Your purchase'
-                    email_message_purchase = 'Thank you for purchasing '+email_artifacts_purchased+'. Your purchase will be delivered to you in 3-4 working days.'
+                    email_message_purchase = 'Thank you for purchasing '+\
+                                             email_artifacts_purchased+\
+                                             '. Your purchase will be '\
+                                             'delivered to you in 3-4 working '\
+                                             'days.'
                     send_mail(
                         email_title,
                         email_message_purchase,
                         'admin@artifact-auction.com',
                         [artifact.owner.email],
                         fail_silently=False,)  
-                    messages.success(request, 'Thank you for purchasing '+email_artifacts_purchased+'.')
+                    messages.success(request, 
+                                     'Thank you for purchasing '+\
+                                     email_artifacts_purchased+'.')
                     return redirect(reverse('artifacts_list'))
                 else:
-                    messages.error(request, "We were unable to take payment with that card.")
+                    messages.error(request, 
+                                   "We were unable to take payment with that" 
+                                   " card.")
         else:
             messages.error(request, "Unable to take payment. Please try again.")
     else:
         payment_form = MakePaymentForm()
         order_form = OrderForm()
 
-    return render(request, "checkout.html", {'order_form' : order_form, 'payment_form' : payment_form, 'publishable': settings.STRIPE_PUBLISHABLE })
+    return render(request, 
+                  "checkout.html", 
+                  {
+                   'order_form' : order_form,
+                   'payment_form' : payment_form,
+                   'publishable': settings.STRIPE_PUBLISHABLE })
     
 
 def buy_all(request):
