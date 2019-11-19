@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import json, datetime
 from decimal import Decimal
 from django.contrib import messages

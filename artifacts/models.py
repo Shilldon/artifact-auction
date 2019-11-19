@@ -1,10 +1,6 @@
 from django.db import models
-#from datetime import datetime
 from django.utils import timezone
-#from django.contrib.postgres.fields import ArrayField
 from django.contrib.auth.models import User
-#from django.dispatch import receiver
-#from django.db.models.signals import post_delete, post_save
 from django.core.exceptions import ValidationError
 
 class Category(models.Model):

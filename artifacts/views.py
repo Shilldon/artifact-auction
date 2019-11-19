@@ -4,6 +4,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.template.defaulttags import register
 from django.utils import timezone
+
 from .models import Artifact
 from auctions.models import Auction, Bid
 from auctions.views import get_bidder, check_bid

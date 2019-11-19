@@ -2,7 +2,6 @@ from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.contrib import auth, messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-#from django.contrib.auth.forms import UserChangeForm
 from accounts.forms import (UserRegistrationForm, UserLoginForm, 
                             UserEditProfileForm, ProfileForm)
 """
