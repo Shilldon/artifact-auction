@@ -3,71 +3,74 @@
 
 {% block content %}
 
+<!-- Display profile -->
 <section>
-<div class="container mt-3 mb-5">
-    <div class="row justify-content-center ">
-        <div class="col-12 col-md-8 form-container py-3">
-        <div class="row container mx-auto ">
-            <div class="col-12 col-md-6 pb-2">
-                <div class="row justify-content-center">
-                    <div class="col-6 col-md-8 text-center my-auto">
-                        {% if user_profile.profile.profile_picture %}
-                        <img class="img-thumbnail mx-auto d-block" src="{{MEDIA_URL}}{{user_profile.profile.profile_picture}}" alt="User's Profile Picture">
-                        {% else %}
-                        <img class="img-thumbnail mx-auto d-block" src="/media/images/default_profile_picture.png" alt="User's Profile Picture">
-                        {% endif %}                
-                    </div>                    
-                </div>
-            </div>
-            <div class="col-12 col-md-6 styled-box">
-                <div class="row">
-                    <div class="col-12 text-left">
-                        <strong>Name </strong><span>{{ user_profile.first_name }} {{ user_profile.last_name }}</span>    
+    <div class="container mt-3 mb-5">
+        <div class="row justify-content-center ">
+            <div class="col-12 col-md-8 form-container py-3">
+            <div class="row container mx-auto ">
+                <div class="col-12 col-md-6 pb-2">
+                    <div class="row justify-content-center">
+                        <!--Show user profile picture or a placeholder, if none selected-->
+                        <div class="col-6 col-md-8 text-center my-auto">
+                            {% if user_profile.profile.profile_picture %}
+                            <img class="img-thumbnail mx-auto d-block" src="{{MEDIA_URL}}{{user_profile.profile.profile_picture}}" alt="User's Profile Picture">
+                            {% else %}
+                            <img class="img-thumbnail mx-auto d-block" src="/media/images/default_profile_picture.png" alt="User's Profile Picture">
+                            {% endif %}                
+                        </div>                    
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-12 text-left">
-                        <span><strong>Username </strong>{{ user_profile.username }}</span>
+                <div class="col-12 col-md-6 styled-box">
+                    <div class="row">
+                        <div class="col-12 text-left">
+                            <strong>Name </strong><span>{{ user_profile.first_name }} {{ user_profile.last_name }}</span>    
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 text-left">
+                            <span><strong>Username </strong>{{ user_profile.username }}</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 text-left">
+                            <span><strong>Email </strong>{{ user_profile.email }}</span>    
+                        </div>
+                    </div>  
+                    {% if request.user == user_profile and user_profile.profile.remain_anonymous %}
+                    <div class="row">
+                        <div class="col-12">
+                            <p>You have chosen to remain anonymous.</p>
+                            <p>Your user name will not be displayed on bids or artifact ownership.</p>
+                        </div>
+                    </div> 
+                    {% endif %}
+                </div>
+                {% if user_profile.profile.description %}
+                <div class="col-12  styled-box mt-1">
+                    <span><strong>About</strong></span>
+                    <div class="row">
+                        <div class="col-12">
+                            <p style="word-wrap: break-word"> {{ user_profile.profile.description }}</p>
+                        </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-12 text-left">
-                        <span><strong>Email </strong>{{ user_profile.email }}</span>    
-                    </div>
-                </div>  
-                {% if request.user == user_profile and user_profile.profile.remain_anonymous %}
-                <div class="row">
-                    <div class="col-12">
-                        <p>You have chosen to remain anonymous.</p>
-                        <p>Your user name will not be displayed on bids or artifact ownership.</p>
-                    </div>
-                </div> 
                 {% endif %}
             </div>
-            {% if user_profile.profile.description %}
-            <div class="col-12  styled-box mt-1">
-                <span><strong>About</strong></span>
-                <div class="row">
-                    <div class="col-12">
-                        <p style="word-wrap: break-word"> {{ user_profile.profile.description }}</p>
-                    </div>
+            <!--If this profile belongs to the user logged in give option to edit profile-->
+            {% if request.user == user_profile %}
+            <div class="row justify-content-around">
+                <div class="col-6 col-sm-3 text-center">
+                    <a class="btn btn-dark"href="{% url 'logout' %}">Logout</a>
                 </div>
+                <div class="col-6 col-sm-3 text-center">
+                    <a class="btn btn-primary" href="{% url 'edit_profile' %}">Edit</a>
+                </div>            
             </div>
             {% endif %}
-        </div>
-        {% if request.user == user_profile %}
-        <div class="row justify-content-around">
-            <div class="col-6 col-sm-3 text-center">
-                <a class="btn btn-dark"href="{% url 'logout' %}">Logout</a>
             </div>
-            <div class="col-6 col-sm-3 text-center">
-                <a class="btn btn-primary" href="{% url 'edit_profile' %}">Edit</a>
-            </div>            
         </div>
-        {% endif %}
-        </div>
-    </div>
-</div>    
+    </div>    
 </section>           
 
 {% endblock %}

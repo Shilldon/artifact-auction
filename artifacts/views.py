@@ -15,14 +15,12 @@ from search.views import search_artifacts
 
 from django.core.mail import send_mail
 
-# Create your views here.
-
 """ filter to return value from dictionary in template"""
 @register.filter
 def get_item(dictionary, key):
     return dictionary.get(key)
 
-""" Display list of all artifacts """
+""" A view to display list of all artifacts """
 def artifacts_list(request, index_search):
     """
     Create a list of artifacts to display on the page.
@@ -91,7 +89,7 @@ def artifacts_list(request, index_search):
                                               "results": results
                                             })
 
-""" Display a single artifact """
+""" A view to display a single artifact """
 def display_artifact(request, id):
     artifact = get_object_or_404(Artifact, pk=id)
     """

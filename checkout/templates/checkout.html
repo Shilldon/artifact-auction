@@ -1,6 +1,5 @@
 {% extends 'base.html' %} 
 {% load static from staticfiles %} 
-{% load bootstrap_tags %} 
 {% load widget_tweaks %}
 {% load humanize %}
 {% block head_js %}
@@ -12,8 +11,11 @@
     //]]>
 </script>
 <script src="{% static 'js/stripe.js' %}"></script>
-{% endblock %} {% block content %}
+{% endblock %} 
 
+{% block content %}
+
+<!--Display list of artifacts for purchase-->
 <section class="container mt-3">
     <div class="row">
         <div class="col-8 offset-2 text-center">
@@ -25,7 +27,9 @@
             <span>Price</span>
         </div>
     </div>
-    <hr> {% for item in purchase %}
+    <hr> 
+    <!--Display list of items to be purchased from all auctions won by user or single item selected to buy_now-->
+    {% for item in purchase %}
     <div class="row h-100 d-flex flex-wrap align-items-center ">
         <div class="col-2 mx-auto my-auto">
             {% if item.artifact.image %}
@@ -53,11 +57,13 @@
         </div>
     </div>
 
+    <!--specific error messages related to stripe validation - see stripe.js-->
     <div class="row pt-3">
         <div id="credit-card-errors" class="col-12" style="display:none">
             <div class="alert-message block-message error" id="stripe-error-message"></div>
         </div>
     </div>
+    <!--Success and error messages-->
     <div class="row pt-3">
         <div class="col-12">
             <ul class="list-unstyled">
@@ -70,12 +76,11 @@
             </div>
     </div> 
 </section>
-
 {% endblock %}
 
 {% block modal %}
-
 <!-- modals -->
+<!--Modal to handle payment and customer information-->
 <div class="modal fade" id="paymentModal" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-dialog-scrollable" style="overflow-x:hidden" role="document">
         <div class="modal-content">
@@ -189,6 +194,7 @@
                             </div>     
                         </div>                        
                     </div>
+                    <!--Stripe API KEY required for validation of payment-->
                     {{ payment_form.stripe_id }}
                     {% csrf_token %}
                     <div class="form-group col-md-12 pl-0 mt-2">

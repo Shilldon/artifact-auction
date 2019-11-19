@@ -1,68 +1,70 @@
 {% extends 'base.html' %}
 {% load widget_tweaks %}
-
 {% block content %}
-<div class="container mt-3 mb-5">
-    <div class="row">
-        <div class="col-10 offset-1 form-container">
-            <form method="POST">
-                {% csrf_token %}
-                <div class="container py-3">
-                    <div class="row">
-                        <div class="col-12">
-                            <h5>Enquiry</h5>
+<!--Contact form-->
+<section>
+    <div class="container mt-3 mb-5">
+        <div class="row">
+            <div class="col-10 offset-1 form-container">
+                <form method="POST">
+                    {% csrf_token %}
+                    <div class="container py-3">
+                        <div class="row">
+                            <div class="col-12">
+                                <h5>Enquiry</h5>
+                            </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12 col-sm-6">
-                            <label for="id_name">Name</label>
-                            <div class="styled-box pl-2">
-                                {% render_field contact_form.name %}    
-                            </div>     
-                        </div>
-                        <div class="col-12 col-sm-6">
-                            <label for="id_email_address">Email Address</label>
-                            <div class="styled-box pl-2">
-                                {% render_field contact_form.email_address %}    
-                            </div>     
-                        </div>
-                    </div>                      
-                    <div class="row">
-                        <div class="col-8">
-                            <label for="id_subject">Subject</label>
-                            <div class="styled-box pl-2">
-                                {% render_field contact_form.subject %}
+                        <div class="row">
+                            <div class="col-12 col-sm-6">
+                                <label for="id_name">Name</label>
+                                <div class="styled-box pl-2">
+                                    {% render_field contact_form.name %}    
+                                </div>     
+                            </div>
+                            <div class="col-12 col-sm-6">
+                                <label for="id_email_address">Email Address</label>
+                                <div class="styled-box pl-2">
+                                    {% render_field contact_form.email_address %}    
+                                </div>     
+                            </div>
+                        </div>                      
+                        <div class="row">
+                            <div class="col-8">
+                                <label for="id_subject">Subject</label>
+                                <div class="styled-box pl-2">
+                                    {% render_field contact_form.subject %}
+                                </div>
+                            </div>    
+                        </div>   
+                        <div class="row">
+                            <div class="col-12">
+                                <label for="id_enquiry">Enquiry</label>
+                                <div class="styled-box pl-2">
+                                    {% render_field contact_form.enquiry %}
+                                </div>
                             </div>
                         </div>    
-                    </div>   
-                    <div class="row">
-                        <div class="col-12">
-                            <label for="id_enquiry">Enquiry</label>
-                            <div class="styled-box pl-2">
-                                {% render_field contact_form.enquiry %}
+                        <div class="row">
+                            <div class="col-12 text-center">
+                                <button class="btn btn-primary" type="submit">Send</button>        
                             </div>
-                        </div>
-                    </div>    
-                    <div class="row">
-                        <div class="col-12 text-center">
-                            <button class="btn btn-primary" type="submit">Send</button>        
-                        </div>
-                    </div>                
-                </div>
-            </form>
+                        </div>                
+                    </div>
+                </form>
+            </div>
         </div>
+        <!--Display error/success messages-->
+        <div class="row pt-3">
+            <div class="col-12">
+                <ul class="list-unstyled">
+                {% if messages %}
+                    {% for message in messages %}
+                    <li class="alert {{ message.tags }}" >{{ message }}</li>
+                    {% endfor %}
+                {% endif %}  
+                </ul>
+            </div>
+        </div>  
     </div>
-    <div class="row pt-3">
-        <div class="col-12">
-            <ul class="list-unstyled">
-            {% if messages %}
-                {% for message in messages %}
-                <li class="alert {{ message.tags }}" >{{ message }}</li>
-                {% endfor %}
-            {% endif %}  
-            </ul>
-        </div>
-    </div>  
-    
-</div>
+</section>
 {% endblock %}

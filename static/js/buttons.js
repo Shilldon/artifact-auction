@@ -1,3 +1,4 @@
+//Animation for clicking on carets that show and hide collapsible displays
 $(".collapse-button").click(function() {
     var collapsible=$(this).attr("data-target")
     
@@ -14,13 +15,13 @@ $(".collapse-button").click(function() {
 
 })
 
+//Function to clear and reset search form
 $("#resetSearch").click(function() {
     $('#filterModal textarea').each(function() {
         $(this).text('');
     })
     $('#filterModal input[type="number"]').each(function() {
         $(this).attr("value", "");
-        console.log("clearing "+$(this).attr("id"))
     })    
     $('#filterModal input[type="checkbox"]').attr("checked", false);
     $('#filterModal input[name="category"]').each(function() {
@@ -31,6 +32,7 @@ $("#resetSearch").click(function() {
     });  
 })
 
+//Function to switch selection on clicking opposing options in search form
 $('.opposite-switch').change(function() {
     var checked = $(this).prop("checked"); 
     var thisId = $(this).attr("id")
@@ -40,6 +42,7 @@ $('.opposite-switch').change(function() {
     }    
 })
 
+//Bootstrap - tooltip display function
 $(function () {
   $('[data-toggle="tooltip"]').tooltip()
 })

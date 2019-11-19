@@ -1,18 +1,19 @@
 {% extends 'base.html' %} 
 {% load static from staticfiles %} 
 {% load artifact_auction_tags %}
-{% load bootstrap_tags %} 
-
 {% block content %}
 
+<!--Display details of historical event-->
 <section class="container artifact-single">
     <div class="row py-3">
         <div class="col-12 text-center">
             <h5>{{ event.name }}</h5>
         </div>
     </div> 
- 
-   <div class="row h-100 d-none d-lg-flex">
+    
+    <!--Note different layout for lg displays-->
+    <!--Large displays - show event image (if there is one) with text wrap around to right-->
+    <div class="row h-100 d-none d-lg-flex">
         <div class="col-lg-12 pull-right">
             <div class="col-6 pl-0">
                 {% if event.picture %}
@@ -26,6 +27,7 @@
         </div>
     </div>    
     
+    <!--Smaller displays - show event image (if there is one) above event information-->
     {% if event.picture %}
     <div class="row d-block d-lg-none">
         <div class="col-12">
@@ -39,7 +41,7 @@
     {% endif %}     
 </section>    
     
-    
+<!--Smaller displays only - show information about event-->    
 <section class="container d-block d-lg-none pt-3 mb-5">
     <div class="row my-3">
         <div class="col-12">
@@ -56,6 +58,8 @@
     </div>
 </section>
 
+<!--If there are other events associated with the particular artifact linked to this event
+Display links in this section below-->
 {% if other_events|length > 0 %}
 <section>
     <div class="container">
@@ -88,10 +92,8 @@
             <hr>
             {% endif %}
         {% endfor %}  
-        
     </div>
 </section>
-
 {% endif %}
 {% endblock %}
 

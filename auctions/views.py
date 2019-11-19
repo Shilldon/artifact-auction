@@ -8,11 +8,15 @@ from django.shortcuts import get_object_or_404
 from .models import Auction, Bid
 from artifacts.models import Artifact
 
+"""
+A view to return the name of the highest bidder in the auction.
+"""
 def get_bidder(request, auction):
 
     """
-    Return the name of the highest bidder in the auction. If the highest
-    bidder has chosen to remain anonymous return "Anonymous"
+    Find highest bidder from the bid objects associated with the particular 
+    auction. If the highest bidder has chosen to remain anonymous return
+    "Anonymous"
     """
     bidder_name = None
 
@@ -30,10 +34,12 @@ def get_bidder(request, auction):
 
     return bidder_name
 
-
+"""
+A view to check the bid posted by the user.
+"""
 def check_bid(request, bid_form, artifact):
     """
-    On posting bid take a bid from the user and check if higher than current bid 
+    Take a bid from the user and check if higher than current bid 
     """
 
     auction = get_object_or_404(Auction, artifact=artifact)
@@ -69,6 +75,9 @@ def check_bid(request, bid_form, artifact):
                            "Your offer needs to be higher than the current bid")
             return False
 
+"""
+A view to email the previous highest bidder
+"""
 def bid_email(request, artifact, new_bid):
     auction = get_object_or_404(Auction, artifact=artifact)
     email_title = 'Artifact Auctions - '+artifact.name
@@ -86,11 +95,15 @@ def bid_email(request, artifact, new_bid):
         'admin@artifact-auction.com',
         [current_bidder.email],
         fail_silently=False,)      
-        
+
+"""
+A view to get the highest bid and associated information on the particular
+artifact
+"""
 def get_bid(request):
     """
-    Return bid value and associated information on ajax query to display on
-    artifact list display artifact templates
+    This view returns value and associated information on ajax query to display 
+    on artifact list display artifact templates
     """
     if request.method == "GET":
         id = request.GET["artifact_id"]

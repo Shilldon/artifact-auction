@@ -1,3 +1,4 @@
+//Boiler plate code from stripe API
 $(function() {
     $("#payment-form").submit(function() {
         var form = this;

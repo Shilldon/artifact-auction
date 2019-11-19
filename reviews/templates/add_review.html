@@ -3,62 +3,66 @@
 {% load widget_tweaks %} 
 
 {% block head_js %}
+<!--script to change appearance of rating stars on hover and click-->
 <script defer src="{% static 'js/review.js' %}"></script>
 {% endblock %} 
 
 {% block content %}
 
+<!--Add review form-->
 <section>
-<form method="POST">
-<div class="container mt-3 mb-5">
-    <div class="row justify-content-center">
-        <div class="col-10 col-sm-6 form-container py-3">
-            {% csrf_token %}
-            <div class="row">
-                <div class="col-12">
-                    <h6>Review of {{ artifact.name }}</h6>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-12">
-                    <p>Rating</p>
-                </div>
-            </div>
-            <div class="col-12 review-container my-auto" >
-                <ul class="list-inline pt-1">
-                    {% for n in "12345" %}
-                    {% if forloop.counter <= review_form.rating.value %}
-                    <li class="list-inline-item"><span><i id="review-star-{{n}}" class="fas fa-star review-star"></i></span></li>
-                    {% else %}
-                    <li class="list-inline-item"><span><i id="review-star-{{n}}" class="far fa-star review-empty-star"></i></span></li>
-                    {% endif %}
-                    {% endfor %}
-                </ul>
-            </div>            
-            <div>{% render_field review_form.rating style="display:none" %}</div>
-            <div class="row">
-                <div class="col-12">
-                    <p>Review</p>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-10 offset-1 styled-box index--option">
-                    <div class="row h-100">
+    <form method="POST">
+        <div class="container mt-3 mb-5">
+            <div class="row justify-content-center">
+                <div class="col-10 col-sm-6 form-container py-3">
+                    {% csrf_token %}
+                    <div class="row">
                         <div class="col-12">
-                            {% render_field review_form.description style="outline: none; width:100%; height:300px; border: none" %}
+                            <h6>Review of {{ artifact.name }}</h6>
                         </div>
                     </div>
-                </div>
-            </div>  
-            <div class="row">
-                <div class="col-3">
-                    <button class="btn btn-primary" type="submit">Add</button>
-                </div>
-            </div> 
-        </div> 
-    </div>    
-</div>    
-</form>
+                    <div class="row">
+                        <div class="col-12">
+                            <p>Rating</p>
+                        </div>
+                    </div>
+                    <div class="col-12 review-container my-auto" >
+                        <!--Display 5 stars and change to gold depending on value of rating given by user-->
+                        <ul class="list-inline pt-1">
+                            {% for n in "12345" %}
+                            {% if forloop.counter <= review_form.rating.value %}
+                            <li class="list-inline-item"><span><i id="review-star-{{n}}" class="fas fa-star review-star"></i></span></li>
+                            {% else %}
+                            <li class="list-inline-item"><span><i id="review-star-{{n}}" class="far fa-star review-empty-star"></i></span></li>
+                            {% endif %}
+                            {% endfor %}
+                        </ul>
+                    </div>            
+                    <!--Hidden div to hold the value of the rating given by the user-->
+                    <div>{% render_field review_form.rating style="display:none" %}</div>
+                    <div class="row">
+                        <div class="col-12">
+                            <p>Review</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-10 offset-1 styled-box index--option">
+                            <div class="row h-100">
+                                <div class="col-12">
+                                    {% render_field review_form.description style="outline: none; width:100%; height:300px; border: none" %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>  
+                    <div class="row">
+                        <div class="col-3">
+                            <button class="btn btn-primary" type="submit">Add</button>
+                        </div>
+                    </div> 
+                </div> 
+            </div>    
+        </div>    
+    </form>
 </section>
 
 

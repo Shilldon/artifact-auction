@@ -26,7 +26,8 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-
+    
+    <!--Script to handle operation of buttons (collapse and option switching)-->
     <script defer src="{% static 'js/buttons.js' %}"></script>
 
     {% block head_js %} 
@@ -38,6 +39,7 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-light py-lg-4">
         <a class="navbar-brand" href="{% url 'index' %}">Jones & Son<span><br>&#10016 Artifact Auctioneers</span></a>
         <button class="ml-auto mr-1 d-block d-lg-none">
+            <!--Display a view profile button if the user is logged in, else display log in icon-->
             {% if user.is_authenticated %}
             <a href="{% url 'view_profile' id=user.id %}"><span ><i class="fa fa-user" aria-hidden="true"></i></span></a>    
             {% else %}
@@ -56,25 +58,23 @@
                     <a href="{% url 'index' %}"><span>Home</span></a>
                 </li>    
                 {% if user.is_superuser %}
+                <!--Display options for site admin - hidden for all other users-->
                 <li class="nav-item mx-3 my-auto text-center text-wrap">
                     <a href="{% url 'admin:index' %}"><span>Admin panel</span></a>
                 </li>
                 <li class="nav-item mx-3 my-auto text-center text-wrap">
                     <a href="#" data-toggle="modal" data-target="#adminHelpModal"><span>Admin Help</span></a>
                 </li>                
-                {% endif %}                 
+                {% endif %}   
+                <!--List of artifacts is available to view for all users-->
                 <li class="nav-item mx-3 text-center text-wrap">
                     <a href="{% url 'artifacts_list' %}"><span>View Artifacts</span></a>
                 </li>
+                <!--If user is logged in display option to view their personal collection, profile and logout-->
                 {% if user.is_authenticated %}
                 <li class="nav-item mx-3 my-auto text-center text-wrap">
                     <a href="{% url 'view_collection' %}"><span>View Collection</span></a>
                 </li>
-                {% if purchase|length > 0 %}
-                <li class="nav-item mx-3 my-auto text-center text-wrap">
-                    <a href="{% url 'checkout' %}"><span>Checkout</span></a>
-                </li>           
-                {% endif %}
                 <li class="nav-item mx-3 my-auto text-center text-wrap">
                     <a href="{% url 'view_profile' id=user.id %}"><span>Profile</span></a>
                 </li>
@@ -82,6 +82,7 @@
                     <a href="{% url 'logout' %}"><span>Logout</span></a>
                 </li>
                 {% else %}
+                <!--If not logged in display options to register or login-->
                 <li class="nav-item mx-3 my-auto text-center text-wrap">
                     <a href="{% url 'register' %}"><span>Register</span></a>
                 </li>
@@ -97,6 +98,7 @@
     
     {% endblock %}
     
+    <!--Display 'back' button on all pages except index-->
     <section>
         <div class="container pt-3 mb-5">
         {% if request.path != "/" %}
@@ -122,9 +124,6 @@
                             <a href="{% url 'contact' %}"><p class="my-3">Contact</p></a>
                         </li>
                         <li>
-                            <a href="#!"><p class="my-3">About</p></a>
-                        </li>
-                        <li>
                             <a href="#" data-toggle="modal" data-target="#termsModal"><p class="my-3">Terms</p></a>
                         </li>                        
                     </ul>
@@ -136,243 +135,241 @@
         </div>
     </footer>
 
-<!-- modals -->
-<div class="modal fade" id="modalMenu" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-full" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body p-4">
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a href="{% url 'index' %}"><span>Home</span></a>
-                    </li>    
-                    {% if user.is_superuser %}
-                    <li class="nav-item">
-                        <a href="{% url 'admin:index' %}"><span>Admin panel</span></a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" data-toggle="modal" data-target="#adminHelpModal">Admin Help</a>
-                    </li>
-                    {% endif %}                 
-                    <li class="nav-item">
-                        <a href="{% url 'artifacts_list' %}"><span>View Artifacts</span></a>
-                    </li>
-                    {% if user.is_authenticated %}
-                    <li class="nav-item">
-                        <a href="{% url 'view_collection' %}"><span>View Collection</span></a>
-                    </li>
-                    {% if purchase|length > 0 %}
-                    <li class="nav-item">
-                        <a href="{% url 'checkout' %}"><span>Checkout</span></a>
-                    </li>           
-                    {% endif %}
-                    <li class="nav-item">
-                        <a href="{% url 'view_profile' id=user.id %}"><span>Profile</span></a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{% url 'logout' %}"><span>Logout</span></a>
-                    </li>
-                    {% else %}
-                    <li class="nav-item">
-                        <a href="{% url 'register' %}"><span>Register</span></a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{% url 'login' %}"><span>Log In</span></a>
-                    </li>
-                    {% endif %}
-                </ul>
+    <!-- modals -->
+    <!--Modal menu for displays of SM and below-->
+    <div class="modal fade" id="modalMenu" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-full" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body p-4">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a href="{% url 'index' %}"><span>Home</span></a>
+                        </li>    
+                        {% if user.is_superuser %}
+                        <li class="nav-item">
+                            <a href="{% url 'admin:index' %}"><span>Admin panel</span></a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" data-toggle="modal" data-target="#adminHelpModal">Admin Help</a>
+                        </li>
+                        {% endif %}                 
+                        <li class="nav-item">
+                            <a href="{% url 'artifacts_list' %}"><span>View Artifacts</span></a>
+                        </li>
+                        {% if user.is_authenticated %}
+                        <li class="nav-item">
+                            <a href="{% url 'view_collection' %}"><span>View Collection</span></a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{% url 'view_profile' id=user.id %}"><span>Profile</span></a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{% url 'logout' %}"><span>Logout</span></a>
+                        </li>
+                        {% else %}
+                        <li class="nav-item">
+                            <a href="{% url 'register' %}"><span>Register</span></a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{% url 'login' %}"><span>Log In</span></a>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </div>
             </div>
         </div>
     </div>
-</div>
-
-<div class="modal fade" id="adminHelpModal" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-full" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5>Help and Information</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
+    
+    <!--Modal displayed for site admin with information about adding artifacts, auctions and using the admin panel-->
+    <div class="modal fade" id="adminHelpModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-full" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5>Help and Information</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body p-4">
+                    <h4>Welcome to Jones & Son Artifact Auctions</h5>
+                    <h5>Adding Artifacts</h6>
+                    <p>You can add new artifacts to the site through the admin panel.</p>
+                    <p>When adding a new artifact you must specify:</p>
+                    <p>1 - The name of the artifact</p>
+                    <p>2 - The type of artifact</p>
+                    <p>3 - A category for the artifact</p>
+                    <p>4 - A description of the artifact</p>
+                    <p>5 - Buy now price</p>
+                    <p>In addition to these required fields you may add optional fields including
+                    a picture of the artifact and whether the artifact has been sold and, if so, to whom 
+                    (which user of the site).</p>
+                    <p>The 'sold' and 'owner' fields are updated automatically on a user purchasing an artifact and, therefore, it 
+                    is advised these fields are not changed unless an error occurs or a separate agreement 
+                    is reached outside of the auction.</p>
+                    <p>If an artifact is marked as sold you must provide the username of the owner and
+                    vice versa if an owner is specified the artifact must be marked as sold.</p>
+                    <p>Finally you may also set a reserve price for the artifact (see below).</p>
+                    <h6>Artifact Types</h6>
+                    <p>Each artifact must be assigned to one of four types</p>
+                    <p>1 - Cultural: Historic and cultural items such as a historic relic or work of art.</p>
+                    <p>2 - Media: Media such as film, photographs or digital files that are valued for their creative
+                    or information content.</p>
+                    <p>3 - Knowledge: Information created by people such as strategies, plans, designs, reports, 
+                    models, research, theories and ideas.</p>
+                    <p>4 - Data: Data that documents human efforts such as source code that was written by a programmer.</p>
+                    <h6>Categories</h6>
+                    <p>Each artifact must be given a category. This briefly describes what the artifact is,
+                    such as 'clothing' or a sculpture.</p>
+                    <p>You can create categories through the admin panel. In doing so you must provide a name
+                    and brief description of the category.</p>
+                    <h6>Buy now and reserve price</h6>
+                    <p>You can choose to specify a price at which users can purchase an artifact immediately.
+                    If you do so, once an auction is live, a user may purchase the artifact immediately for 
+                    the 'buy now price' specified. If bids are placed on the artifact that exceed the stated
+                    'buy now price' the price will automatically be updated to 20% more than the highest bid.</p>
+                    <p>If you specify a reserve price then the artifact will not be released for sale until bidding
+                    exceeds the reserve price. This does not affect the 'buy now price' and, for that reason,
+                    if a reserve price is given the stated 'buy now price' must exceed the reseve.</p>
+                    <p>Users will not be informed of the reserve price as this would affect bidding. They will, however
+                    be notified if the artifact has a reserve placed on it.</p>
+                    <h5>History</h5>
+                    <h6>Adding historical events</h6>
+                    <p>If you choose you can add historical events associated with an artifact.</p>
+                    <p>To add an event you must specify:</p>
+                    <p>1 - The name of the event</p>
+                    <p>2 - A description of the event</p>
+                    <p>3 - The year the event took place</p>
+                    <p>4 - BC/AD in relation to the year</p>
+                    <p>You may also specify the day and month of the event and an historical figure
+                    associated with the event.</p>
+                    <p>Finally you may also upload a picture of the event.</p>
+                    <p>Please note if the full name of the artifact and/or historical figure is provided in the
+                    description a link will be created to the artifact and/or historical figure when the event 
+                    is viewed.</p>
+                    <h6>Adding historical figures</h6>
+                    <p>In the same manner as historical events you may also add historical figures to the site.
+                    To do so you must specify:</p>
+                    <p>1 - the artifact they possessed</p>
+                    <p>2 - the name of the historical figure</p>
+                    <p>3 - a description</p>
+                    <p>You may also choose to upload a picture of them.</p>
+                    <p>Historical events and figures will be listed below the artifact on the display.</p>
+                    <h5>Auctions</h5>
+                    <h6>Adding an auction</h6>
+                    <p>Auctions may be added for any artifact that has not been sold or is currently in an auction.
+                    To add an auction you must specify the artifact being auctioned, and the start and end times of the auction.</p>
+                    <p>The auction may be set to start in the future but not, of course, in the past.</p>
+                    <p>Although the start and end dates of the auction may be amended while the auction is live
+                    this is not advised as it will have ramifications for users bidding in the auction.</p>
+                    <p>Once a user has purchased the artifact the auction will be deleted and the artifact's status
+                    set to 'sold'. If a user has won an artifact the auction will still be considered 'live'
+                    until the user completes their purchase. You may wish to periodically review finished
+                    'live' auctions and chase users who have not made payment.</p>
+                    <h6>Bids</h6>
+                    <p>You may view, amend and delete users' bids through the admin panel. This function
+                    is provided to assist if disagreements occur or a user contacts you to let you know
+                    they made a mistake in making a bid.</p>
+                    <p>If the highest bid is deleted then, if appropriate, the buy now price will also
+                    be updated.</p>
+                    <h5>Reviews</h5>
+                    <p>You can access all reviews uploaded by users who have purchased artifacts.
+                    You may edit reviews and the ratings given but this function is only intended
+                    to enable you to police reviews provided to remove, for example profanity.</p>
+                    <h5>Checkout</h5>
+                    <p>In the checkout section of the admin panel you can review all purchase orders
+                    for artifacts purchased from the site.</p>
+                    <h5>Users</h5>
+                    <p>Finally you can edit users, their permissions and profiles through the admin
+                    panel.</p>
+                </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-dark" data-dismiss="modal">Close</button>
+                  </div>            
             </div>
-            <div class="modal-body p-4">
-                <h4>Welcome to Jones & Son Artifact Auctions</h5>
-                <h5>Adding Artifacts</h6>
-                <p>You can add new artifacts to the site through the admin panel.</p>
-                <p>When adding a new artifact you must specify:</p>
-                <p>1 - The name of the artifact</p>
-                <p>2 - The type of artifact</p>
-                <p>3 - A category for the artifact</p>
-                <p>4 - A description of the artifact</p>
-                <p>5 - Buy now price</p>
-                <p>In addition to these required fields you may add optional fields including
-                a picture of the artifact and whether the artifact has been sold and, if so, to whom 
-                (which user of the site).</p>
-                <p>The 'sold' and 'owner' fields are updated automatically on a user purchasing an artifact and, therefore, it 
-                is advised these fields are not changed unless an error occurs or a separate agreement 
-                is reached outside of the auction.</p>
-                <p>If an artifact is marked as sold you must provide the username of the owner and
-                vice versa if an owner is specified the artifact must be marked as sold.</p>
-                <p>Finally you may also set a reserve price for the artifact (see below).</p>
-                <h6>Artifact Types</h6>
-                <p>Each artifact must be assigned to one of four types</p>
-                <p>1 - Cultural: Historic and cultural items such as a historic relic or work of art.</p>
-                <p>2 - Media: Media such as film, photographs or digital files that are valued for their creative
-                or information content.</p>
-                <p>3 - Knowledge: Information created by people such as strategies, plans, designs, reports, 
-                models, research, theories and ideas.</p>
-                <p>4 - Data: Data that documents human efforts such as source code that was written by a programmer.</p>
-                <h6>Categories</h6>
-                <p>Each artifact must be given a category. This briefly describes what the artifact is,
-                such as 'clothing' or a sculpture.</p>
-                <p>You can create categories through the admin panel. In doing so you must provide a name
-                and brief description of the category.</p>
-                <h6>Buy now and reserve price</h6>
-                <p>You can choose to specify a price at which users can purchase an artifact immediately.
-                If you do so, once an auction is live, a user may purchase the artifact immediately for 
-                the 'buy now price' specified. If bids are placed on the artifact that exceed the stated
-                'buy now price' the price will automatically be updated to 20% more than the highest bid.</p>
-                <p>If you specify a reserve price then the artifact will not be released for sale until bidding
-                exceeds the reserve price. This does not affect the 'buy now price' and, for that reason,
-                if a reserve price is given the stated 'buy now price' must exceed the reseve.</p>
-                <p>Users will not be informed of the reserve price as this would affect bidding. They will, however
-                be notified if the artifact has a reserve placed on it.</p>
-                <h5>History</h5>
-                <h6>Adding historical events</h6>
-                <p>If you choose you can add historical events associated with an artifact.</p>
-                <p>To add an event you must specify:</p>
-                <p>1 - The name of the event</p>
-                <p>2 - A description of the event</p>
-                <p>3 - The year the event took place</p>
-                <p>4 - BC/AD in relation to the year</p>
-                <p>You may also specify the day and month of the event and an historical figure
-                associated with the event.</p>
-                <p>Finally you may also upload a picture of the event.</p>
-                <p>Please note if the full name of the artifact and/or historical figure is provided in the
-                description a link will be created to the artifact and/or historical figure when the event 
-                is viewed.</p>
-                <h6>Adding historical figures</h6>
-                <p>In the same manner as historical events you may also add historical figures to the site.
-                To do so you must specify:</p>
-                <p>1 - the artifact they possessed</p>
-                <p>2 - the name of the historical figure</p>
-                <p>3 - a description</p>
-                <p>You may also choose to upload a picture of them.</p>
-                <p>Historical events and figures will be listed below the artifact on the display.</p>
-                <h5>Auctions</h5>
-                <h6>Adding an auction</h6>
-                <p>Auctions may be added for any artifact that has not been sold or is currently in an auction.
-                To add an auction you must specify the artifact being auctioned, and the start and end times of the auction.</p>
-                <p>The auction may be set to start in the future but not, of course, in the past.</p>
-                <p>Although the start and end dates of the auction may be amended while the auction is live
-                this is not advised as it will have ramifications for users bidding in the auction.</p>
-                <p>Once a user has purchased the artifact the auction will be deleted and the artifact's status
-                set to 'sold'. If a user has won an artifact the auction will still be considered 'live'
-                until the user completes their purchase. You may wish to periodically review finished
-                'live' auctions and chase users who have not made payment.</p>
-                <h6>Bids</h6>
-                <p>You may view, amend and delete users' bids through the admin panel. This function
-                is provided to assist if disagreements occur or a user contacts you to let you know
-                they made a mistake in making a bid.</p>
-                <p>If the highest bid is deleted then, if appropriate, the buy now price will also
-                be updated.</p>
-                <h5>Reviews</h5>
-                <p>You can access all reviews uploaded by users who have purchased artifacts.
-                You may edit reviews and the ratings given but this function is only intended
-                to enable you to police reviews provided to remove, for example profanity.</p>
-                <h5>Checkout</h5>
-                <p>In the checkout section of the admin panel you can review all purchase orders
-                for artifacts purchased from the site.</p>
-                <h5>Users</h5>
-                <p>Finally you can edit users, their permissions and profiles through the admin
-                panel.</p>
-            </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-dark" data-dismiss="modal">Close</button>
-              </div>            
         </div>
     </div>
-</div>
-
-<div class="modal fade" id="termsModal" tabindex="-1" role="dialog">
-    <div class="modal-dialog mw-100 w-75" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5>Terms and Information</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
+    
+    <!--Modal for all users displaying the terms for bidding in auctions and purchasing artifacts-->
+    <div class="modal fade" id="termsModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog mw-100 w-75" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5>Terms and Information</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body p-4">
+                    <h4>Welcome to Jones & Son Artifact Auctions</h5>
+                    <h5>Creating an account</h6>
+                    <p>While you can browse and view the artifacts in the Jones' collection you
+                    will not be able to place bids or purchase artifacts until you create an account.</p>
+                    <p>You can create an account through the 'register' link in the menu bar.</p>
+                    <p>To create an account you must provide a username and your email. Please note that
+                    Jones & Son will use your email to update you about the status of your bids and
+                    upcoming auctions, so please provide a valid email address.</p>
+                    <p>Your user name and a link to your profile will be displayed on bids that you
+                    place or artifacts that you own. If you do not want other users to know what bids
+                    you have placed or what artifacts you have won you can select 'remain anonymous'.
+                    Artifacts you own and bids you place will still be displayed on the site but marked
+                    as 'anonymous'.</p>
+                    <h5>Collection</h5>
+                    <p>If you win or purchase artifacts through auctions these will be displayed in 
+                    your collection link. Any artifacts that you win but have not paid for can be viewed
+                    in the collection and you will find a link to pay for them.</p>
+                    <h5>Auctions</h5>
+                    <p>Auctions are displayed on the home page and against artifacts in the 'view artifacts'
+                    section. You will find details of live and upcoming auctions. Selecting an artifact in a
+                    live auction will display information about that artifact, the status of the auction and
+                    the bidding history, if any.</p>
+                    <p>To place a bid simply enter the amount you wish to bid and select 'place bid'.</p>
+                    <p>If you are particularly keen on purchasing an artifact then you can do so immediately 
+                    with the 'buy now' option.</p>
+                    <p>Purchasing an artifact through the 'buy now' option will terminate the auction and 
+                    payment must be made immediately.</p>
+                    <p>Please note the auction will not be terminated and the purchase registered to your account
+                    until the payment is complete. It is possible, therefore, that another user, also choosing 
+                    to purchase the artifact immediately may complete their purchase before you. Due to the 
+                    unique nature of the artifacts auctioned it is not possible to offer a replacement if your 
+                    payment is not processed first.</p>
+                    <h5>Bids</h5>
+                    <p>Placing a bid on an artifact creates a legally binding promise by you to purchase the artifact
+                    for the amount bid if you are successful in winning the auction.</p>
+                    <p>Payment terms for artifacts won are 24 hours from the date of the end of the auction. If
+                    you do not make payment within this time period we may take legal action to recover payment or
+                    refuse to sell the artifact to you.</p>
+                    <p>In rare cases bids may be withdrawn. If you place a bid in error please contacts us at
+                    artifactauctions@gmail.com setting out the reasons that you wish to withdraw your bid. Your
+                    request will be reviewed and you will be notified if your bid can be withdrawn. Due to the 
+                    nature of these auctions we will only allow bids to be withdrawn in exceptional cases.</p>
+                    <p>If you are outbid on an artifact or another user exercises the 'buy now' option you
+                    will be notified by email.</p>
+                    <h5>Reserves</h5>
+                    <p>In certain cases a reserve may be placed on an artifact. If an artifact is subject to a reserve
+                    this will be specified in the information about the artifact. If, at the end of the auction, the bids
+                    do not exceed the reserve price the artifact will not be released for sale. This does not affect the 'buy now' 
+                    option for such artifacts.</p>
+                    <h5>Artifact Information</h5>
+                    <p>As well as purchase and bidding in auctions you will find a trove of information about the artifacts
+                    in the Jones' collection. Each artifact contains information about the events associated with it and
+                    notable historical figures.</p>
+                    <p>Feel free to browse and learn more about the amazing artifacts in this unique and extensive collection.</p>
+              </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-dark" data-dismiss="modal">Close</button>
+                  </div>            
             </div>
-            <div class="modal-body p-4">
-                <h4>Welcome to Jones & Son Artifact Auctions</h5>
-                <h5>Creating an account</h6>
-                <p>While you can browse and view the artifacts in the Jones' collection you
-                will not be able to place bids or purchase artifacts until you create an account.</p>
-                <p>You can create an account through the 'register' link in the menu bar.</p>
-                <p>To create an account you must provide a username and your email. Please note that
-                Jones & Son will use your email to update you about the status of your bids and
-                upcoming auctions, so please provide a valid email address.</p>
-                <p>Your user name and a link to your profile will be displayed on bids that you
-                place or artifacts that you own. If you do not want other users to know what bids
-                you have placed or what artifacts you have won you can select 'remain anonymous'.
-                Artifacts you own and bids you place will still be displayed on the site but marked
-                as 'anonymous'.</p>
-                <h5>Collection</h5>
-                <p>If you win or purchase artifacts through auctions these will be displayed in 
-                your collection link. Any artifacts that you win but have not paid for can be viewed
-                in the collection and you will find a link to pay for them.</p>
-                <h5>Auctions</h5>
-                <p>Auctions are displayed on the home page and against artifacts in the 'view artifacts'
-                section. You will find details of live and upcoming auctions. Selecting an artifact in a
-                live auction will display information about that artifact, the status of the auction and
-                the bidding history, if any.</p>
-                <p>To place a bid simply enter the amount you wish to bid and select 'place bid'.</p>
-                <p>If you are particularly keen on purchasing an artifact then you can do so immediately 
-                with the 'buy now' option.</p>
-                <p>Purchasing an artifact through the 'buy now' option will terminate the auction and 
-                payment must be made immediately.</p>
-                <p>Please note the auction will not be terminated and the purchase registered to your account
-                until the payment is complete. It is possible, therefore, that another user, also choosing 
-                to purchase the artifact immediately may complete their purchase before you. Due to the 
-                unique nature of the artifacts auctioned it is not possible to offer a replacement if your 
-                payment is not processed first.</p>
-                <h5>Bids</h5>
-                <p>Placing a bid on an artifact creates a legally binding promise by you to purchase the artifact
-                for the amount bid if you are successful in winning the auction.</p>
-                <p>Payment terms for artifacts won are 24 hours from the date of the end of the auction. If
-                you do not make payment within this time period we may take legal action to recover payment or
-                refuse to sell the artifact to you.</p>
-                <p>In rare cases bids may be withdrawn. If you place a bid in error please contacts us at
-                artifactauctions@gmail.com setting out the reasons that you wish to withdraw your bid. Your
-                request will be reviewed and you will be notified if your bid can be withdrawn. Due to the 
-                nature of these auctions we will only allow bids to be withdrawn in exceptional cases.</p>
-                <p>If you are outbid on an artifact or another user exercises the 'buy now' option you
-                will be notified by email.</p>
-                <h5>Reserves</h5>
-                <p>In certain cases a reserve may be placed on an artifact. If an artifact is subject to a reserve
-                this will be specified in the information about the artifact. If, at the end of the auction, the bids
-                do not exceed the reserve price the artifact will not be released for sale. This does not affect the 'buy now' 
-                option for such artifacts.</p>
-                <h5>Artifact Information</h5>
-                <p>As well as purchase and bidding in auctions you will find a trove of information about the artifacts
-                in the Jones' collection. Each artifact contains information about the events associated with it and
-                notable historical figures.</p>
-                <p>Feel free to browse and learn more about the amazing artifacts in this unique and extensive collection.</p>
-          </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-dark" data-dismiss="modal">Close</button>
-              </div>            
         </div>
     </div>
-</div>
-
-
-{% block modal %} 
-{% endblock %}
+    
+    <!--Template block for modals specific to individual pages-->
+    {% block modal %} 
+    {% endblock %}
 
 </body>
 </html>

@@ -1,13 +1,14 @@
 {% extends 'base.html' %} 
 {% load widget_tweaks %} 
-{% load bootstrap_tags %} 
-
 {% load static from staticfiles %}
 {% block head_js %}
+<!--Script to handle changing and clearing profile picture and anonymous status-->
 <script defer src="{% static 'js/profile.js' %}"></script>
 {% endblock %}
 
 {% block content %}
+<!--Registration form-->
+<section>
 <div class="container mt-3 mb-5">
     <div class="row">
         <div class="col-10 offset-1 form-container">
@@ -39,6 +40,7 @@
                             <div class="styled-box pl-2">
                                 {% render_field registration_form.username tabindex="3" %}
                             </div>
+                            <!--Display error messages if username is already taken-->
                             <div>
                                {% render_field registration_form.errors.username %}     
                             </div>  
@@ -48,6 +50,7 @@
                             <div class="styled-box pl-2">
                             {% render_field registration_form.email tabindex="4" %}
                             </div>
+                            <!--Display error message if email address is already registered-->
                             <div>
                                {% render_field registration_form.errors.email %}     
                             </div>                           
@@ -93,14 +96,15 @@
                     </div>
                     <div class="row">
                         <div class="col-12 text-left">
+                            <!--Text below is inserted by profile.js depending on whether user has chosen profile picture to upload-->
                             <p id="profile-picture-selected"></p>
                             <div class="row">
-                            <div class="col-2">
-                                <input type="checkbox" style="display:none" name="profile--clear-image-selection" id="id_profile--clear-image-selection">
-                            </div>
-                            <div class="col-8 pl-0 text-left" id="id_profile--clear-image-selection-label" style="display:none">
-                                <p>Remove file</p>
-                            </div>
+                                <div class="col-2">
+                                    <input type="checkbox" style="display:none" name="profile--clear-image-selection" id="id_profile--clear-image-selection">
+                                </div>
+                                <div class="col-8 pl-0 text-left" id="id_profile--clear-image-selection-label" style="display:none">
+                                    <p>Remove file</p>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -132,7 +136,9 @@
         </div>
     </div>
 </div>
+</section>
 
+<!--success and error messages-->
 <section class="container">
     <div class="row pt-3">
         <div class="col-12">

@@ -1,6 +1,9 @@
 import calendar
 from django import forms
 
+"""
+A form to reformat Month and Day field choices for the Event model
+"""
 class EventForm(forms.ModelForm):
     
     MONTH_CHOICES = [(str(i), calendar.month_name[i]) for i in range (0,13)]

@@ -49,7 +49,8 @@ class UserRegistrationForm(UserCreationForm):
         if not email:
             raise forms.ValidationError(u'Please enter an email address')
         if User.objects.exclude(pk=self.instance.pk).filter(email=email):
-            raise forms.ValidationError(u'That email address is already registered')
+            raise forms.ValidationError(u'That email address is already '
+                                         'registered')
     
         return email
 
@@ -84,7 +85,6 @@ class UserRegistrationForm(UserCreationForm):
 class ProfileForm(forms.ModelForm):
     """Extended user model allows users to enter a bio, profile picure and
     option to remain anonymous"""
-    
     class Meta:
         model = Profile
         fields = ('description', 'remain_anonymous', 'profile_picture')
@@ -109,7 +109,8 @@ class UserEditProfileForm(UserChangeForm):
         if not email:
             raise forms.ValidationError(u'Please enter an email address')
         if User.objects.exclude(pk=self.instance.pk).filter(email=email):
-            raise forms.ValidationError(u'That email address is already registered')
+            raise forms.ValidationError(u'That email address is already '
+                                         'registered')
     
         return email
 

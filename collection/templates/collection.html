@@ -1,8 +1,8 @@
 {% extends 'base.html' %}
 
-
 {% block content %}
-
+<!--Success and error messages - displayed at top, contrary to other pages, since list of owned artifacts may 
+push content beyond display height-->
 <section class="container">
     <div class="row pt-3">
         <div class="col-12">
@@ -17,6 +17,7 @@
     </div>     
 </section>
 
+<!--Display list of artifact won but not yet paid for by user-->
 {% if artifacts_won|length > 0 %}
 <section class="container">
     <div class="row mt-3 justify-content-center" >
@@ -26,6 +27,7 @@
     </div>
     {% for id, item in artifacts_won.items %}
     <a href="{% url 'display_artifact' id=item.artifact.id %}">  
+        <!--Show artifact image, or placeholder if none-->
         <div class="row justify-content-around d-flex flex-wrap align-items-center mt-3 mx-1">
             {% if item.artifact.image %}
             <div class="col-4 col-sm-2 d-inline-block artifact-image text-center">
@@ -44,6 +46,8 @@
     </a>    
     <hr>    
     {% endfor %}
+    
+    <!--Display total purchase price of all artifacts won-->
     <div class="row" >
         <div class="col-12 text-right">
             <h6>Total: £{{ total }}</h6>
@@ -57,6 +61,7 @@
 </section>
 {% endif %}    
 
+<!--If user has won artifacts and also owns artifacts display a page breaker to provide clear separation of lists-->
 {% if artifacts_owned|length > 0 and artifacts_won|length > 0 %}
 <section>
         <div class="row justify-content-center mt-3">
@@ -73,6 +78,7 @@
 </section>
 {% endif %}
 
+<!--Display list of all artifacts owned by the user-->
 {% if artifacts_owned|length > 0 %}
 <section class="container my-3">
     <div class="row justify-content-center">
@@ -83,6 +89,7 @@
 
     {% for artifact in artifacts_owned %}
     <a href="{% url 'display_artifact' id=artifact.id %}">  
+        <!--Display artifact image or, if none, a placeholder image-->
         <div class="row justify-content-around d-flex flex-wrap align-items-center artifact-information mt-3 mx-1">
             {% if artifact.image %}
             <div class="col-4 col-sm-2 col-lg-2 d-inline-block artifact-image text-center">
@@ -101,6 +108,7 @@
     <hr>    
     {% endfor %}
     
+    <!--Pagination of artifacts owned if more than 10-->
     <nav class="pb-5">
         {% if artifacts_owned.has_other_pages %}
         <ul class="pagination justify-content-center">
@@ -138,6 +146,7 @@
     </nav>      
 </section>
 {% else %}
+<!--If the user has not won any artifacts and does not own any artifacts display below-->
 <section class="container my-3">
     <div class="row justify-content-center">
         <div class="col-8 text-center">

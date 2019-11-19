@@ -13,6 +13,9 @@ from auctions.models import Auction, Bid
 
 stripe.api_key = settings.STRIPE_SECRET
 
+"""
+A view to process payment for artifacts selected
+"""
 @login_required()
 def checkout(request):
     """
@@ -198,15 +201,21 @@ def checkout(request):
                    'payment_form' : payment_form,
                    'publishable': settings.STRIPE_PUBLISHABLE })
     
-
+"""
+A view to add all artifacts the user has won but not paid for to their basket
+and then proceed to payment
+"""
 def buy_all(request):
+
     """
-    On selecting pay for all won artifacts. Cycle through artifacts won
-    and add to collection then proceed to checkout
+    Check the auctions that the user has won and add those artifacts to the
+    basket
     """
+
     basket = {}
     finished_auctions = Auction.objects.filter(end_date__lte=timezone.now())
     highest_bids = []
+    
     
     for auction in finished_auctions:
         try:
@@ -215,6 +224,10 @@ def buy_all(request):
             highest_bids.append(highest_bid)
         except:
             None
+    
+    """
+    Get the highest bid value and set that as the price for each artifact
+    """
     
     for bid in highest_bids:
         if bid.bidder == request.user:
@@ -225,11 +238,15 @@ def buy_all(request):
             request.session['collection'] = basket        
 
     return redirect(reverse('checkout'))    
-    
+   
+"""
+A view to add a single artifact the user won or selected to buy now to
+their basket and then proceed to payment
+"""
 def buy_one(request, id, buy_now):
     """
-    Clear the user's basket add this artifact to the basket then proceed to 
-    the checkout.
+    Clear the user's basket add the one artifact selected to buy now to the  
+    basket then proceed to the checkout.
     """
     artifact = get_object_or_404(Artifact, pk=id)
     auction = get_object_or_404(Auction, artifact=artifact)
@@ -237,12 +254,15 @@ def buy_one(request, id, buy_now):
     basket = {}
     """
     On selecting pay now or buy now for a single artifact determine the
-    price and proceed to checkout just for that artifact
+    price and proceed to checkout just for that artifact.
+    The price will either be the buy now value or highest bid depending on 
+    whether the user selected buy now or won the artifact.
     """
     if int(buy_now)==1:
         price = float(artifact.buy_now_price)
     else:
-        last_bid = Bid.objects.filter(auction=auction).order_by('-bid_amount')[0].bid_amount
+        last_bid = Bid.objects.filter(auction=auction)\
+                      .order_by('-bid_amount')[0].bid_amount
         price = float(last_bid)
 
     basket[id] = basket.get(id, { 'price' : price, 'buy_now' : buy_now })
