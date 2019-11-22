@@ -53,9 +53,9 @@
             <span><i class="fa fa-bars" aria-hidden="true"></i></span>
         </button>
         <div class="d-none d-lg-block ml-auto mr-1">
-            <ul class="navbar-nav">
-                <li class="nav-item mx-3 my-auto text-center text-wrap">
-                    <a href="{% url 'index' %}"><span>Home</span></a>
+            <ul class="navbar-nav h-100">
+                <li class="nav-item mx-3 my-auto text-center text-wrap ">
+                    <a href="{% url 'index' %}"><span {% if request.path == "/" %} class="active" {% endif %}>Home</span></a>
                 </li>    
                 {% if user.is_superuser %}
                 <!--Display options for site admin - hidden for all other users-->
@@ -68,15 +68,17 @@
                 {% endif %}   
                 <!--List of artifacts is available to view for all users-->
                 <li class="nav-item mx-3 text-center text-wrap">
-                    <a href="{% url 'artifacts_list' %}"><span>View Artifacts</span></a>
+                    <a href="{% url 'artifacts_list' %}"><span {% if request.path == "/artifacts/list/" %} class="active" {% endif %}>View Artifacts</span></a>
                 </li>
                 <!--If user is logged in display option to view their personal collection, profile and logout-->
                 {% if user.is_authenticated %}
                 <li class="nav-item mx-3 my-auto text-center text-wrap">
-                    <a href="{% url 'view_collection' %}"><span>View Collection</span></a>
+                    <a href="{% url 'view_collection' %}"><span {% if request.path == "/collection/" %} class="active" {% endif %}>View Collection</span></a>
                 </li>
                 <li class="nav-item mx-3 my-auto text-center text-wrap">
-                    <a href="{% url 'view_profile' id=user.id %}"><span>Profile</span></a>
+                    {% with profile_path="/accounts/view_profile/" user_id=user.id|stringformat:"i" %}
+                    <a href="{% url 'view_profile' id=user.id %}"><span {% if request.path == profile_path|add:user_id %}class="active"{% endif %}>Profile</span></a>
+                    {% endwith %}
                 </li>
                 <li class="nav-item mx-3 my-auto text-center text-wrap">
                     <a href="{% url 'logout' %}"><span>Logout</span></a>
@@ -84,10 +86,10 @@
                 {% else %}
                 <!--If not logged in display options to register or login-->
                 <li class="nav-item mx-3 my-auto text-center text-wrap">
-                    <a href="{% url 'register' %}"><span>Register</span></a>
+                    <a href="{% url 'register' %}"><span {% if request.path == "/accounts/register/" %} class="active" {% endif %}>Register</span></a>
                 </li>
                 <li class="nav-item mx-3 my-auto text-center text-wrap">
-                    <a href="{% url 'login' %}"><span>Log In</span></a>
+                    <a href="{% url 'login' %}"><span {% if request.path == "/accounts/login/" %} class="active" {% endif %}>Log In</span></a>
                 </li>
                 {% endif %}
             </ul>
