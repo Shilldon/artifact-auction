@@ -19,7 +19,11 @@ a:hover {
     outline: none; }
   .navbar .navbar-nav li span {
     font-weight: 700;
-    color: #FFB938 !important; }
+    color: #FFB938; }
+  .navbar .navbar-nav li .active {
+    color: #003273 !important;
+    background-color: #FFB938;
+    border: solid #FFB938 10px; }
   .navbar a {
     line-height: .75;
     color: #FFB938; }

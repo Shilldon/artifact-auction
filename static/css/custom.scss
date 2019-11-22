@@ -32,10 +32,20 @@ a:hover {
         border: none;
         outline: none;
     }
-    .navbar-nav li span {
-        font-weight: 700;
-        color: $light-contrast !important;
+    
+    .navbar-nav li {
+        span {
+            font-weight: 700;
+            color: $light-contrast;
+        }
+        .active {
+            color: $dark-base !important;       
+            background-color: $light-contrast;
+            border: solid $light-contrast 10px; 
+                       
+        }          
     }
+     
     a {
         line-height: .75; 
         color: $light-contrast;
