@@ -375,7 +375,7 @@ bidder has chosen to remain anonymous, display 'anonymous' instead of username--
                     {% if user == bid.bidder %}
                     <span>Bidder: {{ bid.bidder.username }}</span> 
                     {% elif bid.bidder.profile.remain_anonymous is False %}
-                    <span>Bidder: <a href="{% url 'view_profile' id=bid.bidder.id %}">{{ bid.bidder.username }}</span> 
+                    <span>Bidder: <a href="{% url 'view_profile' id=bid.bidder.id %}">{{ bid.bidder.username }}</a></span> 
                     {% else %}
                     <span>Bidder: Anonymous</span>
                     {% endif %}
@@ -384,7 +384,8 @@ bidder has chosen to remain anonymous, display 'anonymous' instead of username--
             <hr>
             {% endfor %}
         </div>
-    </div>    
+    </div>   
+    </div>
 </div>
 
 {% endblock %}

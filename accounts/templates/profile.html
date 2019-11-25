@@ -34,7 +34,7 @@
                     </div>
                     <div class="row">
                         <div class="col-12 text-left">
-                            <span><strong>Email </strong>{{ user_profile.email }}</span>    
+                            <span style="word-wrap: break-word"><strong>Email </strong>{{ user_profile.email }}</span>    
                         </div>
                     </div>  
                     {% if request.user == user_profile and user_profile.profile.remain_anonymous %}
@@ -51,7 +51,7 @@
                     <span><strong>About</strong></span>
                     <div class="row">
                         <div class="col-12">
-                            <p style="word-wrap: break-word"> {{ user_profile.profile.description }}</p>
+                            <span style="word-wrap: break-word"> {{ user_profile.profile.description }}</span>
                         </div>
                     </div>
                 </div>
@@ -61,7 +61,7 @@
             {% if request.user == user_profile %}
             <div class="row justify-content-around">
                 <div class="col-6 col-sm-3 text-center">
-                    <a class="btn btn-dark"href="{% url 'logout' %}">Logout</a>
+                    <a class="btn btn-dark" href="{% url 'logout' %}">Logout</a>
                 </div>
                 <div class="col-6 col-sm-3 text-center">
                     <a class="btn btn-primary" href="{% url 'edit_profile' %}">Edit</a>

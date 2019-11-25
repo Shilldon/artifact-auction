@@ -4,25 +4,27 @@ from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.core.exceptions import ValidationError
 from .models import Profile
 
+
 class UserLoginForm(forms.Form):
     """Login form for existing users"""
-    
+
     username = forms.CharField()
     password = forms.CharField(widget=forms.PasswordInput)
 
+
 class UserRegistrationForm(UserCreationForm):
     """Registration form for new users"""
-    
+
     password1 = forms.CharField(
         label="Enter password",
         widget=forms.PasswordInput)
-        
+
     password2 = forms.CharField(
         label="Re-enter password",
-        widget=forms.PasswordInput)     
-    
+        widget=forms.PasswordInput)
+
     email = forms.EmailField(required=True)
-    
+
     first_name = forms.CharField(
         label="First Name",
         max_length=50)
@@ -30,16 +32,16 @@ class UserRegistrationForm(UserCreationForm):
     last_name = forms.CharField(
         label="Last Name",
         max_length=50)
-
+    
     class Meta:
         model = User
         fields = (
-            'first_name', 
-            'last_name', 
-            'username', 
-            'email', 
-            'password1', 
-            'password2', 
+            'first_name',
+            'last_name',
+            'username',
+            'email',
+            'password1',
+            'password2',
         )
 
     def clean_email(self):
@@ -49,8 +51,8 @@ class UserRegistrationForm(UserCreationForm):
             raise forms.ValidationError(u'Please enter an email address')
         if User.objects.exclude(pk=self.instance.pk).filter(email=email):
             raise forms.ValidationError(u'That email address is already '
-                                         'registered')
-    
+                                        'registered')
+
         return email
 
     def clean_username(self):
@@ -60,26 +62,31 @@ class UserRegistrationForm(UserCreationForm):
             raise forms.ValidationError(u'Please enter a username')
         if User.objects.exclude(pk=self.instance.pk).filter(username=username):
             raise forms.ValidationError(u'That username is already taken')
-    
+
         return username
- 
+
     def clean_password2(self):
         password1 = self.cleaned_data.get('password1')
         password2 = self.cleaned_data.get('password2')
-        
+
         """
          Check that passwords have been completed in both fields and match.
          Form validation should prevent the user from failing to complete
          both password fields. This is a double check.
-        """ 
+        """
         if not password1:
             raise ValidationError(u'You need to enter a password')
         elif not password2:
             raise ValidationError(u'Please re-enter your password')
         elif password1 != password2:
             raise ValidationError(u'Passwords do not match')
-    
+
         return password2
+    
+    def __init__(self, *args, **kwargs):
+        super(UserRegistrationForm, self).__init__(*args, **kwargs)
+        self.fields['username'].widget.attrs.pop('autofocus')
+
 
 class ProfileForm(forms.ModelForm):
     """Extended user model allows users to enter a bio, profile picure and
@@ -91,14 +98,15 @@ class ProfileForm(forms.ModelForm):
     def name(self):
         self.fields['profile_picture'].label = "Choose file"
 
+
 class UserEditProfileForm(UserChangeForm):
-    """Form for users to edit their profile""" 
+    """Form for users to edit their profile"""
     class Meta:
         model = User
         fields = (
-            'first_name', 
-            'last_name', 
-            'username', 
+            'first_name',
+            'last_name',
+            'username',
             'email',
             'password',
         )
@@ -109,8 +117,8 @@ class UserEditProfileForm(UserChangeForm):
             raise forms.ValidationError(u'Please enter an email address')
         if User.objects.exclude(pk=self.instance.pk).filter(email=email):
             raise forms.ValidationError(u'That email address is already '
-                                         'registered')
-    
+                                        'registered')
+
         return email
 
     def clean_username(self):
@@ -119,5 +127,5 @@ class UserEditProfileForm(UserChangeForm):
             raise forms.ValidationError(u'Please enter a username')
         if User.objects.exclude(pk=self.instance.pk).filter(username=username):
             raise forms.ValidationError(u'That username is already taken')
-    
+
         return username

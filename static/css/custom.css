@@ -154,7 +154,6 @@ a:hover {
 
 .form-container {
   color: #444444;
-  border: #003273 4px solid;
   border-radius: 2%; }
   .form-container p {
     font-size: 0.75rem;
@@ -234,14 +233,6 @@ a:hover {
 #id_amount_bid {
   font-size: 0.8rem; }
 
-/*
-#history-collapse {
-    a {
-        color: $dark-base;
-        cursor: pointer;
-    }
-}
-*/
 footer {
   background-color: #003273;
   color: #FFB938; }
@@ -304,6 +295,11 @@ footer {
     padding-left: 20px;
     font-size: 2.5rem; }
   .navbar .navbar-brand span {
-    font-size: 1.25rem; } }
+    font-size: 1.25rem; }
+
+  .form-container {
+    color: #444444;
+    border: #003273 4px solid;
+    border-radius: 2%; } }
 
 /*# sourceMappingURL=custom.css.map */

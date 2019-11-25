@@ -22,18 +22,10 @@ displayed-->
     <form method="POST">
         <div class="row search-bar-container justify-content-center my-4">
             <div class="col-9 col-sm-7 col-md-5 search-bar">
-                {% csrf_token %} 
-                {% render_field search_form.name class="my-auto" %}
-                {{ search_form.sort_by.as_hidden }}
-                {{ search_form.sold.as_hidden }}
-                {{ search_form.in_auction.as_hidden }}
-                {{ search_form.category.as_hidden }}
-                {{ search_form.type.as_hidden }}
-                {{ search_form.min_buy_now_price.as_hidden }}
-                {{ search_form.max_buy_now_price.as_hidden }}
+                {% render_field search_form.name id="search-form-input-name" %}
             </div>
             <div class="col-1 search-icon text-center align-middle" >
-                <button type="submit"><span class=" "><i class="fas fa-search"></i></span></button>  
+                <button class="submit-search" type="button"><span class=" "><i class="fas fa-search"></i></span></button>  
             </div>
         </div>
     </form>   
@@ -73,7 +65,7 @@ displayed-->
             </a>
             {% if artifact.sold is True %} 
             <a href="{% url 'display_artifact' id=artifact.id %}"> 
-                <img class="artifact-sold-image img-fluid" src="/media/images/sold.png" alt="sold stamp"></img>
+                <img class="artifact-sold-image img-fluid" src="/media/images/sold.png" alt="sold stamp">
             </a>
             {% endif %}                    
         {% else %}
@@ -83,7 +75,7 @@ displayed-->
             </a>
             {% if artifact.sold is True %} 
             <a href="{% url 'display_artifact' id=artifact.id %}"> 
-            <img class="artifact-sold-image img-fluid" src="/media/images/sold.png" alt="sold stamp"></img>
+            <img class="artifact-sold-image img-fluid" src="/media/images/sold.png" alt="sold stamp">
             </a>
             {% endif %}           
         {% endif %} 
@@ -123,7 +115,7 @@ displayed-->
             a 'buy now' button. If there is a reserve on the artifact state
             this-->
             <div class="auction-bid-status" style="display: none">
-                <span class="auction-current-bid">Current bid: £{{ auction_bids|get_item:artifact }}<br></span>
+                <span class="auction-current-bid">Current bid: £{{ auction_bids|get_item:artifact|floatformat:2|intcomma }}<br></span>
                 {% if artifact.buy_now_price > 0 %}
                 <span>Buy now for: £{{ artifact.buy_now_price|floatformat:2|intcomma }}<br></span>    
                 {% endif %}
@@ -180,7 +172,7 @@ displayed-->
 <!--Filter search Modal -->
 <div class="modal fade" id="filterModal" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-dialog-scrollable" role="document">
-        <form method="POST">
+        <form id="search-form" method="POST">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Filter results</h5>
@@ -286,11 +278,11 @@ displayed-->
                     </div>                    
                     <div class="row">
                         <div class="col-6">
-                            <label for="min_buy_now_price" style="font-size: 0.75rem">Minimum</label>
+                            <span style="font-size: 0.75rem">Minimum</span>
                             {% render_field search_form.min_buy_now_price style="width:100%" min="0" %}
                         </div>
                         <div class="col-6">
-                            <label for="max_buy_now_price" style="font-size: 0.75rem">Maximum</label>
+                            <span style="font-size: 0.75rem">Maximum</span>
                             {% render_field search_form.max_buy_now_price style="width:100%" min="0" %}
                         </div>
                     </div> 
@@ -328,23 +320,9 @@ displayed-->
             </div>
             <div class="modal-body p4">
                 <form method="POST">
-                    {% csrf_token %}
-                    <!--Hidden fields for search form rendered to ensure 
-                    existing search criteria are passed when submitting form
-                    otherwise an unfiltered list will be sorted-->
-                    {{ search_form.name.as_hidden }}
-                    {{ search_form.description.as_hidden }}                    
-                    {{ search_form.sold.as_hidden }}
-                    {{ search_form.unsold.as_hidden }}
-                    {{ search_form.in_auction.as_hidden }}
-                    {{ search_form.not_in_auction.as_hidden }}
-                    {{ search_form.category.as_hidden }}
-                    {{ search_form.type.as_hidden }}
-                    {{ search_form.min_buy_now_price.as_hidden }}
-                    {{ search_form.max_buy_now_price.as_hidden }}
                     <span>Sort by</span>
-                    {% render_field search_form.sort_by %}
-                    <button class="btn btn-primary" type="submit">Sort</button>        
+                    {% render_field search_form.sort_by id="search-form-input-sort-by" %}
+                    <button class="btn btn-primary submit-search" type="button">Sort</button>        
                 </form>
             </div>
         </div>

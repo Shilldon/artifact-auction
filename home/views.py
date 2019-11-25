@@ -14,14 +14,14 @@ def index(request):
                                       end_date__gt=timezone.now()
                                       )
     if auctions:
-        if auctions.count()==1:
-            auction_status="Current auction"
+        if auctions.count() == 1:
+            auction_status = "Current auction"
         else:
-            auction_status="Current auctions"
+            auction_status = "Current auctions"
     else:
-        auction_status="No live auctions"
-    
+        auction_status = "No live auctions"
+
     return render(request, 'index.html', {
-                                          "auctions" : auctions, 
-                                          "auction_status" : auction_status
+                                          "auctions": auctions,
+                                          "auction_status": auction_status
                                           })

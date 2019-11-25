@@ -25,7 +25,7 @@
             <p><strong>Explore </strong> their unique and awe-inispring collection.</p>
             <p><strong>Learn </strong>about the owners of the artifacts through the ages and their fascinating history.</p>
             <p><strong>Buy </strong>a piece of history in one of the Jones' unique auctions, today.</p>
-            <h4>&#10016</h4>
+            <h4>&#10016;</h4>
         </div>    
     </div>
 </section>
@@ -112,9 +112,9 @@
                         <div class="col-12 pt-5 text-center">
                             <!--If the artifact has an image display it, else display placeholder-->
                             {% if auction.artifact.image %}
-                            <img class="img-thumbnail my-auto index--artifact-image" src="{{ MEDIA_URL}}{{ auction.artifact.image }}" alt="image of "+{{ auction.artifact.name }}>   
+                            <img class="img-thumbnail my-auto index--artifact-image" src="{{ MEDIA_URL}}{{ auction.artifact.image }}" alt="image of {{ auction.artifact.name }}">   
                             {% else %}
-                            <img class="img-thumbnail my-auto index--artifact-image" src="/media/images/placeholder.png" alt="image of "+{{ auction.artifact.name }}>   
+                            <img class="img-thumbnail my-auto index--artifact-image" src="/media/images/placeholder.png" alt="image of {{ auction.artifact.name }}">   
                             {% endif %}                            
                         </div>
                     </div>

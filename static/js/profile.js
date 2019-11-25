@@ -25,7 +25,7 @@ $(document).ready(function() {
             $('#id_profile--clear-image-selection, #id_profile--clear-image-selection-label').hide();
             //Reshow the current profile image
             $('#profile--current-image').show(); 
-            $(this).prop("checked", false)
+            $(this).prop("checked", false);
         }            
     });
 
@@ -59,7 +59,4 @@ $(document).ready(function() {
             $("#remain-anonymous-text").text("Select this option to ensure that your username and profile picture are not displayed on bids or artifact ownership.");   
         }
     });   
-    
-
-    
-})    
+});

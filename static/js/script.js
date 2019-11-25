@@ -11,12 +11,12 @@ $(document).ready(function() {
             artifactIds.push(artifactId);
             artifactContainers.push(artifactContainer);
         }
-    })
+    });
     for (i=0; i<artifactIds.length; i++) {
         //call getBidData to get information on the artifact
         getBidData(artifactIds[i], artifactContainers[i]); 
     }
-})
+});
 
 //Function to initialise the page with all artifact auction information
 function initialisePage(artifactId, startTime, endTime, currentBid, artifactContainer) {
@@ -25,8 +25,7 @@ function initialisePage(artifactId, startTime, endTime, currentBid, artifactCont
     var auctionBidStatus=$(".auction-bid-status", artifactContainer);
     var auctionButtons=$(".auction-buttons", artifactContainer);
     var auctionSoldStatus=$(".auction-sold-status", artifactContainer);        
-    var auctionStatus=$(".auction-status", artifactContainer)
-    
+    var auctionStatus=$(".auction-status", artifactContainer);
     var auctionText;
     
     //Display information on each auction if it has a start and end time
@@ -77,27 +76,26 @@ function displayTimer(artifactContainer, artifactId, referenceTime, auctionText,
     var timer = setInterval(function() {
         var currentTime = new Date().getTime();
         var timeLeft = referenceTime - currentTime;
-
         var days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
         var hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
         var minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
         var seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
-        var dayString = "d "
-        var hourString = "h "
-        var minuteString = "m "
+        var dayString = "d ";
+        var hourString = "h ";
+        var minuteString = "m ";
         var secondString = "s";
 
         if (days == 0) { days = "";
-            dayString = "" }
+            dayString = ""; }
         
         if (hours == 0) { hours = "";
-            hourString = "" }
+            hourString = ""; }
         
         if (minutes == 0) { minutes = "";
-            minuteString = "" }
+            minuteString = ""; }
         
         if (seconds == 0) { seconds = "";
-            secondString = "" }
+            secondString = ""; }
         //update text on page with time left
         $(".auction-timer", artifactContainer).text(days + dayString + hours + hourString + minutes + minuteString + seconds + secondString);
 
@@ -113,20 +111,20 @@ function displayTimer(artifactContainer, artifactId, referenceTime, auctionText,
     }, 1000);
 }
 
-//Ajax call to backend every 10 seconds to check wheterha new high bid has been placed. 
+//Ajax call to backend every 10 seconds to check whether a new high bid has been placed. 
 //If so update the page to display the new highest bid
 function checkBid(artifactId, currentBid, artifactContainer) {
-    var timer = setInterval(function() {
+    setInterval(function() {
         $.ajax({
             type:"GET",
             url: "get_bid",
             data: { "artifact_id" : artifactId },
             success: function(data) {
-            if (data['current_bid']>currentBid) {
+            if (data.current_bid>currentBid) {
                     location.reload();
                 }
             }
-        })
+        });
     }, 10000);
 }
 
@@ -141,15 +139,15 @@ function getBidData(artifactId, artifactContainer) {
         success: function(data) {
             //If there is a live auction for the artifact return bid and auction details to initialisepage function
             if(data.in_auction) {
-                var currentBid = data['current_bid']
-                var startTime = Date.parse(data['start_time']);
-                var endTime = Date.parse(data['end_time']);
-                initialisePage(artifactId, startTime, endTime, currentBid, artifactContainer)
+                var currentBid = data.current_bid;
+                var startTime = Date.parse(data.start_time);
+                var endTime = Date.parse(data.end_time);
+                initialisePage(artifactId, startTime, endTime, currentBid, artifactContainer);
             }
             //If not return blank to initialisepage function
             else {
-                initialisePage(artifactId, "", "", 0, artifactContainer)
+                initialisePage(artifactId, "", "", 0, artifactContainer);
             }
         }
-    })
+    });
 }

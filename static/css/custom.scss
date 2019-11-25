@@ -223,7 +223,7 @@ a:hover {
 //--Container for forms--//
 .form-container {
     color: $font-base;
-    border: $dark-base 4px solid;
+    //border: $dark-base 4px solid;
     border-radius: 2%;
     p {
         font-size:0.75rem;
@@ -342,15 +342,6 @@ a:hover {
     font-size:0.8rem;
 }
 
-/*
-#history-collapse {
-    a {
-        color: $dark-base;
-        cursor: pointer;
-    }
-}
-*/
-
 //-----FOOTER-----//
 
 footer {
@@ -402,7 +393,6 @@ footer {
             font-size:1rem;
         }
     }
-
     .search-options {
         button {
             font-size:1.1rem;
@@ -431,7 +421,6 @@ footer {
             font-size: 1.5rem;
         }
     }    
-    
     .navbar {
         .navbar-brand  {
             padding-left:20px;
@@ -441,5 +430,9 @@ footer {
             font-size:1.25rem;
         }        
     }        
-  
+    .form-container {
+        color: $font-base;
+        border: $dark-base 4px solid;
+        border-radius: 2%;
+    }     
 }
