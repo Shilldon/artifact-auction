@@ -185,7 +185,7 @@ def checkout(request):
                     messages.success(request,
                                      'Thank you for purchasing ' +
                                      email_artifacts_purchased + '.')
-                    return redirect(reverse('artifacts_list'))
+                    return redirect(reverse('view_collection'))
                 else:
                     messages.error(request,
                                    "We were unable to take payment with that"
