@@ -187,7 +187,7 @@ status-->
                     <span>This artifact has been purchased. <br>The owner wishes to remain anonymous</span>
                     {% else %}
                     <span>Owned by                     
-                        <a href="{% url 'view_profile' id=artifact.owner.id %}">{{ artifact.owner }}</a>
+                        <a href="{% url 'view_profile' id=artifact.owner.id %}">{{ artifact.owner.first_name }}</a>
                     </span>
                     {% endif %}
                 {% endif %}

@@ -27,16 +27,20 @@
                             <strong>Name </strong><span>{{ user_profile.first_name }} {{ user_profile.last_name }}</span>    
                         </div>
                     </div>
+                    
+                    {% if user_profile == request.user %}
                     <div class="row">
                         <div class="col-12 text-left">
                             <span><strong>Username </strong>{{ user_profile.username }}</span>
                         </div>
                     </div>
+
                     <div class="row">
                         <div class="col-12 text-left">
                             <span style="word-wrap: break-word"><strong>Email </strong>{{ user_profile.email }}</span>    
                         </div>
                     </div>  
+                    {% endif %}                    
                     {% if request.user == user_profile and user_profile.profile.remain_anonymous %}
                     <div class="row">
                         <div class="col-12">

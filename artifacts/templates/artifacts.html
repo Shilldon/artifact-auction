@@ -98,8 +98,8 @@ displayed-->
                 <p>This artifact has been purchased. The owner wishes to remain anonymous</p>
                 
                 {% else %}
-                <p>Owned by 
-                    <a href="{% url 'view_profile' id=artifact.owner.id %}">{{ artifact.owner }}</a>
+                <p>Owned by
+                    <a href="{% url 'view_profile' id=artifact.owner.id %}">{{ artifact.owner.first_name }}</a>
                 </p>
                 {% endif %}
             {% else %}
@@ -283,7 +283,7 @@ displayed-->
                         </div>
                         <div class="col-6">
                             <span style="font-size: 0.75rem">Maximum</span>
-                            {% render_field search_form.max_buy_now_price style="width:100%" min="0" %}
+                            {% render_field search_form.max_buy_now_price style="width:100%" min="0.01" %}
                         </div>
                     </div> 
                     <div class="row pt2">
