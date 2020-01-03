@@ -18,7 +18,7 @@ class TestOrderModel(TestCase):
             date="2011-11-11"
             )
         order.save()
-        self.assertEqual(str(order), "1-2011-11-11-Test")
+        self.assertEqual(str(order), "Order Number 1 on 2011-11-11 for Test")
 
 class TestPurchasedArtifactModel(TestCase):
     """check Purchased Artifact returns correct value"""

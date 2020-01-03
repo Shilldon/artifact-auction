@@ -94,7 +94,7 @@ def checkout(request):
             if bool(basket) is False:
                 messages.error(request,
                                "You have no artifacts in your collection"
-                               "to purchase")
+                               " to purchase")
             elif an_artifact_was_sold:
                 messages.error(request, "Your purchase order has been "
                                         "updated.")
