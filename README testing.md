@@ -7,10 +7,11 @@
 ***Travis-CI*** continuous integration testing was used to ensure successful build passing at each push to ***GitHub***.
 Initial difficulties were encountered with the library requirements of the AWS Cloud9 IDE. Once these requirements were removed from the requirements.txt file the build successfully passed. It was, however, necessary to remove requirements on a trial and error basis which resulted in several commits and failed builds at the early stages.
 The following badge indicates the current Build status which, at the time of writing this ReadMe was passing.
+
 [![Build Status](https://travis-ci.org/Shilldon/artifact-auction.svg?branch=master)](https://travis-ci.org/Shilldon/artifact-auction)
 
 ***Django*** built-in *unittest* library and *TestCase* subclass were used to test the backend models, forms and views. A total of 108 tests were written to ensure the backend code was thoroughly vetted.
-The resulted in an average coverage of 93% well above the acceptable level.
+This resulted in an average coverage of 93% well above the acceptable level.
 Standard ***Django*** library commands were not tested.
 
 <details>
@@ -125,7 +126,7 @@ Responsiveness of the site to differing display sizes was tested using ***Google
 to ensure design responded appropriately.
 
 ### External feedback
-After deploying to Heroku user feedback from a 10 person ficus group was requested and acted upon.
+After deploying to Heroku user feedback from a 10 person focus group was requested and acted upon.
 
 Users were encouraged to create profiles, search for artifacts, make bids, change and update their profiles and request forgotten password resets to ensure functionality worked as expected.
 Where errors were encountered ***Heroku*** logs were examined to identify and fix bugs.

@@ -26,7 +26,7 @@ There are two distinct user groups who will access the site:
 - Site users who will need to be able to search for, bid on and purchase artifacts.
 
 To that end user stories have been considered for both these groups.  
-As the site owner:
+#### As the site owner:
 - I want to upload details (price, description, historical information) of artifacts to the site
 - I want to set up auctions to sell the artifacts
 - I want to set up auctions to start in the future
@@ -40,7 +40,7 @@ As the site owner:
 - I want to see and edit reviews left by users who have purchased artifacts
 - I want to prevent users reviewing artifacts they do not own
 
-As a potential purchaser and bidder:
+#### As a potential purchaser and bidder:
 - I want to find a particular artifact
 - I want to search for artifacts of a particular type
 - I want to leave a review of an artifact
@@ -60,14 +60,26 @@ As a potential purchaser and bidder:
 - I want to learn about the history of an artifact
 
 ### Purpose and site overview
-This website is designed as an interactive full stack with a simple interface to enable users and the site owner to easily navigate around the site and achieve their aims, above.
-The blue/gold colour scheme was chosen to reflect a sense of reliability and value to the content of the site. Blue is often associated with cultural and religious traditions and, as such, compliments the nature of many of the artifacts for sale on the site. 
+This website is designed as an interactive full stack site with a simple interface to enable users and the site owner to easily navigate around the site and achieve their aims, above.
 
+#### Colour scheme and typography
+The blue/gold colour scheme was chosen to reflect a sense of reliability and value of the artifacts being auctioned on the site. 
+
+Blue is often associated with cultural and religious traditions and, as such, compliments the nature of many of the artifacts for sale on the site. 
+
+Gold is typically associated with wealth, instilling a sense of value and priceless nature to the artifacts listed.
+
+The company 'Jones & Son' has traditional values and has been established for many years. *Cinzel Decorative* font was chosen for the logo to reflect the sense of establishment and age of the company. 
+
+*Montserrat* as a strong easy to read font was chosen for the main content.
+
+#### Technology overview
 The technologies used are further set out below, in brief,  the ***Django*** framework was used for user authentication and site administration.
-The site owner, using the ***Django*** admin panel can add and edit models for artifacts, auctions, historical events and historical figures. Full instructions for site admin are contained in a modal through the navbar if logged in as a superuser.
+The site owner, using the ***Django*** admin panel can add and edit models for artifacts, auctions, historical events and historical figures. Full instructions for site admin are contained in a modal through the *Admin Help* tab in the navbar if logged in as a superuser.
 
 The models are stored in ***PostgreSQL*** database and accessed via ***Python*** backend code and the ***Django*** admin panel.
 
+#### Navigation
 The main navigation menu for the site is displayed at the top of every page or behind a burger button on smaller screens. The navigation options displayed are dependent upon the status of the user accessing the site:  
 - Superuser
 -- View artifacts, view collection, admin panel, admin help, profile and logout
@@ -79,25 +91,26 @@ The main navigation menu for the site is displayed at the top of every page or b
 Removing options for users depending on their authority avoids confusion and provides a better user experience.
 On smaller devices clicking the burger button will bring up a modal of menu options, as above. In addition to reduce the 'number of clicks' search and login/logout options are available through the relevant icons next to the burger button.
 
-The site comprises 17 pages and a website map is contained in the repository. See "Website Layout" document in "design" folder in the repository for further information.
-All pages are rendered using the ***Django*** backend framework.
+#### Website Layout
+The site comprises 17 pages and a website map is contained in the repository. See *Website Layout* document in the *Design* folder in the repository for further information.
+All pages are rendered using the ***Django*** backend framework, ***Jinja*** templating logic and ***HTML5***.
 
-#### Base Template
+##### Base Template
 All pages are served with a base template that provides:
 - Navbar with menu links, as identified above
 - Footer with links to a contact form and terms of use
 - Back button to return to previous page (except on index page)
 
-#### Index Page
+##### Index Page
 This page provides an overview of the site and background to its purpose. On the desktop site there is an image link to a list of all the artifacts listed on the site and a carousel displaying images of the artifacts in currently live auctions (these images link directly to the relevant artifact). On smaller screens images and the carousel are omitted for better user experience simply providing a styled list of the artifacts in live auctions.
 
-#### Artifacts Page
+##### List of Artifacts Page
 On initial view this page displays a complete paginated list of all artifacts on the site (pagination allows a maximum of 10 items per page). ***Django*** templating and ***Jinja 2.0*** are used to populate the page data.
 Each artifact is displayed with:
 - a thumbnail image (or a placeholder image if the admin user has not uploaded an image of the artifact); 
 - a sold image superimposed on the artifact image if the artifact has sold;
 - the name of the artifact; 
-- ownership status (whether the artifact is owned and, if the owner has chosen not to remain anonymous, their first name - with a link to their profile);
+- ownership status (whether the artifact is owned and, if the owner has not chosen to remain anonymous, their first name - with a link to their profile);
 - status of the auction ("Not yet listed for auction", "Time to start of auction", "Time left in auction", or "Auction finished").  
 
 For artifacts in auctions that are pending or live a timer is displayed that is updated via ***jQuery*** polling.
@@ -111,7 +124,7 @@ The list of artifacts can be filtered and sorted through the three options at th
 Filtered search and sorted results are returned via ***Python*** backend code.
 The detailed filter options have been considered against user stories to ensure users are easily able locate specific artifacts or groups of artifacts.
 
-#### Artifact Page
+##### Single Artifact Page
 On selecting a specific artifact this page is rendered which provides details of the artifact selected using data from the backend Artifact model:
 - Artifact image (if one has been provided by site admin, if not the page layout, using ***Bootstrap*** and ***Django*** templating is adjusted);
 - About - information about the artifact which is set out in full on displays wider than 1024px but contained within a collapsible section on smaller screens;
@@ -121,44 +134,46 @@ On selecting a specific artifact this page is rendered which provides details of
 - Buy Now button - if the artifact is in a live auction, the user is logged in and the site admin has given a buy now price for the artifact this button is displayed enabling the user to purchase the artifact immediately. As bidding increases the buy now price also increases so that it always exceeds the highest bid by 20% (this is achieved through updates to the artifact model in the backend).
 - Bid History - if the artifact is in a live auction and at least one bid has been made on the artifact this link displays a modal listing the time, amount and user name (and link to their profile) of all bids made. (If users have chosen to remain anonymous their first names are not displayed, being replaced with 'anonymous' instead).
 
-The following sections are dependent data being associated with the artifact model and will not be displayed in all cases.
+The following sections are dependent on the data associated with the artifact model and will not be displayed in all cases.
 - Review - Where an artifact has been purchased and the owner is viewing the artifact they will be presented with an option to leave a review for the artifact. If they have done so all users will be able to view the review in the collapsible section and see the rating associated with the review.
 - History - If an artifact has historical events associated with it (as input by the site admin) a list of these events in chronological order is displayed in a collapsible section. Each row in the list contains a link to a page detailing the event further and a link to the historical figure associated with that event.
 - Historical Figures - If the artifact has historical figures associated with it (as input by the site admin) a list of these people is displayed in a collapsible section. Each row in the list contains a link to a page detailing the person further.
 
-#### Add/Edit Review
+##### Add/Edit Review
 This page is only available to a user who is logged in and has purchased the specific artifact. The user can complete a form setting out their review of the artifact. In addition they can rate the artifact on a scale of 0 to 5 by clicking on the relevant number of stars.
 If there is already a Review model associated with this artifact the form is pre-populated with the data from that model otherwise a blank form is rendered.
 The star selection is animated by ***jQuery*** and ***CSS*** and ***jQuery*** is used to update the integer value of the rating for the form for passing to the back end to create a new or update an existing Review model.
 On this page the user also has the option of deleting an existing review.
 
-#### Historical Event
+##### Historical Event
 On selecting a specific historical event this page is rendered using the ***Django*** framework and templating rendering data from the Event model.
 The page has a similar layout to the artifact page to keep consistency across the site. If the site admin has uploaded an image in the Event model this is shown otherwise the page layout is adjusted using the ***Django*** templating and ***Bootstrap*** framework.
 Information about the artifact is displayed and, if the text contains the name of the artifact and/or historical figure associated with the artifact these are converted to links to the artifact/historical figure's relevant page. (This conversion is undertaken when the Event model is saved).
 Below the main information about the artifact a list of other events associated with this artifact is displayed under a collapsible in chronological order. Each row contains a link to the relevant event and, if applicable, the historical figure associated with that event.
 
-#### Historical Figure
+##### Historical Figure
 On selecting a specific historical figure this page is rendered using the ***Django*** framework and templating rendering data from the Historical Figure model.
 In keeping with consistency across the site this page has the same layout to the Historical Event page, above, similarly adjusting if an image is not provided.
 Links within the main information to the specific artifact are rendered in the same way as above.
 Below the main information is are lists of the events with which the historical figure is associated and the artifacts with which they are associated as well. Both lists are contained within collapsibles and contain links to the relevant events and artifacts.
 
-#### Collection Page
+##### Collection Page
 This page is similar in layout to the list of artifacts but displaying, instead, lists of artifacts the user has won but not, yet, paid for and artifacts the user has purchased.
 If the user has artifacts in both categories a page breaker is displayed between the lists to make it clear to the user that they are different.
 Where the user has artifacts pending purchase a total price for the artifacts is displayed along with a link to the checkout to enable the user to pay.
 Pagination is applied to the list of artifacts purchased by the user (a limit of 10 per page) but not to the list of items won as due to the nature of the auctions this list is very unlikely to reach a significant number of items.
 
-#### Checkout
+##### Checkout
 On selecting the Buy Now option from the artifact page or Pay Now from the collection page this checkout page is rendered.
 A list of the items the user is purchasing is displayed. This will only ever be one item where the user is using Buy Now to purchase an artifact in an auction but may be more than one item if the user has won more than one auction and has not immediately paid for the artifacts won.
 The individual and total prices of the artifacts are displayed (calculated in the back end).
 On selecting the Pay Now option a modal is displayed for the user to complete their personal and payment information.
-The ***Stripe API*** is used to validate and submit payment information. The ***Stripe API*** key is contained within the page as a hidden element for accessing by the standard ***Stripe API*** ***jQuery*** payment processing code. If payment is successful, a success message is displayed and email sent to the user confirming their purchase and they are returned to their collection of artifacts.
-If the payment is unsuccessful an error message is displayed the payment modal remains.
 
-#### User Account Pages
+
+The ***Stripe API*** is used to validate and submit payment information. The ***Stripe API*** key is contained within the page as a hidden element for accessing by the standard ***Stripe API*** ***jQuery*** payment processing code. If payment is successful, a success message is displayed and email sent to the user confirming their purchase and they are returned to their collection of artifacts.
+If the payment is unsuccessful an error message is displayed and the payment modal remains.
+
+##### User Account Pages
 Within this category there are 7 pages relating to registration/login options and the user's profile.
 
 ##### View Profile
@@ -184,11 +199,11 @@ On clicking the "update" button at the bottom of the page the form is submitted 
 ##### Registration
 The link to this page is only available if a user is not logged in. This page renders a form that is, in essence, identical to the edit profile form except it is not pre-populated with the user's data.
 A profile picture is not displayed on this view.
-On clicking the "register" button at the bottom of the page the form is submitted to the backend and a new User model is created.
+On clicking the *register* button at the bottom of the page the form is submitted to the backend and a new User model is created.
 
 ##### Log In
 The link to this page is only available if a user is not logged in. This page renders the ***Django*** framework user login form that is styled in keeping with the site.
-A 'forgot password' link is provided to enable users who have forgotten their password to change it.
+A *forgot password* link is provided to enable users who have forgotten their password to change it.
 
 ##### Password Reset
 This page renders the ***Django*** framework password reset form that is styled in keeping with the site. The user is prompted to enter their email address in order to reset their password.
@@ -211,11 +226,11 @@ All data (users, artifacts, auctions etc.) is entered in the front end forms eit
 ***Python***/***Django*** is used to retrieve, filter and sort data from the data tables and pass to front end for display.
 
 #### Database Structure
-Conceptual database design was undertaken considering the entities, their relationships and attributes. In essence the database is formed of two distinct categories "users" and "artifacts".  See 'Conceptual Database Design' and 'Data Relationships' documents in the repository.
+Conceptual database design was undertaken considering the entities, their relationships and attributes.   See *Conceptual Database Design* and *Data Relationships* documents in the repository.
 User data is limited to data required to enable the user to log on and identify themselves.
 Artifact data is much broader containing data about the artifact (price, owner, sale price, description etc.) and background information about the artifact (historical events, owners). 
 It was decided that a relational database structure was appropriate to avoid data duplication, provide security (the site admin would be the only user able to edit and update artifact data) and the flexibility to query what could potentially be a large database of users and artifacts.
-From the conceptual design data tables were drafted (see 'Conceptual Database design', 'Data relationships' and 'Data Tables' documents in repository) and ***Django*** models created from those tables.
+From the conceptual design data tables were drafted (see *Data Tables* document in repository) and ***Django*** models created from those tables.
 
 #### Adding artifacts and auctions
 Full instructions for site admin to add artifacts and auctions to the site can be found in the *Site Admin* tab if logged in as a superuser.
@@ -236,7 +251,7 @@ Site admin may set reserve and buy now prices for artifacts.
 
 The function of the reserve price is to enable site admin to specify the minimum amount for which they would like the artifact to sell. Users are informed if there is a reserve price set on the artifact but are not made aware of the actual reserve otherwise this would affect bidding.
 
-Users will still have the option to purchase artifacts with a reserve immediately. In the on site guidance admin is encouraged to set the buy now price suitably higher than the reserve and form validation ensures the buy now price (if given) cannot be set lower than the reserve price.
+Users will still have the option to purchase artifacts with a reserve immediately. In the on site guidance the admin is encouraged to set the buy now price suitably higher than the reserve and form validation ensures the buy now price (if given) cannot be set lower than the reserve price.
 
 ##### Buy now price
 
@@ -250,9 +265,9 @@ An artifact may not, necessarily, have a reserve and a buy now price. If the buy
 
 ##### Bidding process
 
-Users may bid on artifacts by submitting an amount through the BidForm on the display_artifact page.
+Users may bid on artifacts by submitting an amount through the Bid Form on the *Single Artifact* page.
 
-The current highest bid is retrieved from the BidModels associated with the relevant auction. If the bid value entered by the user is higher then another BidModel is created for the new bid.
+The current highest bid is retrieved from the Bid Models associated with the relevant auction. If the bid value entered by the user is higher then another Bid Model is created for the new bid.
 
 The bid value is also compared to the reserve and buy now prices (if any) for the specific artifact. If higher than both the reserve and buy now the buy now price on the artifact is updated to 20% more than the current buy now price.
 
@@ -306,29 +321,42 @@ Where possible options have been limited to prevent users from entering invalid 
 - ***Python*** back end validation is used to ensure bids entered are valid and higher than previous bids
 
 ### Deployment
-The Artifact Auction website is deployed using the Heroku platform and can be viewed [here](https://shilldons-artifactauction.herokuapp.com/)'
+The Artifact Auction website is deployed using the ***Heroku*** platform and can be viewed [here](https://shilldons-artifactauction.herokuapp.com/)
 
 #### Deployment and integration process undertaken
 The following sets out an overview of the deployment and integration process followed during development of the app. Instructions to deploy locally and remotely can be found thereafter.
-The app and all associated files were developed through AWS Cloud9 IDE.
+The app and all associated files were developed through ***AWS Cloud9 IDE***.
 A git respository was created through the bash terminal and the the project was committed to the repository using the standard bash commit command.
 Commits to the respository were made at each major development stage or as issues were identified and fixed.
 
-The project was then deployed to ***Heroku*** on the master branch through the Heroku online console, using the following steps:
-- Having logged into the Heroku platform a new app was created, titled 'shilldons-artifactauction'.
-- A git url was provided by Heroku on creating the app, 'https://git.heroku.com/shilldons-artifactauction.git'
-- The local git respository was linked to Heroku through the bash terminal command 'git remote add heroku https://git.heroku.com/shilldons-artifactauction.git
-- Using the Heroku dashboard the Heroku Postgres 'add-on' was attached 
-- A requirements.txt file was created through the bash terminal command 'sudo pip3 freeze --local>requirements.txt'
+The project was then deployed to ***Heroku*** on the master branch through the ***Heroku*** online console, using the following steps:
+- Having logged into the ***Heroku*** platform a new app was created, titled 'shilldons-artifactauction'.
+- A git url was provided by ***Heroku*** on creating the app, 'https://git.heroku.com/shilldons-artifactauction.git'
+- The local git respository was linked to ***Heroku*** through the bash terminal command
+  ```
+  git remote add heroku https://git.heroku.com/shilldons-artifactauction.git
+  ```
+- Using the ***Heroku*** dashboard the ***Heroku Postgres*** 'add-on' was attached 
+- A requirements.txt file was created through the bash terminal command 
+  ```
+  sudo pip3 freeze --local>requirements.txt
+  ```
 - The requirements.txt file was commited to the local git repository
-- A Procfile was created by bash terminal command 'echo web: gunicorn artifact_auction.wsgi:application > Procfile
+- A Procfile was created by bash terminal command
+  ```
+  echo web: gunicorn artifact_auction.wsgi:application > Procfile
+  ```
 - The Procfile was commited to the local git respository
-- The local git repository was deployed to heroku via the bash terminal command 'git push heroku master'
+- The local git repository was deployed to ***Heroku*** via the bash terminal command
+  ```
+  git push heroku master
+  ```
 - A user account for ***Stripe API*** was created using the online dashboard at [Stripe](https://stripe.com/gb) 
 - ***Stripe API*** secret and publishable keys were generated for the account for use in the code
 - A specific *gmail* email address was created using the online [Gmail dashboard](https://gmail.com) 
-- Email host, transfer protocol and port details were obtained and included in settings.py 
+- Email host, transfer protocol and port details were obtained and included in *settings.py* 
 - Local environment variables for:
+
     AWS_ACCESS_KEY_ID,
 
     AWS_SECRET_ACCESS_KEY,
@@ -347,53 +375,57 @@ The project was then deployed to ***Heroku*** on the master branch through the H
     
     STRIPE_SECRET
         
-were set using the Heroku console.
-The local git repository was also pushed to github:
+were set using the ***Heroku*** console. (During development these variables were contained in a local *.env* file)
+The local git repository was also pushed to ***GitHub***:
 
-The project was then deployed to Github:
-- A repository titled "artifact-auction" was created in Github.
-- A URL was supplied by GitHub "https://github.com/Shilldon/artifact-auction.git"
-- The remote repository was linked to the local git repository through the bash command 'git remote add origin https://github.com/Shilldon/artifact-auction.git
-- The local repository was pushed to the remote repository using bash command "git push -u origin master"
+The project was then deployed to ***GitHub***:
+- A repository titled "artifact-auction" was created in ***GitHub***.
+- A URL was supplied by ***GitHub*** "https://github.com/Shilldon/artifact-auction.git"
+- The remote repository was linked to the local git repository through the bash command
+  ```
+  git remote add origin https://github.com/Shilldon/artifact-auction.git
+  ```
+- The local repository was pushed to the remote repository using bash command
+  ```
+  git push -u origin master
+  ```
 
-The Github and Heroku repositories were linked using the Heroku console tab "Deploy" and selecting the option to connect to Github.
+The ***GitHub*** and ***Heroku*** repositories were linked using the ***Heroku*** console tab *Deploy* and selecting the option to connect to ***GitHub***.
 
-The Github artifact auction respository was located and linked to Heroku and the option for automatic deploys selected to ensure the code pushed to Github matched the build on the Heroku platform. 
-Automatic deployment to Heroku ensures app is built from the latest code pushed to the Github repository.
+The ***GitHub*** artifact auction respository was located and linked to ***Heroku*** and the option for automatic deploys selected to ensure the code pushed to ***GitHub*** matched the build on the ***Heroku*** platform. 
+Automatic deployment to ***Heroku*** ensures app is built from the latest code pushed to the ***GitHub*** repository.
 
 Static files are hosted using ***Amazon AWS S3***. Instructions are set out below to create an account to host static files to ***Amazon AWS S3***
-
-The deployed project can be viewed [here](https://shilldons-artifactauction.herokuapp.com/).
 
 There are no differences between the development and deployed versions.
 
 Other than a standard browser no further software or implementation is required and the site can be accessed [here](https://milestone-3-recipebook.herokuapp.com/).
 
-To test and run the Python code locally it is necessary to ensure all relevant requirements are installed locally. (Please see *requirements.txt* for the required libraries.)
+To test and run the ***Python*** code locally it is necessary to ensure all relevant requirements are installed locally. (Please see *requirements.txt* for the required libraries.)
 
 #### Local Deployment
-To run the app locally the following are required:
+To edit and run the app locally the following are required:
 - Development IDE (VSCode or similar)
 - Python3 to run the app
 - GIT to pull code and version control
 - PIP for requirement installation
 
-To edit/run the code locally it is necessary to clone the code from the Heroku or Github repository. However, as the Heroku repository is intended for deployment purposes only it is recommended that the code is cloned from and pushed to the Github repository.
+To edit/run the code locally it is necessary to clone the code from the ***Heroku*** or ***GitHub*** repository. However, as the ***Heroku*** repository is intended for deployment purposes only it is recommended that the code is cloned from and pushed to the ***GitHub*** repository.
 
 ##### Steps
-- To clone from the Github repository using bash:
+- To clone from the ***GitHub*** repository using bash:
 	```
     $ git: clone https://github.com/Shilldon/artifact-auction.git
     ```
 or
 - Select the "Clone or Download" button from the git repository to download the app as a zip-file.
-- Alternatively to clone from Heroku using bash:
+- Alternatively to clone from ***Heroku*** using bash:
 	```
     $ heroku git: clone -a shilldons-artifactauction
 	$ cd shilldons-artifactauction 
 	```
 
-- Create a *.env* file with the following credentials:
+- Create a *.env* file with the following credentials:<br>
     AWS_ACCESS_KEY_ID<br>
     AWS_SECRET_ACCESS_KEY<br>
     DATABASE_URL<br>
@@ -414,7 +446,7 @@ or
 	$ python3 manage.py runserver
     ```
 - The IDE will provide a URL to the local ***Django*** server. Select that link or copy and paste into a browser window.
-- A local SQL database will be created on running the app initially and contained in db.sqlite3
+- A local SQL database will be created on running the app initially and contained in *db.sqlite3*
 - All models must be migrated to the database using bash commands:
 
     ```
@@ -431,7 +463,7 @@ To use the ***Stripe API*** to handle card payments:
 - Navigate to *API Keys* where you will find two keys, a publishable key and a secret key. Both keys must be added to the *.env* file (above).
 
 #### Remote Deployment
-The app is deployed on ***Heroku*** using the master branch on Github. To deploy remotely on ***Heroku*** follow the steps above to set up the app locally then:
+The app is deployed on ***Heroku*** using the master branch on ***GitHub***. To deploy remotely on ***Heroku*** follow the steps above to set up the app locally then:
 - Create a requirements.txt file using bash command:
 	```
 	$ sudo pip3 freeze --local > requirements.txt
@@ -454,13 +486,16 @@ $ git commit -m "commit message"
 $ git push -u origin master
 ```
 or
-If deploying directly to Heroku use bash commands:
+If deploying directly to ***Heroku*** use bash commands:
 ```
 $ git add .
 $ git commit -m "commit message"
 $ git push heroku master
 ```
-(NB git add . stages all code for committing. Individual files can be staged by bash "$ git add "filename and path")
+(NB git add . stages all code for committing. Individual files can be staged by bash
+```
+$ git add "filename and path"
+```
 
 To host static files remotely:
 - Create an account at [Amazon AWS](https://aws.amazon.com/s3/)
@@ -482,7 +517,7 @@ To host static files remotely:
 </CORSRule>
 </CORSConfiguration>
 ```
-- Once done navigate to "Bucket Policy" and enter the following policy, replacing <***> with the AWS bucket name you specified, above:
+- Once done navigate to *Bucket Policy* and enter the following policy, replacing <***> with the AWS bucket name you specified, above:
 ```json
 {
     "Version": "2012-10-17",
@@ -558,7 +593,7 @@ Wireframes were designed using ***MarvelApp*** and can be located [here](https:/
 
 ### Code
 
-Accounts app based on and adapted from ***CodeInstitute*** Authentication and Authorisation module - Full Stack Web Developer Diploma - [Original Code](https://github.com/Code-Institute-Solutions/AuthenticationAndAuthorisation/tree/master/07-CustomAuthentication/01-email_authentication)
+Accounts and Checkout app based on and adapted from ***CodeInstitute*** Authentication and Authorisation module - Full Stack Web Developer Diploma - [Original Code](https://github.com/Code-Institute-Solutions/AuthenticationAndAuthorisation/tree/master/07-CustomAuthentication/01-email_authentication)
 
 ### Images
 
@@ -578,7 +613,7 @@ Accounts app based on and adapted from ***CodeInstitute*** Authentication and Au
 #### Artifacts
 [Ark of covenant](https://commons.wikimedia.org/wiki/File:Royal_Arch_Room_Ark_replica_2.jpg) - Licence:  [Creative Commons Attribution-Share Alike 2.5 Generic Licence](https://creativecommons.org/licenses/by-sa/2.5/deed.en) - Photo by Ben Schumin
 
-[Excalibur](https://pxhere.com/en/photo/1091249) - Licence: [Flickr](https://www.flickr.com/commons/usage/) - Licence: Public Domain
+[Excalibur](https://pxhere.com/en/photo/1091249) - Licence: Public Domain
 
 [Antikythera Mechanism](https://commons.wikimedia.org/wiki/File:The_Antikythera_Mechanism_(3471161471).jpg) - Licence: [Creative Commons Attribution 2.0 Generic License](https://creativecommons.org/licenses/by/2.0/deed.en) - Photo by Marcus Cyron
 
