@@ -18,13 +18,24 @@
                             <div class="col-12 col-sm-6">
                                 <label for="id_name">Name</label>
                                 <div class="styled-box pl-2">
-                                    {% render_field contact_form.name %}    
+                                    {% if user.is_authenticated %}
+                                        {% with user.first_name|add:" "|add:user.last_name as full_name %}
+                                        {% render_field contact_form.name value=full_name %}
+                                        {% endwith %}
+                                    {% else %}
+                                        {% render_field contact_form.name %}    
+                                    {% endif %}
                                 </div>     
                             </div>
                             <div class="col-12 col-sm-6">
                                 <label for="id_email_address">Email Address</label>
                                 <div class="styled-box pl-2">
-                                    {% render_field contact_form.email_address %}    
+                                    {% if user.is_authenticated %}
+                                        {% render_field contact_form.email_address value=user.email %}
+                                    {% else %}
+                                        {% render_field contact_form.email_address %}      
+                                    {% endif %}                                    
+                                    
                                 </div>     
                             </div>
                         </div>                      
