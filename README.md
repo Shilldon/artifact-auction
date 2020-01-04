@@ -292,9 +292,11 @@ The user will then not have a buy now option for the relevant artifact until ano
 
 #### Features left to implement
 
-Currently it is necessary for site admin to contact a user on the end of an auction to inform them that they have won an artifact and to request payment. Ideally this process could be automated in the back end through staged or timed background events. This could be achieved through task queue implementation using ***Celery***.
+- Currently it is necessary for site admin to contact a user on the end of an auction to inform them that they have won an artifact and to request payment. Ideally this process could be automated in the back end through staged or timed background events. This could be achieved through task queue implementation using ***Celery***.
 
-Further users cannot delete their own accounts and it is necessary for this to be undertaken by site admin.
+- Users are only aware of new auctions by accessing the site. A helpful feature would be an automated email sent to all registered users of the site to inform them of a new auction and the start date. It would be possible for users to set email preferences so that they are only emailed about specific types of artifact, if they so desire.
+
+- Users cannot delete their own accounts and it is necessary for this to be undertaken by site admin.
 
 #### Defensive design
 Where possible options have been limited to prevent users from entering invalid data:
@@ -327,15 +329,24 @@ The project was then deployed to ***Heroku*** on the master branch through the H
 - A specific *gmail* email address was created using the online [Gmail dashboard](https://gmail.com) 
 - Email host, transfer protocol and port details were obtained and included in settings.py 
 - Local environment variables for:
-        - AWS_ACCESS_KEY_ID,
-        - AWS_SECRET_ACCESS_KEY,
-        - DATABASE_URL, 
-        - DISABLE_COLLECTSTATIC,
-        - EMAIL_ADDRESS,
-        - EMAIL_PASSWORD,
-        - SECRET_KEY,
-        - STRIPE_PUBLISHABLE, and
-        - STRIPE_SECRET
+    AWS_ACCESS_KEY_ID,
+
+    AWS_SECRET_ACCESS_KEY,
+    
+    DATABASE_URL,
+    
+    DISABLE_COLLECTSTATIC,
+    
+    EMAIL_ADDRESS,
+    
+    EMAIL_PASSWORD,
+    
+    SECRET_KEY,
+    
+    STRIPE_PUBLISHABLE, and
+    
+    STRIPE_SECRET
+        
 were set using the Heroku console.
 The local git repository was also pushed to github:
 
@@ -429,7 +440,7 @@ The app is deployed on ***Heroku*** using the master branch on Github. To deploy
 	```
     $ echo web: gunicorn artifact_auction.wsgi:application > Procfile
     ```
-- Create a ***Heroku*** account through the[(Heroku Dashboard](https://dashboard.heroku.com/login)
+- Create a ***Heroku*** account through the [Heroku Dashboard](https://dashboard.heroku.com/login)
 - Create the project app using a unique name. Any name can be chosen but it is advisable to select a name specific to the app.
 - Navigate to the *Deploy* tab and select *Connect Github* under *Deployment Method*.
 - Select *Enable Automatic Deployment* which will ensure that, as files are pushed to ***GitHub*** they will be automatically deployed and updated to the app.
@@ -547,41 +558,62 @@ Wireframes were designed using ***MarvelApp*** and can be located [here](https:/
 
 ### Code
 
-Accounts app based on and adapted from ***CodeInstitute*** Authentication and Authorisation module - Full Stack Web Developer Diploma [Original Code](https://github.com/Code-Institute-Solutions/AuthenticationAndAuthorisation/tree/master/07-CustomAuthentication/01-email_authentication)
+Accounts app based on and adapted from ***CodeInstitute*** Authentication and Authorisation module - Full Stack Web Developer Diploma - [Original Code](https://github.com/Code-Institute-Solutions/AuthenticationAndAuthorisation/tree/master/07-CustomAuthentication/01-email_authentication)
 
 ### Images
 
 #### Site Images
 [Menu link 'Artifacts'](https://pixabay.com/photos/temple-burma-wall-stone-figurines-195929/)  - Licence: CC0licence Public Domain
+
 [Menu link 'Auction Gavel'](https://pixabay.com/photos/justice-court-hammer-auction-law-510742/) - Licence: [Pixabay Licence](https://pixabay.com/service/license/)
+
 [Sold](https://pixabay.com/illustrations/stamp-sold-business-promotion-1726355/) - Licence: [Pixabay Licence](https://pixabay.com/service/license/)
+
 [Default Profile Picture](https://pixabay.com/vectors/blank-profile-picture-mystery-man-973460/) - Licence: [Pixabay Licence](https://pixabay.com/service/license/)
+
 [Admin profile picture](https://www.flickr.com/photos/30564364@N02/8830100398) - Licence: [Creative Commons Attribution 2.0 Generic License](https://creativecommons.org/licenses/by/2.0/deed.en)
+
 [Atlas Background](https://www.flickr.com/photos/photoshoproadmap/7564204504) - Licence: [Creative Commons Attribution 2.0 Generic License](https://creativecommons.org/licenses/by/2.0/deed.en)
 
 #### Artifacts
 [Ark of covenant](https://commons.wikimedia.org/wiki/File:Royal_Arch_Room_Ark_replica_2.jpg) - Licence:  [Creative Commons Attribution-Share Alike 2.5 Generic Licence](https://creativecommons.org/licenses/by-sa/2.5/deed.en) - Photo by Ben Schumin
+
 [Excalibur](https://pxhere.com/en/photo/1091249) - Licence: [Flickr](https://www.flickr.com/commons/usage/) - Licence: Public Domain
+
 [Antikythera Mechanism](https://commons.wikimedia.org/wiki/File:The_Antikythera_Mechanism_(3471161471).jpg) - Licence: [Creative Commons Attribution 2.0 Generic License](https://creativecommons.org/licenses/by/2.0/deed.en) - Photo by Marcus Cyron
+
 [Dead Sea Scrolls](https://en.wikipedia.org/wiki/Dead_Sea_Scrolls#/media/File:Psalms_Scroll.jpg) - Licence: Public Domain
+
 [Mask of Tutankhamun](https://en.wikipedia.org/wiki/Tutankhamun#/media/File:CairoEgMuseumTaaMaskMostlyPhotographed.jpg) - Licence: [Creative Commons Attribution-Share Alike 3.0 Unported Licence](https://creativecommons.org/licenses/by-sa/3.0/deed.en)
+
 [Stonehenge](https://pixabay.com/photos/stonehenge-england-vikings-picts-3649724/) - Licence: [Pixabay Licence](https://pixabay.com/service/license/)
+
 [Rosetta Stone](https://en.wikipedia.org/wiki/Rosetta_Stone#/media/File:Rosetta_Stone.JPG) - Licence: [Attribution-ShareAlike 4.0 International](https://creativecommons.org/licenses/by-sa/4.0/)
+
 [Spear of Lugh](https://hu.wikipedia.org/wiki/L%C3%A1ndzsa) - Licence: [GNU Free Documentation License](https://en.wikipedia.org/wiki/Wikipedia:Text_of_the_GNU_Free_Documentation_License) - Photo by René Hanke
+
 [Holy Grail](https://www.flickr.com/photos/spiritual_marketplace/2207966935) - Licence: [Creative Commons Attribution 2.0 Generic License](https://creativecommons.org/licenses/by/2.0/deed.en)
 
 #### Historical Figure Images
 [King Arthur](https://commons.wikimedia.org/wiki/Category:King_Arthur_in_art#/media/File:Charles_Ernest_Butler_-_King_Arthur.jpg) - Licence: Public Domain
+
 [Moses](https://commons.wikimedia.org/wiki/File:Rembrandt_-_Moses_with_the_Ten_Commandments_-_Google_Art_Project.jpg) - Licence: Public Domain
+
 [Indiana Jones](https://indianajones.fandom.com/wiki/Indiana_Jones) - Licence: [Creative Commons Attribution-Share Alike 3.0 Unported Licence](https://creativecommons.org/licenses/by-sa/3.0/deed.en)
+
 [Professor de Solla](https://en.wikipedia.org/wiki/Antikythera_mechanism#/media/File:DerekdeSollaPrice.jpg) - Licence: Public Domain
+
 [Lugh](https://commons.wikimedia.org/wiki/File:Myths_and_legends;_the_Celtic_race_(1910)_(14780314441).jpg) - Licence: [Flickr](https://www.flickr.com/commons/usage/)
+
 [Spinal Tap](https://en.wikipedia.org/wiki/This_Is_Spinal_Tap#/media/File:Thisisspinaltapposter.jpg) - Licence: [FairUse](https://en.wikipedia.org/wiki/Fair_use)
 
 #### Historical Events
 [Death of King Arthur](https://commons.wikimedia.org/wiki/File:Battle_Between_King_Arthur_and_Sir_Mordred_-_William_Hatherell.jpg) - Licence: Public Domain
+
 [Building of the ark](https://commons.wikimedia.org/wiki/File:The_Phillip_Medhurst_Picture_Torah_472._Building_the_ark_of_the_covenant._Exodus_cap_37._Mortier.jpg) - Licence: [Creative Commons Attribution-Share Alike 3.0 Unported Licence](https://creativecommons.org/licenses/by-sa/3.0/deed.en)
+
 [Sword In the Stone](https://pxhere.com/en/photo/865608) - Licence: CC0licence Public Domain
+
 [Unearthing of the Ark](https://en.wikipedia.org/wiki/Levantine_archaeology#/media/File:Jerycho8.jpg) - Licence: Public Domain
 
 ### Text and Information
